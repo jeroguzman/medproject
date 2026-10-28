@@ -17,7 +17,7 @@ de aplicación indican los entregables; las casillas reflejan su estado verifica
 | Miembro | Área | Tareas | Completadas | Fuente editable |
 |---|---|---|---|---|
 | German | Frontend e integración | 21 | 0 | [german.md](tasks/german.md) |
-| Jeroben | Backend e infraestructura | 23 | 21 | [jeroben.md](tasks/jeroben.md) |
+| Jeroben | Backend e infraestructura | 23 | 22 | [jeroben.md](tasks/jeroben.md) |
 | Luis | Contrato clínico compartido | 1 | 0 | [luis.md](tasks/luis.md) |
 
 **Total**: 45 tareas. T001–T043 conservan sus IDs; T044/T045
@@ -127,7 +127,7 @@ Fuente: [tasks/jeroben.md](tasks/jeroben.md).
 
 - [x] T026 [US2] Crear Plantilla/Nota/VersionNota y migración en `backend/notas/models.py` y `backend/notas/migrations/0001_initial.py`: Plantilla con «unicidad de clave/versión»; Nota con relaciones protegidas, tipo «primera_vez/seguimiento», modo «dictado/consulta», estado «autorizada/corregida» y versión vigente; VersionNota con «número positivo», «transcripción opcional», «Unicidad de nota/número; versiones inmutables» y «motivo es obligatorio desde la versión 2»; incluir contenido según plantilla, consentimiento, autor y fechas, sin tabla de borradores/audio.
 
-- [ ] T028 [US2] Extender `backend/notas/management/commands/cargar_demo.py` y agregar fixtures sintéticas en `backend/notas/fixtures/demo/` con los seis pacientes de guía backend §9 y sus notas previas válidas contra el esquema de 003; conservar alergia a penicilina, autores y fechas documentadas, incluir una nota corregida de prueba con dos versiones; validar todo antes de escribir, sin duplicar ni sobrescribir datos, y ajustar secuencia solo hacia delante. Depende del esquema compartido verificado.
+- [x] T028 [US2] Extender `backend/notas/management/commands/cargar_demo.py` y agregar fixtures sintéticas en `backend/notas/fixtures/demo/` con los seis pacientes de guía backend §9 y sus notas previas válidas contra el esquema de 003; conservar alergia a penicilina, autores y fechas documentadas, incluir una nota corregida de prueba con dos versiones; validar todo antes de escribir, sin duplicar ni sobrescribir datos, y ajustar secuencia solo hacia delante. Depende del esquema compartido verificado.
 
 - [x] T029 [US2] Implementar GET /api/pacientes/{id}/notas y GET /api/notas/{id} en `backend/notas/serializers.py`, `backend/notas/views.py` y `backend/notas/urls.py`; incluir plantilla, paciente, médico y todas las versiones según OpenAPI, diagnóstico vigente/null, orden estable y sin audio; evitar consultas N+1 y mantener métodos de escritura deshabilitados.
 
@@ -156,7 +156,7 @@ Fuente: [tasks/luis.md](tasks/luis.md).
 Las 45 tareas de esta funcionalidad tienen un responsable único. Las 43 originales
 conservan sus IDs; T044 separa la configuración frontend de T004 y T045 separa los
 runners frontend de T009. El estado actual está en las listas individuales;
-Jeroben tiene 21 tareas completadas y 2 pendientes. German y Luis conservan sus tareas.
+Jeroben tiene 22 tareas completadas y solo T041 pendiente. German y Luis conservan sus tareas.
 
 | Miembro | Fuente editable | Responsabilidad |
 |---|---|---|
@@ -259,7 +259,9 @@ flowchart TD
 - Luis es responsable de T027: entrega el contrato compartido de 003/VC-01.
   No requiere tener listo el pipeline IA para desbloquear el historial. German y
   Jeroben revisan claves y ejemplos antes de consumirlos. Si falta el esquema,
-  T027/T028/T034/T035 permanecen pendientes; acceso/búsqueda/alta pueden avanzar.
+  el trabajo que requiera ese contrato permanece bloqueado. Actualización: el esquema
+  llegó en main y fue verificado; Jeroben completó T028. La aceptación frontend
+  T034/T035 conserva su propio estado y no se marca por la validación backend.
 - US3: T036 → T037/T038 → T039. T037 y T038 afectan archivos de US2, por lo
   que no deben editarse a la vez que esa historia en curso.
 - Las rutas compartidas settings.py, router.tsx, package.json, serializers.py,

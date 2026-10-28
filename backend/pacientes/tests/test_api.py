@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.apps import apps
 from django.utils import timezone
 from rest_framework.test import APITestCase
+
 from tests.contracts import assert_schema
 from tests.helpers import medico, patient
 

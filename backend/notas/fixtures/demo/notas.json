@@ -1,0 +1,1066 @@
+{
+  "descripcion": "Datos clínicos ficticios para demostración; no son recomendaciones médicas.",
+  "plantilla": {
+    "clave": "formato_clinico_general",
+    "version": "1.1"
+  },
+  "notas": [
+    {
+      "paciente_expediente": "0004-8217",
+      "medico_usuario": "pmendez",
+      "fecha_consulta": "2026-08-14",
+      "hora_atencion": "10:30",
+      "tipo_consulta": "primera_vez",
+      "modo_captura": "dictado",
+      "consentimiento_grabacion": false,
+      "estado": "corregida",
+      "version_vigente": 2,
+      "versiones": [
+        {
+          "numero": 1,
+          "contenido": {
+            "motivo_padecimiento": {
+              "motivo_consulta": {
+                "valor": "Dolor de garganta.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              },
+              "padecimiento_actual": {
+                "valor": "Caso sintético: odinofagia referida durante la consulta ficticia.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            },
+            "antecedentes": {
+              "heredofamiliares": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_no_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "alergias": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "medicamentos_actuales": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "interrogatorio": {
+              "aparatos_sistemas": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "signos_vitales": {
+              "presion_arterial": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_cardiaca": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_respiratoria": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "temperatura": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "saturacion_o2": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "peso": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "talla": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "otros_parametros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "exploracion_fisica": {
+              "habitus_exterior": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "cabeza_cuello": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "torax_cardiopulmonar": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "abdomen": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "extremidades_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "genitourinario_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "estudios": {
+              "estudios_resultados": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "valoracion": {
+              "diagnosticos": [
+                {
+                  "descripcion": "Faringitis, probablemente viral",
+                  "condicion": "presuntivo",
+                  "evidencia": null,
+                  "origen": "manual"
+                }
+              ],
+              "pronostico": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "plan": {
+              "medicamentos": [],
+              "medidas_seguimiento": {
+                "valor": "Revisión en 48 horas, según el guion ficticio.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            }
+          },
+          "transcripcion": null,
+          "autorizada_por": "pmendez",
+          "autorizada_en": "2026-08-14T10:30:00-06:00",
+          "motivo_cambio": ""
+        },
+        {
+          "numero": 2,
+          "contenido": {
+            "motivo_padecimiento": {
+              "motivo_consulta": {
+                "valor": "Dolor de garganta.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              },
+              "padecimiento_actual": {
+                "valor": "Caso sintético: odinofagia referida durante la consulta ficticia.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            },
+            "antecedentes": {
+              "heredofamiliares": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_no_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "alergias": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "medicamentos_actuales": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "interrogatorio": {
+              "aparatos_sistemas": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "signos_vitales": {
+              "presion_arterial": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_cardiaca": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_respiratoria": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "temperatura": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "saturacion_o2": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "peso": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "talla": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "otros_parametros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "exploracion_fisica": {
+              "habitus_exterior": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "cabeza_cuello": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "torax_cardiopulmonar": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "abdomen": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "extremidades_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "genitourinario_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "estudios": {
+              "estudios_resultados": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "valoracion": {
+              "diagnosticos": [
+                {
+                  "descripcion": "Faringitis, probablemente viral",
+                  "condicion": "presuntivo",
+                  "evidencia": null,
+                  "origen": "manual"
+                }
+              ],
+              "pronostico": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "plan": {
+              "medicamentos": [],
+              "medidas_seguimiento": {
+                "valor": "Revisión en 72 horas, según la corrección del guion ficticio.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            }
+          },
+          "transcripcion": null,
+          "autorizada_por": "pmendez",
+          "autorizada_en": "2026-08-14T11:00:00-06:00",
+          "motivo_cambio": "Se corrige el plazo de seguimiento en la nota de demostración."
+        }
+      ]
+    },
+    {
+      "paciente_expediente": "0004-8217",
+      "medico_usuario": "pmendez",
+      "fecha_consulta": "2026-02-03",
+      "hora_atencion": "09:00",
+      "tipo_consulta": "primera_vez",
+      "modo_captura": "dictado",
+      "consentimiento_grabacion": false,
+      "estado": "autorizada",
+      "version_vigente": 1,
+      "versiones": [
+        {
+          "numero": 1,
+          "contenido": {
+            "motivo_padecimiento": {
+              "motivo_consulta": {
+                "valor": "Control anual.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              },
+              "padecimiento_actual": {
+                "valor": "Caso sintético: revisión anual, sin otros datos documentados.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            },
+            "antecedentes": {
+              "heredofamiliares": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_no_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "alergias": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "medicamentos_actuales": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "interrogatorio": {
+              "aparatos_sistemas": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "signos_vitales": {
+              "presion_arterial": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_cardiaca": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_respiratoria": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "temperatura": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "saturacion_o2": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "peso": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "talla": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "otros_parametros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "exploracion_fisica": {
+              "habitus_exterior": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "cabeza_cuello": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "torax_cardiopulmonar": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "abdomen": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "extremidades_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "genitourinario_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "estudios": {
+              "estudios_resultados": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "valoracion": {
+              "diagnosticos": [
+                {
+                  "descripcion": "Control anual",
+                  "condicion": "confirmado",
+                  "evidencia": null,
+                  "origen": "manual"
+                }
+              ],
+              "pronostico": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "plan": {
+              "medicamentos": [],
+              "medidas_seguimiento": {
+                "valor": "Revisión de resultados en la siguiente consulta ficticia.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            }
+          },
+          "transcripcion": null,
+          "autorizada_por": "pmendez",
+          "autorizada_en": "2026-02-03T09:00:00-06:00",
+          "motivo_cambio": ""
+        }
+      ]
+    },
+    {
+      "paciente_expediente": "0004-8217",
+      "medico_usuario": "esalas",
+      "fecha_consulta": "2025-09-21",
+      "hora_atencion": "12:00",
+      "tipo_consulta": "primera_vez",
+      "modo_captura": "dictado",
+      "consentimiento_grabacion": false,
+      "estado": "autorizada",
+      "version_vigente": 1,
+      "versiones": [
+        {
+          "numero": 1,
+          "contenido": {
+            "motivo_padecimiento": {
+              "motivo_consulta": {
+                "valor": "Molestias urinarias.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              },
+              "padecimiento_actual": {
+                "valor": "Caso sintético: síntomas urinarios referidos en el guion de demostración.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            },
+            "antecedentes": {
+              "heredofamiliares": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_no_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "alergias": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "medicamentos_actuales": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "interrogatorio": {
+              "aparatos_sistemas": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "signos_vitales": {
+              "presion_arterial": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_cardiaca": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_respiratoria": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "temperatura": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "saturacion_o2": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "peso": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "talla": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "otros_parametros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "exploracion_fisica": {
+              "habitus_exterior": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "cabeza_cuello": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "torax_cardiopulmonar": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "abdomen": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "extremidades_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "genitourinario_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "estudios": {
+              "estudios_resultados": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "valoracion": {
+              "diagnosticos": [
+                {
+                  "descripcion": "Infección de vías urinarias",
+                  "condicion": "confirmado",
+                  "evidencia": null,
+                  "origen": "manual"
+                }
+              ],
+              "pronostico": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "plan": {
+              "medicamentos": [],
+              "medidas_seguimiento": {
+                "valor": "Seguimiento documentado para el caso ficticio; sin medicamento capturado.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            }
+          },
+          "transcripcion": null,
+          "autorizada_por": "esalas",
+          "autorizada_en": "2025-09-21T12:00:00-06:00",
+          "motivo_cambio": ""
+        }
+      ]
+    },
+    {
+      "paciente_expediente": "0004-8150",
+      "medico_usuario": "pmendez",
+      "fecha_consulta": "2026-07-10",
+      "hora_atencion": "11:00",
+      "tipo_consulta": "seguimiento",
+      "modo_captura": "dictado",
+      "consentimiento_grabacion": false,
+      "estado": "autorizada",
+      "version_vigente": 1,
+      "versiones": [
+        {
+          "numero": 1,
+          "contenido": {
+            "motivo_padecimiento": {
+              "motivo_consulta": {
+                "valor": "Control de hipertensión.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              },
+              "padecimiento_actual": {
+                "valor": "Caso sintético: seguimiento de hipertensión previamente diagnosticada.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            },
+            "antecedentes": {
+              "heredofamiliares": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_no_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "alergias": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "medicamentos_actuales": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "interrogatorio": {
+              "aparatos_sistemas": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "signos_vitales": {
+              "presion_arterial": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_cardiaca": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_respiratoria": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "temperatura": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "saturacion_o2": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "peso": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "talla": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "otros_parametros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "exploracion_fisica": {
+              "habitus_exterior": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "cabeza_cuello": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "torax_cardiopulmonar": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "abdomen": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "extremidades_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "genitourinario_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "estudios": {
+              "estudios_resultados": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "valoracion": {
+              "diagnosticos": [
+                {
+                  "descripcion": "Hipertensión arterial sistémica",
+                  "condicion": "confirmado",
+                  "evidencia": null,
+                  "origen": "manual"
+                }
+              ],
+              "pronostico": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "plan": {
+              "medicamentos": [
+                {
+                  "medicamento": "Losartán",
+                  "dosis": "50 mg",
+                  "via": null,
+                  "frecuencia": null,
+                  "duracion": null,
+                  "evidencia": null,
+                  "origen": "manual"
+                }
+              ],
+              "medidas_seguimiento": {
+                "valor": "Seguimiento de control según el caso ficticio.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            }
+          },
+          "transcripcion": null,
+          "autorizada_por": "pmendez",
+          "autorizada_en": "2026-07-10T11:00:00-06:00",
+          "motivo_cambio": ""
+        }
+      ]
+    },
+    {
+      "paciente_expediente": "0004-8011",
+      "medico_usuario": "pmendez",
+      "fecha_consulta": "2026-06-15",
+      "hora_atencion": "10:00",
+      "tipo_consulta": "seguimiento",
+      "modo_captura": "dictado",
+      "consentimiento_grabacion": false,
+      "estado": "autorizada",
+      "version_vigente": 1,
+      "versiones": [
+        {
+          "numero": 1,
+          "contenido": {
+            "motivo_padecimiento": {
+              "motivo_consulta": {
+                "valor": "Control de diabetes.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              },
+              "padecimiento_actual": {
+                "valor": "Caso sintético: seguimiento de diabetes previamente diagnosticada.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            },
+            "antecedentes": {
+              "heredofamiliares": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "personales_no_patologicos": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "alergias": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "medicamentos_actuales": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "interrogatorio": {
+              "aparatos_sistemas": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "signos_vitales": {
+              "presion_arterial": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_cardiaca": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "frecuencia_respiratoria": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "temperatura": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "saturacion_o2": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "peso": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "talla": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "otros_parametros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "exploracion_fisica": {
+              "habitus_exterior": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "cabeza_cuello": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "torax_cardiopulmonar": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "abdomen": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "extremidades_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              },
+              "genitourinario_otros": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "estudios": {
+              "estudios_resultados": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "valoracion": {
+              "diagnosticos": [
+                {
+                  "descripcion": "Diabetes mellitus tipo 2",
+                  "condicion": "confirmado",
+                  "evidencia": null,
+                  "origen": "manual"
+                }
+              ],
+              "pronostico": {
+                "valor": null,
+                "estado": "sin_informacion",
+                "evidencia": null
+              }
+            },
+            "plan": {
+              "medicamentos": [
+                {
+                  "medicamento": "Metformina",
+                  "dosis": "850 mg",
+                  "via": null,
+                  "frecuencia": null,
+                  "duracion": null,
+                  "evidencia": null,
+                  "origen": "manual"
+                }
+              ],
+              "medidas_seguimiento": {
+                "valor": "Revisión de estudios de seguimiento del caso ficticio.",
+                "estado": "referido",
+                "evidencia": null,
+                "origen": "manual"
+              }
+            }
+          },
+          "transcripcion": null,
+          "autorizada_por": "pmendez",
+          "autorizada_en": "2026-06-15T10:00:00-06:00",
+          "motivo_cambio": ""
+        }
+      ]
+    }
+  ]
+}

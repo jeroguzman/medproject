@@ -1,10 +1,10 @@
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from rest_framework.test import APITestCase
-from tests.contracts import assert_schema
-from tests.helpers import medico, note, patient
 
 from notas.models import VersionNota
+from tests.contracts import assert_schema
+from tests.helpers import medico, note, patient
 
 
 class ReadTests(APITestCase):

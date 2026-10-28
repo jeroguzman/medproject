@@ -1,6 +1,7 @@
 """Environment-driven settings; no clinical data or credentials in logs."""
 
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
 
@@ -8,6 +9,8 @@ import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+# El mismo contrato de Luis se usa desde Django y en la imagen de producción.
+sys.path.insert(0, str(BASE_DIR.parent / "ia"))
 DEBUG = os.environ.get("DEBUG", "false").lower() == "true"
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
 if len(SECRET_KEY) < 32:
@@ -89,7 +92,11 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "vozclinica.exceptions.api_exception_handler",
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
-    "DEFAULT_THROTTLE_RATES": {"login": "30/minute"},
+    "DEFAULT_THROTTLE_RATES": {
+        "login": "30/minute",
+        "mojoauth_start": "10/minute",
+        "mojoauth_verify": "30/minute",
+    },
 }
 SIMPLE_JWT = {"ACCESS_TOKEN_LIFETIME": timedelta(hours=12)}
 CORS_ALLOWED_ORIGINS = csv_env("CORS_ALLOWED_ORIGINS")
@@ -123,3 +130,23 @@ LOGGING = {
 }
 
 TEST_RUNNER = "tests.runner.NonEmptyDiscoverRunner"
+
+# Enable only behind a trusted TLS proxy; the production backend has no host port.
+SECURE_PROXY_SSL_HEADER = (
+    ("HTTP_X_FORWARDED_PROTO", "https")
+    if os.environ.get("DJANGO_TRUST_PROXY_HEADERS", "false").lower() == "true"
+    else None
+)
+# /api/salud remains authenticated. Only this infrastructure endpoint is public.
+SECURE_REDIRECT_EXEMPT = [r"^healthz$"]
+
+
+AUTH_PROVIDER = os.environ.get("AUTH_PROVIDER", "password").lower()
+if AUTH_PROVIDER not in ("password", "mojoauth"):
+    raise ImproperlyConfigured("AUTH_PROVIDER debe ser password o mojoauth.")
+MOJOAUTH_API_KEY = os.environ.get("MOJOAUTH_API_KEY", "")
+MOJOAUTH_API_SECRET = os.environ.get("MOJOAUTH_API_SECRET", "")
+if AUTH_PROVIDER == "mojoauth" and not MOJOAUTH_API_KEY:
+    raise ImproperlyConfigured(
+        "Configura MOJOAUTH_API_KEY para habilitar el acceso por correo."
+    )

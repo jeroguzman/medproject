@@ -1,14 +1,14 @@
 from concurrent.futures import ThreadPoolExecutor
 from threading import Barrier
 
-from cuentas.models import Medico
 from django.db import IntegrityError, close_old_connections, connection, transaction
 from django.test import TransactionTestCase
 from rest_framework.exceptions import ValidationError
-from tests.helpers import medico, patient
 
+from cuentas.models import Medico
 from pacientes.models import Paciente
 from pacientes.services import avanzar_secuencia, crear_paciente, siguiente_expediente
+from tests.helpers import medico, patient
 
 
 class ExpedienteTests(TransactionTestCase):

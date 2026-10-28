@@ -1,12 +1,12 @@
 from io import StringIO
 from unittest.mock import patch
 
-from cuentas.models import Medico
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.test import TestCase
-from notas.models import Nota
 
+from cuentas.models import Medico
+from notas.models import Nota
 from pacientes.models import Paciente
 
 
@@ -27,6 +27,4 @@ class DemoTests(TestCase):
             self.assertEqual(user.password, hashed)
             self.assertEqual(Paciente.objects.count(), 6)
             self.assertEqual(Medico.objects.count(), 2)
-            self.assertEqual(
-                Nota.objects.count(), 0
-            )  # Do not invent a reduced clinical schema.
+            self.assertEqual(Nota.objects.count(), 5)

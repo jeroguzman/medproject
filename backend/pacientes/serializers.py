@@ -1,9 +1,9 @@
 from django.utils import timezone
 from rest_framework import serializers
-from vozclinica.serializers import StrictSerializerMixin
 
 from pacientes.models import Paciente
 from pacientes.services import crear_paciente
+from vozclinica.serializers import StrictSerializerMixin
 
 
 class PacienteSerializer(serializers.ModelSerializer):

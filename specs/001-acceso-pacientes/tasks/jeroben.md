@@ -1,7 +1,7 @@
 # Tareas de Jeroben — acceso y pacientes
 
 **Responsable**: Jeroben. **Rol**: B — backend, PostgreSQL e infraestructura.
-**Feature**: `001-acceso-pacientes`. **Estado**: 21 completadas; T028 y T041 pendientes.
+**Feature**: `001-acceso-pacientes`. **Estado**: 22 completadas; T041 pendiente.
 **Evidencia**: [validación de Jeroben](../validation/jeroben.md).
 
 Backend, migraciones, datos ficticios y permisos; mantiene compose.yaml, .gitignore y documentación compartida de configuración. Proporciona API y resultados backend a German para pruebas integradas.
@@ -54,7 +54,7 @@ para orden, contratos y criterios de cierre.
 
 - [x] T026 [US2] Crear Plantilla/Nota/VersionNota y migración en `backend/notas/models.py` y `backend/notas/migrations/0001_initial.py`: Plantilla con «unicidad de clave/versión»; Nota con relaciones protegidas, tipo «primera_vez/seguimiento», modo «dictado/consulta», estado «autorizada/corregida» y versión vigente; VersionNota con «número positivo», «transcripción opcional», «Unicidad de nota/número; versiones inmutables» y «motivo es obligatorio desde la versión 2»; incluir contenido según plantilla, consentimiento, autor y fechas, sin tabla de borradores/audio.
 
-- [ ] T028 [US2] Extender `backend/notas/management/commands/cargar_demo.py` y agregar fixtures sintéticas en `backend/notas/fixtures/demo/` con los seis pacientes de guía backend §9 y sus notas previas válidas contra el esquema de 003; conservar alergia a penicilina, autores y fechas documentadas, incluir una nota corregida de prueba con dos versiones; validar todo antes de escribir, sin duplicar ni sobrescribir datos, y ajustar secuencia solo hacia delante. Depende del esquema compartido verificado.
+- [x] T028 [US2] Extender `backend/notas/management/commands/cargar_demo.py` y agregar fixtures sintéticas en `backend/notas/fixtures/demo/` con los seis pacientes de guía backend §9 y sus notas previas válidas contra el esquema de 003; conservar alergia a penicilina, autores y fechas documentadas, incluir una nota corregida de prueba con dos versiones; validar todo antes de escribir, sin duplicar ni sobrescribir datos, y ajustar secuencia solo hacia delante. Depende del esquema compartido verificado.
 
 - [x] T029 [US2] Implementar GET /api/pacientes/{id}/notas y GET /api/notas/{id} en `backend/notas/serializers.py`, `backend/notas/views.py` y `backend/notas/urls.py`; incluir plantilla, paciente, médico y todas las versiones según OpenAPI, diagnóstico vigente/null, orden estable y sin audio; evitar consultas N+1 y mantener métodos de escritura deshabilitados.
 

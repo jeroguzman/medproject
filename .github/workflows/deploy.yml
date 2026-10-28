@@ -1,0 +1,111 @@
+name: Test and deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: vozclinica_ci
+          POSTGRES_USER: vozclinica
+          POSTGRES_PASSWORD: ci-only-password
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U vozclinica -d vozclinica_ci"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://vozclinica:ci-only-password@localhost:5432/vozclinica_ci
+      DJANGO_SECRET_KEY: ci-only-key-not-used-in-production-123456789
+      DEBUG: 'true'
+      ALLOWED_HOSTS: localhost,127.0.0.1,testserver
+      CORS_ALLOWED_ORIGINS: http://localhost:8080
+      AUTH_PROVIDER: password
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/requirements*.txt
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check --config ruff.toml .
+      - run: python manage.py makemigrations --check --dry-run
+      - run: python manage.py test cuentas pacientes notas tests --noinput
+  frontend:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+        env:
+          VITE_USAR_MOCKS: 'false'
+          VITE_AUTH_PROVIDER: mojoauth
+          VITE_API_URL: ''
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: [backend, frontend]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: production
+    concurrency:
+      group: production-droplet
+      cancel-in-progress: false
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+    steps:
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_HOST" && test -n "$DEPLOY_USER"
+          test -n "$DEPLOY_SSH_KEY" && test -n "$DEPLOY_KNOWN_HOSTS"
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
+      - name: Deploy tested commit
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=15 "$DEPLOY_USER@$DEPLOY_HOST" "bash -s -- $GITHUB_SHA" <<'REMOTE'
+          set -euo pipefail
+          target="$1"
+          [[ "$target" =~ ^[a-f0-9]{40}$ ]]
+          cd /opt/vozclinica
+          exec 9>/opt/vozclinica-deploy.lock
+          flock -w 1200 9
+          test -z "$(git status --porcelain --untracked-files=normal)"
+          git fetch origin main
+          if [ "$(git rev-parse origin/main)" != "$target" ]; then
+            echo 'Commit sustituido por otro en main; se omite este despliegue.'
+            exit 0
+          fi
+          git checkout --detach "$target"
+          bash scripts/deploy-production.sh "$target"
+          REMOTE
+      - name: Remove SSH credential
+        if: always()
+        run: rm -f ~/.ssh/deploy_key

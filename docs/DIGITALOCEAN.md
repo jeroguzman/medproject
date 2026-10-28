@@ -154,3 +154,9 @@ y ejecutar `up -d --wait` nuevamente. Etiquetar cada release mediante APP_IMAGE_
 para conservar la imagen anterior; no hacer `docker system prune` durante el despliegue.
 Revisar migraciones antes de decidir rollback: una imagen anterior no revierte la base.
 Nunca usar `down -v` ni borrar volúmenes como paso de actualización.
+
+## Despliegue automático
+
+Para actualizar desde main tras pasar las pruebas, configurar
+[GitHub Actions](DEPLOY_AUTOMATICO.md). Requiere secrets SSH en GitHub y
+una primera ejecución real validada.

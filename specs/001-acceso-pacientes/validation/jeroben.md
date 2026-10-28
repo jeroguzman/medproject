@@ -37,7 +37,7 @@ credenciales externas ni llamadas a IA para ejecutar estas comprobaciones.
 
 `backend/notas/fixtures/demo/notas.json` incluye las cinco notas previas de la
 guía de backend §9, con seis versiones y una corrección de demostración. Todas
-las secciones del contenido se validan mediante `vozclinica_ia.esquema` de Luis.
+las secciones del contenido se validan mediante `medvox_ia.esquema` de Luis.
 Los campos capturados son manuales; no se inventa evidencia ni una transcripción.
 
 La carga valida el lote completo antes de escribir. Si un campo es inválido, no

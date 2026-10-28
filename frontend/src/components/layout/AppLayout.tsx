@@ -1,10 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { LogOut, Stethoscope, Users } from "lucide-react";
+import { LogOut, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation, useMatch, useNavigate } from "react-router-dom";
 import { borrarToken } from "@/api/cliente";
 import { useMedico } from "@/api/consultas";
 import { Dialogo } from "@/components/ui/Dialogo";
+import { Logo } from "@/components/ui/Logo";
 import { descartarTodoElTrabajo, hayTrabajoSinAutorizar } from "@/lib/borrador";
 import { cn } from "@/lib/utils";
 
@@ -44,11 +45,8 @@ export function AppLayout() {
         Saltar al contenido
       </a>
       <header className="sticky top-0 z-40 flex h-12 items-center gap-4 border-b border-border bg-surface px-4">
-        <NavLink to="/pacientes" className="flex items-center gap-2 text-texto no-underline">
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-banner-bg text-banner-fg">
-            <Stethoscope className="h-5 w-5" aria-hidden="true" />
-          </span>
-          <span className="t-title-sm">VozClínica</span>
+        <NavLink to="/pacientes" className="flex items-center no-underline">
+          <Logo className="h-8" />
         </NavLink>
         <div className="ml-auto flex items-center gap-3">
           {medico && (

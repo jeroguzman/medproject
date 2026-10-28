@@ -1,4 +1,4 @@
-# Entrega VC-01 — VozClínica IA
+# Entrega VC-01 — MedVox IA
 
 Archivos listos para copiar a la **raíz de `medproject/`**. No están subidos al repositorio remoto.
 
@@ -7,7 +7,7 @@ Archivos listos para copiar a la **raíz de `medproject/`**. No están subidos a
 - `ia/esquemas/formato_clinico_general_v1_1.json`: JSON Schema Draft 2020-12 completo.
 - `ia/esquemas/ejemplos/procesar_faringitis.json`: borrador simulado del caso 01.
 - `ia/esquemas/ejemplos/procesar_trampa.json`: alerta de identidad, negación y campos ausentes.
-- `ia/vozclinica_ia/esquema.py`: funciones `cargar()`, `validar()`, `validar_contenido()` y `contenido_vacio()`.
+- `ia/medvox_ia/esquema.py`: funciones `cargar()`, `validar()`, `validar_contenido()` y `contenido_vacio()`.
 - `ia/casos/caso_01_faringitis/`: guion y transcripción **simulada**, NO es resultado de ElevenLabs.
 - `ia/verificar_vc01.py`: comprobación automatizada de contratos.
 
@@ -26,7 +26,7 @@ python ia/verificar_vc01.py
 ## Cómo lo usan German y Jeroben
 
 German puede usar `ia/esquemas/ejemplos/procesar_faringitis.json` como respuesta simulada del botón **Procesar**.
-Jeroben puede añadir `ia/` a `sys.path` y ejecutar `from vozclinica_ia.esquema import cargar, validar, validar_contenido, contenido_vacio`.
+Jeroben puede añadir `ia/` a `sys.path` y ejecutar `from medvox_ia.esquema import cargar, validar, validar_contenido, contenido_vacio`.
 
 - `validar(borrador)`: valida el objeto completo.
 - `validar_contenido(borrador["secciones"])`: valida solo el contenido almacenado de la nota.

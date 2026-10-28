@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 umask 077
 mkdir -p backups
-backup_file="backups/vozclinica-$(date -u +%Y%m%dT%H%M%SZ)-$$.dump"
+backup_file="backups/medvox-$(date -u +%Y%m%dT%H%M%SZ)-$$.dump"
 temporary="$(mktemp backups/.pending.XXXXXX)"
 trap 'rm -f "$temporary"' EXIT
 docker compose --env-file .env.production -f compose.production.yaml exec -T db \

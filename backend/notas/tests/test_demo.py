@@ -9,8 +9,8 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
+from medvox_ia.esquema import cargar, validar_contenido
 from rest_framework.test import APIClient
-from vozclinica_ia.esquema import cargar, validar_contenido
 
 from notas.models import Nota, Plantilla, VersionNota
 from pacientes.models import Paciente

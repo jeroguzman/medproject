@@ -43,13 +43,13 @@ Fuente: [tasks/german.md](tasks/german.md).
 
 ### Phase 3: User Story 1 — Acceder como médico (P1 / M)
 
-- [ ] T011 [P] [US1] Escribir pruebas de login, rutas protegidas y salida en `frontend/src/features/auth/auth.test.tsx`: token `vozclinica:token`, claves `vozclinica:borrador:`/`vozclinica:correccion:`, cancelar conserva todo, confirmar elimina trabajo/token/caché, 401 no descarta borradores y no duplica escrituras.
+- [ ] T011 [P] [US1] Escribir pruebas de login, rutas protegidas y salida en `frontend/src/features/auth/auth.test.tsx`: token `medvox:token`, claves `medvox:borrador:`/`medvox:correccion:`, cancelar conserva todo, confirmar elimina trabajo/token/caché, 401 no descarta borradores y no duplica escrituras.
 
 - [ ] T015 [US1] Implementar estado de sesión y conexión con cliente HTTP en `frontend/src/features/auth/session.ts` y `frontend/src/api/auth.ts`; restaurar token, consumir me y limpiar token/cachés ante 401 manteniendo borradores locales; no presentar salida local como revocación del JWT emitido.
 
 - [ ] T016 [US1] Crear `/login`, protección de rutas y layout autenticado en `frontend/src/pages/LoginPage.tsx`, `frontend/src/components/AppLayout.tsx` y `frontend/src/app/router.tsx`; mostrar médico, cédula, Cerrar sesión y Datos ficticios; permitir pegar contraseñas y mostrar errores accesibles; usar página de destino provisional sin fingir lista de pacientes disponible.
 
-- [ ] T017 [US1] Implementar confirmación Seguir trabajando / Descartar y salir en `frontend/src/components/LogoutDialog.tsx` y `frontend/src/features/auth/logout.ts`; eliminar solo claves de trabajo de VozClínica al confirmar, token y cachés, sin modificar notas del servidor; integrar con `frontend/src/components/AppLayout.tsx`.
+- [ ] T017 [US1] Implementar confirmación Seguir trabajando / Descartar y salir en `frontend/src/components/LogoutDialog.tsx` y `frontend/src/features/auth/logout.ts`; eliminar solo claves de trabajo de MedVox al confirmar, token y cachés, sin modificar notas del servidor; integrar con `frontend/src/components/AppLayout.tsx`.
 
 - [ ] T018 [US1] Ejecutar tests de US1 y agregar recorrido integrado con API real en `frontend/e2e/auth.spec.ts`; cubrir acceso válido, inválido, teclado y salida con borrador sintético local; registrar comandos/conteos/resultados en `specs/001-acceso-pacientes/validation/german.md`, distinguiendo lo ejecutado de lo pendiente. German escribe las pruebas frontend; Jeroben proporciona API, base de pruebas y resultados de suites backend. La tarea se completa solo con la evidencia de ambas partes requerida por el escenario.
 
@@ -87,7 +87,7 @@ Fuente: [tasks/jeroben.md](tasks/jeroben.md).
 
 ### Phase 1: Setup — estructura y dependencias
 
-- [x] T001 Crear el esqueleto Django 5.2/Python 3.12 en `backend/manage.py`, `backend/vozclinica/` y apps `backend/cuentas/`, `backend/pacientes/`, `backend/notas/`; resolver dependencias del plan y fijar versiones compatibles en `backend/requirements.txt`, separando herramientas de prueba en `backend/requirements-dev.txt`.
+- [x] T001 Crear el esqueleto Django 5.2/Python 3.12 en `backend/manage.py`, `backend/medvox/` y apps `backend/cuentas/`, `backend/pacientes/`, `backend/notas/`; resolver dependencias del plan y fijar versiones compatibles en `backend/requirements.txt`, separando herramientas de prueba en `backend/requirements-dev.txt`.
 
 - [x] T003 [P] Definir PostgreSQL 16 para desarrollo/pruebas en `compose.yaml`, con credenciales tomadas de variables locales, comprobación de salud y persistencia solo de la base; documentar acceso a unaccent y creación de base de tests en `docs/DESARROLLO.md`; no iniciar IA ni n8n para esta fase.
 
@@ -95,9 +95,9 @@ Fuente: [tasks/jeroben.md](tasks/jeroben.md).
 
 ### Phase 2: Foundational — base común
 
-- [x] T005 Configurar PostgreSQL, apps, zona America/Mexico_City, idioma es-mx, JWT de acceso de 12 horas sin refresh y autenticación predeterminada en `backend/vozclinica/settings.py`; limitar CORS a orígenes exactos, manejar configuración por entorno y mantener logs sin tokens ni cuerpos clínicos.
+- [x] T005 Configurar PostgreSQL, apps, zona America/Mexico_City, idioma es-mx, JWT de acceso de 12 horas sin refresh y autenticación predeterminada en `backend/medvox/settings.py`; limitar CORS a orígenes exactos, manejar configuración por entorno y mantener logs sin tokens ni cuerpos clínicos.
 
-- [x] T006 Definir errores `{error:{codigo,mensaje}}`, validación con faltantes/detalles, 404 uniforme y permiso de usuario activo con perfil médico en `backend/vozclinica/exceptions.py` y `backend/cuentas/permissions.py`; conectar el manejador en `backend/vozclinica/settings.py` y rutas sin slash final en `backend/vozclinica/urls.py`.
+- [x] T006 Definir errores `{error:{codigo,mensaje}}`, validación con faltantes/detalles, 404 uniforme y permiso de usuario activo con perfil médico en `backend/medvox/exceptions.py` y `backend/cuentas/permissions.py`; conectar el manejador en `backend/medvox/settings.py` y rutas sin slash final en `backend/medvox/urls.py`.
 
 - [x] T009 Preparar descubrimiento de pruebas Django y validación de respuestas contra `specs/001-acceso-pacientes/contracts/openapi.json` en `backend/tests/contracts.py`; fijar herramientas en `backend/requirements-dev.txt`, usar PostgreSQL con base de pruebas aislada y evitar que cero tests cuente como éxito. Coordinar con German los datos de API necesarios para T045.
 
@@ -141,7 +141,7 @@ Fuente: [tasks/jeroben.md](tasks/jeroben.md).
 
 - [x] T040 Verificar todos los endpoints implementados de `specs/001-acceso-pacientes/contracts/openapi.json` con pruebas transversales en `backend/tests/test_contract_security.py`: status/cuerpos, token inválido y permisos médicos, datos internos rechazados, 404 y métodos clínicos de escritura ausentes; si PATCH S no se entrega, registrar explícitamente esa excepción de alcance.
 
-- [ ] T041 Validar configuración de despliegue HTTPS/CORS y ausencia de tokens/cuerpos clínicos en logs; actualizar `docs/DESARROLLO.md` y `backend/vozclinica/settings.py` con configuración segura por entorno, sin elegir ni publicar proveedor no acordado; distinguir comprobación local de verificación HTTPS real y registrar lo que falte en `specs/001-acceso-pacientes/validation/jeroben.md`.
+- [ ] T041 Validar configuración de despliegue HTTPS/CORS y ausencia de tokens/cuerpos clínicos en logs; actualizar `docs/DESARROLLO.md` y `backend/medvox/settings.py` con configuración segura por entorno, sin elegir ni publicar proveedor no acordado; distinguir comprobación local de verificación HTTPS real y registrar lo que falte en `specs/001-acceso-pacientes/validation/jeroben.md`.
 
 ## Luis
 

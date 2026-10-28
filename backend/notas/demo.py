@@ -10,7 +10,7 @@ from django.core.management.base import CommandError
 from django.utils.dateparse import parse_datetime
 from django.utils.timezone import is_aware
 from jsonschema import Draft202012Validator, SchemaError
-from vozclinica_ia.esquema import cargar, validar_contenido
+from medvox_ia.esquema import cargar, validar_contenido
 
 from notas.models import Nota, Plantilla, VersionNota
 from pacientes.models import Paciente

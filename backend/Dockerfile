@@ -6,9 +6,9 @@ RUN python -m pip install --no-cache-dir -r requirements.txt \
     && groupadd --gid 10001 app \
     && useradd --uid 10001 --gid app --no-create-home app
 COPY --chown=app:app backend/ ./
-COPY --chown=app:app ia/vozclinica_ia/__init__.py ia/vozclinica_ia/esquema.py /app/ia/vozclinica_ia/
+COPY --chown=app:app ia/medvox_ia/__init__.py ia/medvox_ia/esquema.py /app/ia/medvox_ia/
 COPY --chown=app:app ia/esquemas/ /app/ia/esquemas/
 RUN mkdir -p staticfiles && chown app:app staticfiles
 USER app
 EXPOSE 8000
-CMD ["python", "-m", "gunicorn", "vozclinica.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1", "--timeout", "180", "--worker-tmp-dir", "/tmp", "--forwarded-allow-ips", "*", "--no-control-socket"]
+CMD ["python", "-m", "gunicorn", "medvox.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1", "--timeout", "180", "--worker-tmp-dir", "/tmp", "--forwarded-allow-ips", "*", "--no-control-socket"]

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from cuentas.models import Medico
-from vozclinica.serializers import StrictSerializerMixin
+from medvox.serializers import StrictSerializerMixin
 
 
 class MedicoSerializer(serializers.ModelSerializer):

@@ -14,15 +14,15 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_DB: vozclinica_ci
-          POSTGRES_USER: vozclinica
+          POSTGRES_DB: medvox_ci
+          POSTGRES_USER: medvox
           POSTGRES_PASSWORD: ci-only-password
         ports: ['5432:5432']
         options: >-
-          --health-cmd "pg_isready -U vozclinica -d vozclinica_ci"
+          --health-cmd "pg_isready -U medvox -d medvox_ci"
           --health-interval 5s --health-timeout 3s --health-retries 20
     env:
-      DATABASE_URL: postgresql://vozclinica:ci-only-password@localhost:5432/vozclinica_ci
+      DATABASE_URL: postgresql://medvox:ci-only-password@localhost:5432/medvox_ci
       DJANGO_SECRET_KEY: ci-only-key-not-used-in-production-123456789
       DEBUG: 'true'
       ALLOWED_HOSTS: localhost,127.0.0.1,testserver

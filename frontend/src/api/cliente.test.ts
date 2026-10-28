@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/config", () => ({
   API_URL: "",
-  CLAVES_STORAGE: { token: "vozclinica:token" },
+  CLAVES_STORAGE: { token: "medvox:token" },
   usaMock: () => false,
 }));
 
@@ -34,7 +34,7 @@ describe("errores de autenticación", () => {
   it("sigue cerrando la sesión ante un 401 de una ruta clínica", async () => {
     const { removeItem, assign } = respuesta401("no_autenticado", "Inicia sesión.");
     await expect(pedir("/api/pacientes")).rejects.toMatchObject({ status: 401, codigo: "sesion_expirada" });
-    expect(removeItem).toHaveBeenCalledWith("vozclinica:token");
+    expect(removeItem).toHaveBeenCalledWith("medvox:token");
     expect(assign).toHaveBeenCalledWith("/login?sesion=expirada");
   });
 });

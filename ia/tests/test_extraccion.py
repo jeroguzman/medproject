@@ -1,9 +1,9 @@
 import json
 import unittest
 from unittest.mock import patch, Mock
-from vozclinica_ia.extraccion import ErrorIA, extraer, parsear, prompt_sistema
-from vozclinica_ia.filtros import aplicar
-from vozclinica_ia.esquema import validar
+from medvox_ia.extraccion import ErrorIA, extraer, parsear, prompt_sistema
+from medvox_ia.filtros import aplicar
+from medvox_ia.esquema import validar
 
 TRANS = {"texto": "Paciente refiere alergia a penicilina. Mi diagnóstico presuntivo es faringitis.",
          "segmentos": [{"hablante": "HABLANTE_1", "texto": "Paciente refiere alergia a penicilina. Mi diagnóstico presuntivo es faringitis."}]}
@@ -39,8 +39,8 @@ class PruebasExtraccion(unittest.TestCase):
         self.assertEqual(data["secciones"]["plan"]["medicamentos"], [])
         self.assertEqual(validar(data), [])
 
-    @patch("vozclinica_ia.extraccion.requests.delete")
-    @patch("vozclinica_ia.extraccion.requests.post")
+    @patch("medvox_ia.extraccion.requests.delete")
+    @patch("medvox_ia.extraccion.requests.post")
     @patch.dict("os.environ", {"BACKBOARD_API_KEY": "ficticia", "IA_PROVEEDOR": "openai", "IA_MODELO": "gpt-4o"})
     def test_envio_backboard_con_memoria_off(self, post, delete):
         resp = Mock()

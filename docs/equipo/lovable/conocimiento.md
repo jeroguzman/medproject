@@ -1,9 +1,9 @@
-# VozClínica · conocimiento del proyecto
+# MedVox · conocimiento del proyecto
 
 Asistente de documentación clínica por voz para médicos en México (hackathon). El médico graba la consulta o dicta, la IA transcribe y prellena el Formato Clínico General, el médico revisa y autoriza. Solo la nota autorizada entra al expediente. Todos los datos son ficticios.
 
 ## Reglas que nunca se rompen
-1. Nada clínico sale del navegador hasta que el médico autoriza. El borrador vive solo en localStorage ("vozclinica:borrador:<pacienteId>"; la corrección en "vozclinica:correccion:<notaId>"). El audio vive solo en memoria y nunca se guarda en localStorage.
+1. Nada clínico sale del navegador hasta que el médico autoriza. El borrador vive solo en localStorage ("medvox:borrador:<pacienteId>"; la corrección en "medvox:correccion:<notaId>"). El audio vive solo en memoria y nunca se guarda en localStorage.
 2. No uses Supabase, Lovable Cloud ni autenticación de Lovable. Todo va contra la API REST de Django mediante src/api/cliente.ts. Ninguna clave de API va en el frontend.
 3. La identificación del paciente (nombre, expediente, nacimiento, sexo, médico y cédula) es de solo lectura: viene de la API.
 4. Un campo vacío no es un "no": se muestra "— Sin información" en gris; "Negado" es un estado distinto y se ve distinto.
@@ -19,6 +19,7 @@ Estos archivos ya existen y son contrato con el backend y la IA. Impórtalos; no
 - src/lib/formatos.ts, contenido.ts, fusion.ts, alertas.ts, vitales.ts, evidencia.ts, borrador.ts, navegacion.ts
 - src/hooks/useDocumentoLocal.ts, useGrabadora.ts, useAvisoAlSalir.ts, useTitulo.ts, useAlto.ts
 - src/styles/tokens.css y ds.css (Design System Clínico v0.4)
+- src/components/ui/Logo.tsx, public/favicon.svg y public/marca/*.svg (logotipo de MedVox)
 Si algo de estos archivos no te sirve, dímelo en lugar de cambiarlo.
 
 ## Interfaz
@@ -28,6 +29,7 @@ Si algo de estos archivos no te sirve, dímelo en lugar de cambiarlo.
 - Diálogos con el <dialog> nativo: el título es la pregunta, el cuerpo la consecuencia y los botones repiten el verbo ("Seguir editando" / "Autorizar nota"); nunca "Sí / No" ni "Aceptar".
 - Estados vacíos que dicen qué aparecerá y cómo empezar; carga con esqueletos, nunca un spinner a pantalla completa.
 - Etiqueta fija "Datos ficticios" en todas las pantallas.
+- Marca: el nombre oficial es MedVox. Usa <Logo className="h-8" /> (la altura va en className): cambia solo entre la versión clara, la oscura y la monocroma de impresión. No dibujes el logotipo con iconos ni texto.
 
 ## Formatos (usa src/lib/formatos.ts)
 - Fecha DD/mmm/AAAA ("12/mar/1992"): formatearFecha. Nunca new Date("AAAA-MM-DD").

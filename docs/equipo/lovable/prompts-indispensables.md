@@ -1,4 +1,4 @@
-# Prompts indispensables para Lovable · VozClínica
+# Prompts indispensables para Lovable · MedVox
 
 Los prompts **M** del [paquete completo](README.md): 1 a 8 y 11 a 13. Con ellos queda la demo completa (CA-01 a CA-10): iniciar sesión, buscar y registrar pacientes, consulta con grabadora y formulario prellenado, borrador en el navegador, autorizar, ver versiones y corregir. Los números son los mismos del paquete y de las capturas; el 9 y el 10 no faltan por error: son deseables y van después. Estos prompts ya están ajustados para funcionar sin ellos.
 
@@ -24,7 +24,7 @@ En el repositorio, rama `claude/prompts-lovable`, carpeta `docs/equipo/lovable/c
 Adjunta: nada.
 
 ```text
-Crea una aplicación web llamada VozClínica: asistente de documentación clínica por voz para médicos en México. Es para un hackathon y todos los datos son ficticios.
+Crea una aplicación web llamada MedVox: asistente de documentación clínica por voz para médicos en México. Es para un hackathon y todos los datos son ficticios.
 
 Stack: React 18 + TypeScript + Vite + Tailwind + shadcn/ui + lucide-react + react-router-dom + @tanstack/react-query + sonner.
 IMPORTANTE: no uses Supabase, ni Lovable Cloud, ni autenticación de Lovable, ni ningún backend propio. Todos los datos vienen de una API REST externa (Django). En el siguiente paso subiré por GitHub la capa de datos ya hecha.
@@ -34,7 +34,7 @@ Por ahora solo:
 2. Toda la interfaz en español de México, tratando de "tú" al usuario. Diseño primero para escritorio de 1366 × 768.
 3. Una etiqueta pequeña fija abajo a la izquierda con un icono de matraz (FlaskConical) y el texto "Datos ficticios", visible en todas las pantallas y oculta al imprimir.
 4. QueryClientProvider con staleTime de 30 s y sin recargar al enfocar la ventana, y el Toaster de sonner abajo al centro con richColors y botón de cerrar.
-5. En index.html: lang="es-MX", título "VozClínica" y las fuentes de Google "Atkinson Hyperlegible Next" (pesos 400 a 700) y "Atkinson Hyperlegible Mono" (pesos 400 a 600).
+5. En index.html: lang="es-MX", título "MedVox", el icono <link rel="icon" type="image/svg+xml" href="/favicon.svg"> (el archivo llega con los cimientos) y las fuentes de Google "Atkinson Hyperlegible Next" (pesos 400 a 700) y "Atkinson Hyperlegible Mono" (pesos 400 a 600).
 No agregues datos de ejemplo ni pantallas todavía.
 ```
 
@@ -58,10 +58,10 @@ git clone -b claude/prompts-lovable https://github.com/jeroguzman/medproject.git
 medproject/docs/equipo/lovable/copiar-cimientos.sh medproject-frontend
 ```
 ```bash
-cd medproject-frontend && git add src && git commit -m "Agregar cimientos de VozClínica" && git push origin main
+cd medproject-frontend && git add src public && git commit -m "Agregar cimientos de MedVox" && git push origin main
 ```
 
-   Revisa en Lovable que aparezcan `src/api/`, `src/lib/`, `src/hooks/`, `src/mocks/`, `src/plantilla/` y `src/styles/`.
+   Revisa en Lovable que aparezcan `src/api/`, `src/lib/`, `src/hooks/`, `src/mocks/`, `src/plantilla/`, `src/styles/`, `src/components/ui/Logo.tsx`, `public/favicon.svg` y `public/marca/`.
 4. **Conocimiento del proyecto:** en *Project settings → Knowledge* pega el contenido de [`conocimiento.md`](conocimiento.md).
 
 ## Prompts
@@ -183,7 +183,7 @@ Adjunta: `p03-login.png`, `p04-pacientes.png` y `p03-cerrar-sesion.png`.
 Construye el inicio de sesión y el layout autenticado. Usa los archivos base; no reescribas su lógica. Las capturas son la referencia de diseño.
 
 Inicio de sesión (/login), como en p03-login:
-- Tarjeta centrada de 384 px con sombra: cuadro verde (--color-banner-bg) con el icono Stethoscope, "VozClínica" y el lema "Menos tiempo escribiendo, más tiempo atendiendo."
+- Tarjeta centrada de 384 px con sombra: el logotipo dentro del h1 (<Logo className="h-12" /> de src/components/ui/Logo.tsx) y debajo el lema "Menos tiempo escribiendo, más tiempo atendiendo."
 - Campos "Usuario" (name="username", autocomplete="username", sin mayúscula automática) y "Contraseña" (type="password", autocomplete="current-password"). Se permite pegar y usar gestores de contraseñas.
 - Botón primario de ancho completo "Iniciar sesión" con icono LogIn; mientras envía dice "Entrando…".
 - Al enviar: iniciarSesion(usuario, contrasena) de src/api/consultas.ts, guardarToken(r.access), queryClient.setQueryData(claves.medico, r.medico) y navega a location.state.desde o a /pacientes.
@@ -195,12 +195,12 @@ Inicio de sesión (/login), como en p03-login:
 Rutas protegidas: componente RutaProtegida que, sin token, redirige a /login guardando la ruta en state.desde. /notas/:id/imprimir es protegida pero sin layout.
 
 Layout autenticado (AppLayout), como en p04-pacientes:
-- Barra superior fija de 48 px (surface, borde inferior): a la izquierda el cuadro verde con Stethoscope y "VozClínica" (enlace a /pacientes); a la derecha el nombre del médico en negritas (useMedico()), " · Céd. " y la cédula en mono, y el botón fantasma chico "Cerrar sesión" con icono LogOut.
+- Barra superior fija de 48 px (surface, borde inferior): a la izquierda el logotipo <Logo className="h-8" /> (enlace a /pacientes); a la derecha el nombre del médico en negritas (useMedico()), " · Céd. " y la cédula en mono, y el botón fantasma chico "Cerrar sesión" con icono LogOut.
 - Navegación lateral fija de 208 px con el enlace "Pacientes" (icono Users); el activo con fondo --color-action-subtle y texto --color-action-text.
 - En /pacientes/:id/consulta y /notas/:id/corregir la navegación se reduce a un riel de 88 px con el icono arriba y la etiqueta abajo.
 - Enlace "Saltar al contenido" visible solo con teclado. Al cambiar de ruta, la página vuelve arriba (con un useEffect de bloque que no devuelva nada).
 - Cerrar sesión: si hayTrabajoSinAutorizar() es true, abre el diálogo de p03-cerrar-sesion: título "¿Cerrar sesión?", cuerpo "Tienes un borrador sin autorizar. Si cierras sesión se pierde.", botones "Seguir trabajando" (secundario) y "Descartar y salir" (btn-critical, que llama descartarTodoElTrabajo()). Al salir: borrarToken(), queryClient.clear() y navegar a /login.
-- Títulos de pestaña con useTitulo ("Pacientes · VozClínica").
+- Títulos de pestaña con useTitulo ("Pacientes · MedVox").
 ```
 
 Revisa: entra con `pmendez` / `demo1234`; con otra contraseña aparece el error; el nombre de la doctora sale arriba.
@@ -310,7 +310,7 @@ Conecta la consulta al borrador local. Las reglas ya están programadas en los a
 - Mientras carga: tarjeta con Esqueleto. Título de pestaña: "GARCÍA LÓPEZ, María Fernanda · Consulta".
 ```
 
-Revisa: escribe en un campo, recarga la página y sigue ahí (CA-03); en las herramientas del navegador (*Application → Local Storage*) existe `vozclinica:borrador:1`; "Cerrar sesión" ahora pregunta antes.
+Revisa: escribe en un campo, recarga la página y sigue ahí (CA-03); en las herramientas del navegador (*Application → Local Storage*) existe `medvox:borrador:1`; "Cerrar sesión" ahora pregunta antes.
 
 ### Prompt 8 · Grabadora y "Procesar audio"
 

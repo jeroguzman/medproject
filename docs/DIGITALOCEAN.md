@@ -49,6 +49,12 @@ contraseñas de DigitalOcean ni tokens por chat.
 
 ## Primera instalación (después del inventario)
 
+> El sistema se llama MedVox, pero la carpeta `/opt/vozclinica`, el proyecto de Compose
+> `vozclinica-production` (prefijo de los volúmenes con la base de datos y los certificados)
+> y la base y el usuario `vozclinica` conservan el nombre provisional porque el Droplet ya
+> los usa. Cambiarlos sin migrar crearía volúmenes vacíos; renómbralos solo con una
+> migración coordinada (respaldo, restauración y ajuste del workflow de despliegue).
+
 Clonar el repositorio en un directorio dedicado, por ejemplo `/opt/vozclinica`, con
 un mecanismo GitHub autorizado en el Droplet. No escribir tokens en URLs de clonación.
 Usar el commit revisado que contiene `compose.production.yaml`, sin reutilizar otro

@@ -4,7 +4,7 @@ Restricción técnica actualizada por instrucción explícita del usuario:
 frontend React en frontend/ dentro de medproject, junto a backend/, ia/ y n8n/.
 No cambian principios clínicos. Sin pendientes de sincronización del diseño de 001.
 -->
-# Constitución de VozClínica
+# Constitución de MedVox
 
 ## Core Principles
 
@@ -30,7 +30,7 @@ en el repositorio. La IA prellena para revisión médica y nunca autoriza por s�
 
 ### IV. Contratos compartidos
 El Formato Clínico General v1.1 se representa como esquema JSON versionado.
-Django valida el esquema y aplica filtros con `ia/vozclinica_ia`; n8n orquesta.
+Django valida el esquema y aplica filtros con `ia/medvox_ia`; n8n orquesta.
 Los cambios de API y esquema deben mantener alineados los consumidores y las guías
  del equipo. Los datos ausentes no se inventan para completar campos.
 

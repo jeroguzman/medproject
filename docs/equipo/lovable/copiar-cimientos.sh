@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Copia los "cimientos" del frontend de referencia (frontend/) al repositorio que creó Lovable.
 # Son archivos sin pantallas: configuración, cliente de la API, datos de ejemplo, plantilla, reglas,
-# hooks y estilos del design system. La UI la genera Lovable con los prompts de README.md.
+# hooks, estilos del design system y el logotipo. La UI la genera Lovable con los prompts de README.md.
 #
 # Uso:
 #   docs/equipo/lovable/copiar-cimientos.sh ../medproject-frontend
@@ -47,6 +47,13 @@ ARCHIVOS=(
   src/hooks/useAlto.ts
   src/styles/tokens.css
   src/styles/ds.css
+  src/components/ui/Logo.tsx
+  public/favicon.svg
+  public/marca/medvox-isotipo.svg
+  public/marca/medvox-logo.svg
+  public/marca/medvox-logo-oscuro.svg
+  public/marca/medvox-logo-blanco.svg
+  public/marca/medvox-logo-mono.svg
 )
 
 for archivo in "${ARCHIVOS[@]}"; do

@@ -2,7 +2,8 @@
 
 Las 45 tareas de esta funcionalidad tienen un responsable único. Las 43 originales
 conservan sus IDs; T044 separa la configuración frontend de T004 y T045 separa los
-runners frontend de T009. No se ha completado ninguna tarea.
+runners frontend de T009. El estado actual está en las listas individuales;
+Jeroben tiene 21 tareas completadas y 2 pendientes. German y Luis conservan sus tareas.
 
 | Miembro | Fuente editable | Responsabilidad |
 |---|---|---|
@@ -65,7 +66,7 @@ Objetivo: editar ficha sin alterar el expediente ni las versiones de notas. Mejo
 
 ## Phase 6: Polish — aceptación transversal
 
-Aplicar al alcance M y, si se entrega, a US3. Toda casilla representa trabajo pendiente, no código ya implementado ni prueba ya ejecutada.
+Aplicar al alcance M y, si se entrega, a US3. Las casillas se actualizan solo con evidencia del responsable; no acreditar integración frontend por haber validado la API.
 
 **Checkpoint**: Completar y validar esta fase antes de aceptar los incrementos que dependen de ella.
 

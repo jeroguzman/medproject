@@ -14,7 +14,8 @@ backend §6 y la interacción de la guía frontend §6. La edición de ficha es 
 la captura, autorización y corrección quedan en 002–005. Para demostrar historial
 sin esperar escrituras clínicas se precargan notas y versiones sintéticas válidas.
 
-Este cambio entrega diseño, no aplicación ejecutable. Por decisión explícita del
+El diseño siguiente guía la implementación; el avance backend está documentado
+en [validation/jeroben.md](validation/jeroben.md). Por decisión explícita del
 usuario, el frontend estará en `frontend/` en este mismo repositorio, junto con
 `backend/`, `ia/` y `n8n/`. Esta decisión reemplaza la separación de §9.6 y las
 guías; Lovable puede usarse como herramienta, pero no determina la ubicación.
@@ -66,8 +67,8 @@ con escritura de notas reservada a 004/005. No se necesitan IA ni n8n para esta 
 | IV. Contratos | Guía backend §6 como fuente | OpenAPI conserva rutas y formas; esquema clínico completo pertenece a 003 |
 | V. Evidencia | Escenarios de spec identificados | Quickstart incluye casos positivos, negativos, concurrencia y lectura inmutable |
 
-No hay excepción constitucional. Los tests de producto están pendientes de
-implementación; esta aprobación no equivale a aceptación funcional.
+No hay excepción constitucional. La evidencia backend está en el informe de Jeroben;
+la aceptación integrada requiere además frontend y el esquema clínico compartido.
 
 ## Project Structure
 
@@ -90,11 +91,11 @@ El desglose de implementación está en [tasks.md](tasks.md), generado con
 `$speckit-tasks` y organizado por responsable. Las fuentes editables son
 [German](tasks/german.md), [Jeroben](tasks/jeroben.md) y [Luis](tasks/luis.md);
 la vista consolidada se regenera con `python3 scripts/sync-team-tasks.py`.
-Todas sus casillas representan trabajo pendiente.
+Las casillas reflejan el avance verificado de cada responsable.
 
 ### Source Code (repository root)
 
-Estructura prevista; estos directorios de aplicación aún no existen:
+Backend implementado; frontend todavía previsto:
 
 ```text
 backend/

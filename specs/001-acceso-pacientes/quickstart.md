@@ -1,8 +1,9 @@
 # Validación prevista — acceso y pacientes
 
-Esta guía es para después de implementar las tareas. Actualmente no existen
-`backend/`, sus dependencias ni el frontend en este checkout; los comandos de
-aplicación siguientes no se han ejecutado. La validación actual es documental.
+El backend ya está implementado: 37 pruebas pasan sobre PostgreSQL 16 y se verificó
+la API mediante HTTP real. Consulta [la evidencia](validation/jeroben.md) y la
+[preparación reproducible](../../docs/DESARROLLO.md). `main` ya incluye un frontend de referencia; su integración con esta API y las notas
+de demo con el esquema completo siguen pendientes. Los comandos E2E son una guía futura.
 
 ## Prerrequisitos
 

@@ -28,7 +28,31 @@ cd medproject/frontend && npm install && npm run dev
 - **Adjunta las capturas que indica cada prompt** (botón de adjuntar o arrastrándolas al chat; hasta 10 por mensaje) y deja claro que son **referencia de diseño**, no imágenes para insertar. Todos los prompts ya lo dicen.
 - Si Lovable propone **Supabase o Lovable Cloud**, recházalo: "No uses Supabase ni Lovable Cloud; todo va contra la API REST de Django".
 - Si Lovable modifica un archivo de cimientos, pídele que lo revierta o recupéralo desde el historial de versiones (o desde GitHub).
-- Para prompts grandes (el 6), puedes pedirle primero en modo de planeación: "Dime tu plan sin escribir código" y luego "Hazlo".
+- **No uses el modo Plan para ahorrar**: cobra 1 crédito por mensaje. Para preguntas y diagnósticos usa el modo **Chat**, que entra en la cuota diaria gratuita de chat. Usa Build solo para aplicar cambios. Lee la §2.1 antes de empezar.
+
+### 2.1 Presupuesto de créditos
+
+Lovable cobra cada mensaje de Build según el trabajo que hace (archivos tocados y código escrito), aunque el resultado no funcione. Como referencia, su documentación pone 0.5 créditos para cambiar el color de un botón, 1.2 para agregar autenticación y unos 2 para una landing page completa. Con eso y el tamaño de cada pantalla de la app de referencia, esta es la estimación. **Es aproximada: mídela tú después de los prompts 1 a 3.**
+
+| Prompts | Prioridad | Créditos estimados |
+|---|---|---|
+| 1 base, 2 design system, 3 login y layout | M | 3 a 5 |
+| 4 pacientes, 5 expediente | M | 2.5 a 4 |
+| 6 consulta y formulario | M | 3 a 5 |
+| 7 borrador, 8 grabadora | M | 2 a 3.5 |
+| 11 autorizar, 12 nota y versiones, 13 corrección | M | 4 a 7 |
+| 9 evidencia, 10 alertas, 14 impresión, 15 Backboard | S | 4 a 7 |
+| 16 Tavily, 17 Linear | C | 1 a 2 |
+| **Total sin correcciones** | | **20 a 33** |
+
+Solo lo M (la demo completa) cuesta entre 15 y 25 créditos. Todo, con correcciones (cuenta un 30 a 50 % más), queda entre 26 y 50. Con 40 créditos más 5 diarios **lo M alcanza de sobra; todo alcanza solo si los prompts salen bien a la primera o la segunda**. Reglas para que alcance:
+
+1. **Orden por prioridad:** primero lo M en este orden: 1, 2, 3, 4, 5, 6, 7, 8, 11, 12 y 13. Eso ya es la demo completa (CA-01 a CA-10). Después lo S (9, 10, 14, 15) y al final lo C (16, 17).
+2. **Mide después del prompt 3.** Si esos tres costaron más de 6 créditos, el total se va arriba de 45: aplica la regla 5 desde el prompt 12.
+3. **Gasta primero los 5 créditos diarios**, que no se acumulan. Si el evento dura varios días, reparte el trabajo para aprovechar los de cada día.
+4. **Arregla lo pequeño a mano:** textos, colores o una clase se cambian sin IA en el editor de código de Lovable (modo Dev, incluido en Pro) o subiendo el cambio a GitHub (`main`). Pregunta en modo Chat qué archivo tocar.
+5. **Regla de dos intentos:** si un prompt falla dos veces, no lo intentes una tercera. Copia el componente equivalente de `frontend/src/` al repo de Lovable por GitHub y sigue con el siguiente prompt (§8).
+6. **No reenvíes un prompt completo para corregir.** Describe solo lo que falla ("En la pestaña Referencias el botón Buscar no hace nada") y adjunta una captura de tu vista previa.
 
 ## 3. Preparar el proyecto (una sola vez)
 
@@ -81,7 +105,7 @@ Por ahora solo:
 No agregues datos de ejemplo ni pantallas todavía.
 ```
 
-Revisa: las rutas abren su página vacía y no hay nada de Supabase en el proyecto.
+Revisa: las rutas abren su página vacía y no hay nada de Supabase en el proyecto. **Además, sin gastar créditos**, abre la vista de código y revisa `package.json`: anota si `tailwindcss` es versión 3 (hay un `tailwind.config.ts` y `index.css` empieza con `@tailwind base`) o versión 4 (`index.css` empieza con `@import "tailwindcss"`). El prompt 2 cambia según la versión.
 
 Después de este prompt, haz los pasos 2 a 4 de la §3.
 
@@ -97,6 +121,7 @@ Ya subí por GitHub los archivos base en src/ (config, api, mocks, plantilla, li
    @import "./styles/ds.css";
    Quita las variables HSL de :root y .dark que generó shadcn: tokens.css ya define --background, --foreground, --primary, --border, --ring, --radius, etc. con colores completos (hexadecimales), y también el modo oscuro.
 2. En tailwind.config.ts: cambia cada color "hsl(var(--x))" por "var(--x)" (porque los tokens ya son colores completos), agrega los colores del bloque de abajo, la fuente sans "Atkinson Hyperlegible Next" y la mono "Atkinson Hyperlegible Mono", y este safelist para que Tailwind no quite las clases del DS: safelist: [{ pattern: /^(btn|b|alert|badge|seg|msg|vstatus|s|is|pb|t)-/ }]. Conserva tailwindcss-animate.
+   (Si el proyecto usa Tailwind v4 en lugar de los pasos 1 y 2: en src/index.css agrega justo después de @import "tailwindcss"; las líneas @import "./styles/tokens.css"; y @import "./styles/ds.css";, quita las variables de :root y .dark que generó shadcn porque tokens.css ya las define con colores completos, conserva el bloque @theme inline de shadcn y agrega ahí --font-sans y --font-mono con las fuentes Atkinson. No hace falta safelist ni el bloque de colores: para los colores propios del DS usa valores arbitrarios, por ejemplo bg-[var(--color-banner-bg)].)
 3. Usa las clases del Design System de src/styles/ds.css en lugar de estilos propios:
    botones btn + btn-primary | btn-secondary | btn-ghost | btn-critical | btn-critical-ghost, btn-sm, btn-icon, btn-block;
    campos field, field-label, req, field-opt, input, textarea, input-wrap, unit, lead-ic, help, msg + msg-error | msg-warning | msg-info, counter;
@@ -209,7 +234,7 @@ Revisa: María Fernanda tiene 3 notas y la primera dice "Corregida · v2"; Luis 
 
 Adjunta: `p06-consulta-vacia.png`, `p06-formulario-lleno.png`, `p06-antecedentes.png`, `p06-signos-vitales.png` y `p06-diagnosticos-medicamentos.png`.
 
-Es el prompt más grande. Si Lovable se queda corto, mándalo en dos partes: "Estructura e índice" (hasta el panel derecho) y "Tipos de campo".
+Es el prompt más grande (3 a 5 créditos). Si Lovable se queda corto, mándalo en dos partes: "Estructura e índice" (hasta el panel derecho) y "Tipos de campo". Dividirlo no ahorra créditos, pero reduce el riesgo de pagar un intento que falla completo.
 
 ```text
 Pantalla /pacientes/:id/consulta (capturas p06-*, referencia de diseño). En este paso van la estructura y el formulario; el borrador local y la grabadora van en los siguientes prompts.
@@ -441,7 +466,7 @@ Revisa: desde el popover del diagnóstico, reporta "La IA lo inventó" y aparece
 
 ### 4.1 Bloque de colores para el prompt 2
 
-Pégalo donde dice `[PEGA AQUÍ…]` en el prompt 2:
+Pégalo donde dice `[PEGA AQUÍ…]` en el prompt 2 (solo con Tailwind v3):
 
 ```ts
 // const v = (n: string) => `var(--${n})`;
@@ -533,4 +558,6 @@ El repo de Lovable acepta cualquier código que llegue a `main`. Si a 3 h de la 
 - Lovable, GitHub y sincronización en dos sentidos con la rama principal: [lovable.dev/faq/github](https://lovable.dev/faq/github)
 - Lovable, imágenes en el chat (hasta 10 archivos por mensaje): [docs.lovable.dev/tips-tricks/using-images](https://docs.lovable.dev/tips-tricks/using-images) y [lovable.dev/faq/design/media/add-images-to-prompt](https://lovable.dev/faq/design/media/add-images-to-prompt)
 - Lovable, conocimiento del proyecto: [lovable.dev/faq/development/knowledge](https://lovable.dev/faq/development/knowledge)
+- Lovable, créditos y modos (Build, Plan y Chat): [docs.lovable.dev/introduction/credits-and-usage](https://docs.lovable.dev/introduction/credits-and-usage), [docs.lovable.dev/introduction/faq](https://docs.lovable.dev/introduction/faq) y [lovable.dev/pricing](https://lovable.dev/pricing)
+- Lovable, modo Dev para editar el código: [docs.lovable.dev/features/dev-mode](https://docs.lovable.dev/features/dev-mode)
 - Linear, importador CSV: [npmjs.com/package/@linear/import](https://www.npmjs.com/package/@linear/import) y [linear.app/docs/cli-importer](https://linear.app/docs/cli-importer)

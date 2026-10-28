@@ -1,6 +1,8 @@
 # Frontend con Lovable: paquete de prompts
 
-> Para German (rol A). Con esto se reconstruye en **Lovable** la interfaz de referencia que está en [`frontend/`](../../../frontend/), usando las integraciones del evento. Reemplaza los prompts de la [§6 de tu guía](../german-frontend.md): son los mismos pasos, pero con el detalle exacto de lo que ya probamos.
+> Para German (rol A). **¿Prisa o pocos créditos?** Empieza por [`prompts-indispensables.md`](prompts-indispensables.md): solo los prompts de la demo, listos para copiar.
+>
+> Con esto se reconstruye en **Lovable** la interfaz de referencia que está en [`frontend/`](../../../frontend/), usando las integraciones del evento. Reemplaza los prompts de la [§6 de tu guía](../german-frontend.md): son los mismos pasos, pero con el detalle exacto de lo que ya probamos.
 
 ## 1. Cómo se reparte el trabajo
 
@@ -47,7 +49,7 @@ Lovable cobra cada mensaje de Build según el trabajo que hace (archivos tocados
 
 Solo lo M (la demo completa) cuesta entre 15 y 25 créditos. Todo, con correcciones (cuenta un 30 a 50 % más), queda entre 26 y 50. Con 40 créditos más 5 diarios **lo M alcanza de sobra; todo alcanza solo si los prompts salen bien a la primera o la segunda**. Reglas para que alcance:
 
-1. **Orden por prioridad:** primero lo M en este orden: 1, 2, 3, 4, 5, 6, 7, 8, 11, 12 y 13. Eso ya es la demo completa (CA-01 a CA-10). Después lo S (9, 10, 14, 15) y al final lo C (16, 17).
+1. **Orden por prioridad:** primero lo M en este orden: 1, 2, 3, 4, 5, 6, 7, 8, 11, 12 y 13. Eso ya es la demo completa (CA-01 a CA-10). Para ese orden usa [`prompts-indispensables.md`](prompts-indispensables.md): son los mismos prompts, ajustados para no depender del 9 ni del 10, y con el prompt 2 listo para Tailwind 3 o 4. Después lo S (9, 10, 14, 15) y al final lo C (16, 17).
 2. **Mide después del prompt 3.** Si esos tres costaron más de 6 créditos, el total se va arriba de 45: aplica la regla 5 desde el prompt 12.
 3. **Gasta primero los 5 créditos diarios**, que no se acumulan. Si el evento dura varios días, reparte el trabajo para aprovechar los de cada día.
 4. **Arregla lo pequeño a mano:** textos, colores o una clase se cambian sin IA en el editor de código de Lovable (modo Dev, incluido en Pro) o subiendo el cambio a GitHub (`main`). Pregunta en modo Chat qué archivo tocar.

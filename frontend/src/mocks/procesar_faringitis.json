@@ -1,0 +1,332 @@
+{
+  "transcripcion": {
+    "texto": "Buenos días, pásele. ¿Usted es María Fernanda García? Sí, doctora, buenos días. Cuénteme, ¿qué la trae por aquí? Me duele mucho la garganta y tengo calentura desde el lunes. ¿Ha tenido tos o escurrimiento de la nariz? Tos no, nada más un poquito de moco. ¿Tomó algo? Me tomé paracetamol de 500 cada 8 horas y sí me bajó un poco. ¿Es alérgica a algún medicamento? Sí, a la penicilina, me salen ronchas. Muy bien, vamos a revisarla. Trae 38.4 de temperatura. La presión está en 148 sobre 92. Frecuencia cardiaca de 88 por minuto. Saturación de 97 por ciento. Abra la boca, por favor. Las amígdalas están hipertróficas y enrojecidas, sin placas. En el cuello hay ganglios pequeños, dolorosos. Pulmones bien ventilados, sin ruidos agregados. Parece una faringitis, probablemente viral. Le voy a dejar paracetamol de 500 cada 8 horas por 3 días, mucho líquido y reposo. Si en 48 horas sigue con fiebre o le cuesta tragar, regresa. Gracias, doctora.",
+    "segmentos": [
+      {
+        "hablante": "HABLANTE_1",
+        "rol": "medico",
+        "texto": "Buenos días, pásele. ¿Usted es María Fernanda García?",
+        "inicio": 0.0,
+        "fin": 3.8
+      },
+      {
+        "hablante": "HABLANTE_2",
+        "rol": "paciente",
+        "texto": "Sí, doctora, buenos días.",
+        "inicio": 4.1,
+        "fin": 5.6
+      },
+      {
+        "hablante": "HABLANTE_1",
+        "rol": "medico",
+        "texto": "Cuénteme, ¿qué la trae por aquí?",
+        "inicio": 6.0,
+        "fin": 7.9
+      },
+      {
+        "hablante": "HABLANTE_2",
+        "rol": "paciente",
+        "texto": "Me duele mucho la garganta y tengo calentura desde el lunes.",
+        "inicio": 8.3,
+        "fin": 12.1
+      },
+      {
+        "hablante": "HABLANTE_1",
+        "rol": "medico",
+        "texto": "¿Ha tenido tos o escurrimiento de la nariz?",
+        "inicio": 12.6,
+        "fin": 15.0
+      },
+      {
+        "hablante": "HABLANTE_2",
+        "rol": "paciente",
+        "texto": "Tos no, nada más un poquito de moco.",
+        "inicio": 15.4,
+        "fin": 17.9
+      },
+      {
+        "hablante": "HABLANTE_1",
+        "rol": "medico",
+        "texto": "¿Tomó algo?",
+        "inicio": 18.2,
+        "fin": 19.0
+      },
+      {
+        "hablante": "HABLANTE_2",
+        "rol": "paciente",
+        "texto": "Me tomé paracetamol de 500 cada 8 horas y sí me bajó un poco.",
+        "inicio": 19.4,
+        "fin": 23.8
+      },
+      {
+        "hablante": "HABLANTE_1",
+        "rol": "medico",
+        "texto": "¿Es alérgica a algún medicamento?",
+        "inicio": 24.1,
+        "fin": 26.0
+      },
+      {
+        "hablante": "HABLANTE_2",
+        "rol": "paciente",
+        "texto": "Sí, a la penicilina, me salen ronchas.",
+        "inicio": 26.4,
+        "fin": 29.1
+      },
+      {
+        "hablante": "HABLANTE_1",
+        "rol": "medico",
+        "texto": "Muy bien, vamos a revisarla. Trae 38.4 de temperatura. La presión está en 148 sobre 92. Frecuencia cardiaca de 88 por minuto. Saturación de 97 por ciento. Abra la boca, por favor. Las amígdalas están hipertróficas y enrojecidas, sin placas. En el cuello hay ganglios pequeños, dolorosos. Pulmones bien ventilados, sin ruidos agregados. Parece una faringitis, probablemente viral. Le voy a dejar paracetamol de 500 cada 8 horas por 3 días, mucho líquido y reposo. Si en 48 horas sigue con fiebre o le cuesta tragar, regresa.",
+        "inicio": 29.6,
+        "fin": 74.2
+      },
+      {
+        "hablante": "HABLANTE_2",
+        "rol": "paciente",
+        "texto": "Gracias, doctora.",
+        "inicio": 74.8,
+        "fin": 76.0
+      }
+    ]
+  },
+  "borrador": {
+    "plantilla": "formato_clinico_general",
+    "version": "1.1",
+    "modo_captura": "consulta",
+    "paciente_mencionado": "María Fernanda García",
+    "hablantes": {
+      "HABLANTE_1": "medico",
+      "HABLANTE_2": "paciente"
+    },
+    "secciones": {
+      "motivo_padecimiento": {
+        "motivo_consulta": {
+          "valor": "Me duele mucho la garganta y tengo calentura",
+          "estado": "referido",
+          "evidencia": [
+            "Me duele mucho la garganta y tengo calentura desde el lunes"
+          ]
+        },
+        "padecimiento_actual": {
+          "valor": "Odinofagia y fiebre desde el lunes. Rinorrea escasa. Se automedicó con paracetamol 500 mg cada 8 h, con mejoría parcial.",
+          "estado": "referido",
+          "evidencia": [
+            "Me duele mucho la garganta y tengo calentura desde el lunes",
+            "nada más un poquito de moco",
+            "Me tomé paracetamol de 500 cada 8 horas y sí me bajó un poco"
+          ]
+        }
+      },
+      "antecedentes": {
+        "heredofamiliares": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        },
+        "personales_patologicos": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        },
+        "personales_no_patologicos": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        },
+        "alergias": {
+          "valor": "Penicilina (ronchas)",
+          "estado": "referido",
+          "evidencia": [
+            "a la penicilina, me salen ronchas"
+          ]
+        },
+        "medicamentos_actuales": {
+          "valor": "Paracetamol 500 mg cada 8 h, automedicado.",
+          "estado": "referido",
+          "evidencia": [
+            "Me tomé paracetamol de 500 cada 8 horas"
+          ]
+        }
+      },
+      "interrogatorio": {
+        "aparatos_sistemas": {
+          "valor": "Niega tos. Rinorrea escasa.",
+          "estado": "referido",
+          "evidencia": [
+            "Tos no, nada más un poquito de moco"
+          ]
+        }
+      },
+      "signos_vitales": {
+        "presion_arterial": {
+          "valor": {
+            "sistolica": 148,
+            "diastolica": 92
+          },
+          "unidad": "mmHg",
+          "estado": "medido",
+          "evidencia": [
+            "La presión está en 148 sobre 92"
+          ]
+        },
+        "frecuencia_cardiaca": {
+          "valor": 88,
+          "unidad": "lpm",
+          "estado": "medido",
+          "evidencia": [
+            "Frecuencia cardiaca de 88 por minuto"
+          ]
+        },
+        "frecuencia_respiratoria": {
+          "valor": null,
+          "unidad": "rpm",
+          "estado": "sin_informacion",
+          "evidencia": null
+        },
+        "temperatura": {
+          "valor": 38.4,
+          "unidad": "°C",
+          "estado": "medido",
+          "evidencia": [
+            "Trae 38.4 de temperatura"
+          ]
+        },
+        "saturacion_o2": {
+          "valor": 97,
+          "unidad": "%",
+          "estado": "medido",
+          "evidencia": [
+            "Saturación de 97 por ciento"
+          ]
+        },
+        "peso": {
+          "valor": null,
+          "unidad": "kg",
+          "estado": "sin_informacion",
+          "evidencia": null
+        },
+        "talla": {
+          "valor": null,
+          "unidad": "cm",
+          "estado": "sin_informacion",
+          "evidencia": null
+        },
+        "otros_parametros": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        }
+      },
+      "exploracion_fisica": {
+        "habitus_exterior": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        },
+        "cabeza_cuello": {
+          "valor": "Amígdalas hipertróficas e hiperémicas, sin placas. Adenomegalias cervicales pequeñas y dolorosas.",
+          "estado": "referido",
+          "evidencia": [
+            "Las amígdalas están hipertróficas y enrojecidas, sin placas",
+            "En el cuello hay ganglios pequeños, dolorosos"
+          ]
+        },
+        "torax_cardiopulmonar": {
+          "valor": "Campos pulmonares bien ventilados, sin ruidos agregados.",
+          "estado": "referido",
+          "evidencia": [
+            "Pulmones bien ventilados, sin ruidos agregados"
+          ]
+        },
+        "abdomen": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        },
+        "extremidades_otros": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        },
+        "genitourinario_otros": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        }
+      },
+      "estudios": {
+        "estudios_resultados": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        }
+      },
+      "valoracion": {
+        "diagnosticos": [
+          {
+            "descripcion": "Faringitis, probablemente viral",
+            "condicion": "presuntivo",
+            "evidencia": [
+              "Parece una faringitis, probablemente viral"
+            ]
+          }
+        ],
+        "pronostico": {
+          "valor": null,
+          "estado": "sin_informacion",
+          "evidencia": null
+        }
+      },
+      "plan": {
+        "medicamentos": [
+          {
+            "medicamento": "Paracetamol",
+            "dosis": "500 mg",
+            "via": null,
+            "frecuencia": "cada 8 h",
+            "duracion": "3 días",
+            "evidencia": [
+              "paracetamol de 500 cada 8 horas por 3 días"
+            ]
+          }
+        ],
+        "medidas_seguimiento": {
+          "valor": "Abundantes líquidos y reposo. Regresar si en 48 h persiste la fiebre o hay dificultad para deglutir.",
+          "estado": "referido",
+          "evidencia": [
+            "mucho líquido y reposo",
+            "Si en 48 horas sigue con fiebre o le cuesta tragar, regresa"
+          ]
+        }
+      }
+    }
+  },
+  "alertas": [
+    {
+      "tipo": "fuera_de_rango",
+      "severidad": "advertencia",
+      "campo": "signos_vitales.temperatura",
+      "mensaje": "38.4 °C fuera de rango (36.0–37.5 °C). Se guardará marcado en la nota.",
+      "bloquea": false
+    },
+    {
+      "tipo": "fuera_de_rango",
+      "severidad": "advertencia",
+      "campo": "signos_vitales.presion_arterial",
+      "mensaje": "148/92 mmHg fuera de rango (90–139 / 60–89 mmHg). Se guardará marcado en la nota.",
+      "bloquea": false
+    },
+    {
+      "tipo": "sin_evidencia",
+      "severidad": "info",
+      "campo": "valoracion.pronostico",
+      "mensaje": "La IA propuso un pronóstico sin respaldo en el audio y se descartó.",
+      "bloquea": false
+    }
+  ],
+  "metricas": {
+    "duracion_audio_s": 76.0,
+    "ms_transcripcion": 6100,
+    "ms_extraccion": 14800,
+    "ms_total": 21400
+  }
+}

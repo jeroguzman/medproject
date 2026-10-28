@@ -1,0 +1,146 @@
+/* Design System Clínico v0.4 · tokens copiados de docs/referencias/design-system-clinico-v0.4.html (líneas 14 a 130). */
+/* No edites los valores aquí sin actualizar el DS. */
+
+:root{
+  /* ── Primitivos: escalas sin significado ── */
+  --teal-50:#EEF7F5; --teal-100:#D3ECE7; --teal-200:#A8D8CF; --teal-300:#74BDB1; --teal-400:#43A093;
+  --teal-500:#21857A; --teal-600:#136C63; --teal-700:#10584F; --teal-800:#104741; --teal-900:#0F3B36; --teal-950:#05211E;
+  --slate-0:#FFFFFF; --slate-25:#F8FAFA; --slate-50:#F1F5F4; --slate-100:#E5EBEA; --slate-200:#D1DAD9; --slate-300:#B1BFBD;
+  --slate-400:#869593; --slate-500:#647371; --slate-600:#4C5A58; --slate-700:#394544; --slate-800:#263130; --slate-900:#172020; --slate-950:#0C1313;
+  --red-50:#FEF1EF; --red-100:#FDDCD7; --red-200:#F9B5AB; --red-300:#F4A093; --red-600:#C22A1D; --red-700:#A22016; --red-800:#7F1D15; --red-900:#4A120D;
+  --amber-50:#FEF7E6; --amber-200:#F3D08A; --amber-300:#F2C060; --amber-600:#B06B00; --amber-700:#8D5400;
+  --green-50:#ECF8F0; --green-200:#A2DCB8; --green-300:#7FD3A1; --green-600:#1D8049; --green-700:#17663A;
+  --blue-50:#EEF4FE; --blue-200:#AFC9F7; --blue-300:#9DBDF3; --blue-600:#2160C4; --blue-700:#1B4E9F;
+
+  /* ── Semánticos: el rol del color (lo único que consumen los componentes) ── */
+  --color-bg:var(--slate-50);
+  --color-surface:var(--slate-0);
+  --color-surface-raised:var(--slate-0);
+  --color-surface-hover:var(--slate-50);
+  --color-canvas:var(--slate-25);
+  --color-border:var(--slate-200);
+  --color-border-input:#7A8A88;
+  --color-text:var(--slate-900);
+  --color-text-muted:var(--slate-600);
+  --color-text-subtle:var(--slate-500);
+  --color-action:var(--teal-600);
+  --color-action-hover:var(--teal-700);
+  --color-action-pressed:var(--teal-800);
+  --color-action-fg:#FFFFFF;
+  --color-action-text:var(--teal-700);
+  --color-action-subtle:var(--teal-50);
+  --color-action-subtle-border:var(--teal-200);
+  --color-focus:var(--teal-500);
+  --color-disabled-bg:var(--slate-100);
+  --color-disabled-fg:var(--slate-400);
+  --color-critical-bg:var(--red-50);   --color-critical-border:var(--red-200);   --color-critical-fg:var(--red-700);   --color-critical-solid:var(--red-600);   --color-critical-on-solid:#FFFFFF;
+  --color-warning-bg:var(--amber-50);  --color-warning-border:var(--amber-200);  --color-warning-fg:var(--amber-700);  --color-warning-solid:var(--amber-600);
+  --color-success-bg:var(--green-50);  --color-success-border:var(--green-200);  --color-success-fg:var(--green-700);  --color-success-solid:var(--green-600);
+  --color-info-bg:var(--blue-50);      --color-info-border:var(--blue-200);      --color-info-fg:var(--blue-700);      --color-info-solid:var(--blue-600);
+  --color-banner-bg:var(--teal-900);
+  --color-banner-fg:#FFFFFF;
+  --color-banner-muted:var(--teal-200);
+  --color-banner-divider:rgb(255 255 255 / .2);
+  --color-banner-alert-bg:var(--red-100);
+  --color-banner-alert-fg:var(--red-800);
+  --color-inverse-bg:var(--slate-900);
+  --color-inverse-fg:var(--slate-50);
+  --color-skeleton:var(--slate-100);
+  --color-skeleton-shine:var(--slate-50);
+  --color-highlight:var(--amber-200);
+  --shadow-rgb:12 19 19;
+  --shadow-1:0 1px 2px rgb(var(--shadow-rgb) / .08);
+  --shadow-2:0 6px 16px rgb(var(--shadow-rgb) / .10), 0 1px 3px rgb(var(--shadow-rgb) / .08);
+  --shadow-3:0 18px 44px rgb(var(--shadow-rgb) / .20), 0 2px 8px rgb(var(--shadow-rgb) / .10);
+
+  /* ── Tipografía ── */
+  --font-sans:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-mono:"Atkinson Hyperlegible Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --type-display:700 2rem/2.5rem var(--font-sans);
+  --type-title-lg:700 1.5rem/2rem var(--font-sans);
+  --type-title-md:600 1.25rem/1.75rem var(--font-sans);
+  --type-title-sm:600 1.125rem/1.5rem var(--font-sans);
+  --type-body-lg:400 1.125rem/1.75rem var(--font-sans);
+  --type-body:400 1rem/1.5rem var(--font-sans);
+  --type-body-sm:400 .875rem/1.25rem var(--font-sans);
+  --type-label:600 .875rem/1.25rem var(--font-sans);
+  --type-caption:500 .75rem/1rem var(--font-sans);
+  --type-data:600 1.75rem/2rem var(--font-sans);
+  --type-mono:500 .875rem/1.25rem var(--font-mono);
+
+  /* ── Espacio, forma, movimiento ── */
+  --space-0-5:2px; --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px;
+  --space-6:24px; --space-8:32px; --space-10:40px; --space-12:48px; --space-16:64px;
+  --radius-sm:4px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:999px;
+  --control-h:48px; --control-h-sm:36px; --control-px:20px;
+  --dur-fast:120ms; --dur-base:200ms; --dur-slow:320ms;
+  --ease-standard:cubic-bezier(.2,0,0,1); --ease-exit:cubic-bezier(.3,0,1,1);
+  --topbar-h:60px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --color-bg:#0C1313; --color-surface:#141D1C; --color-surface-raised:#1B2625; --color-surface-hover:#1B2625; --color-canvas:#101817;
+    --color-border:#2A3735; --color-border-input:#677876;
+    --color-text:#E8EEED; --color-text-muted:#A7B5B3; --color-text-subtle:#8A9A98;
+    --color-action:#43A093; --color-action-hover:#74BDB1; --color-action-pressed:#A8D8CF; --color-action-fg:#05211E;
+    --color-action-text:#74BDB1; --color-action-subtle:#12302C; --color-action-subtle-border:#1F5A52; --color-focus:#74BDB1;
+    --color-disabled-bg:#1B2625; --color-disabled-fg:#5C6C6A;
+    --color-critical-bg:#2A1210; --color-critical-border:#6B2219; --color-critical-fg:#F4A093; --color-critical-solid:#E5503F; --color-critical-on-solid:#1A0705;
+    --color-warning-bg:#2A1F08; --color-warning-border:#6A4A10; --color-warning-fg:#F2C060; --color-warning-solid:#E0A12C;
+    --color-success-bg:#0F2619; --color-success-border:#23593A; --color-success-fg:#7FD3A1; --color-success-solid:#3FAE6F;
+    --color-info-bg:#10203A; --color-info-border:#284C80; --color-info-fg:#9DBDF3; --color-info-solid:#5B8FE6;
+    --color-banner-bg:#12332F; --color-banner-fg:#E8EEED; --color-banner-muted:#A8D8CF; --color-banner-divider:rgb(255 255 255 / .14);
+    --color-banner-alert-bg:#F9B5AB; --color-banner-alert-fg:#4A120D;
+    --color-inverse-bg:#E5EBEA; --color-inverse-fg:#172020;
+    --color-skeleton:#1F2A29; --color-skeleton-shine:#283533; --color-highlight:#6A4A10;
+    --shadow-rgb:0 0 0;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --color-bg:#0C1313; --color-surface:#141D1C; --color-surface-raised:#1B2625; --color-surface-hover:#1B2625; --color-canvas:#101817;
+  --color-border:#2A3735; --color-border-input:#677876;
+  --color-text:#E8EEED; --color-text-muted:#A7B5B3; --color-text-subtle:#8A9A98;
+  --color-action:#43A093; --color-action-hover:#74BDB1; --color-action-pressed:#A8D8CF; --color-action-fg:#05211E;
+  --color-action-text:#74BDB1; --color-action-subtle:#12302C; --color-action-subtle-border:#1F5A52; --color-focus:#74BDB1;
+  --color-disabled-bg:#1B2625; --color-disabled-fg:#5C6C6A;
+  --color-critical-bg:#2A1210; --color-critical-border:#6B2219; --color-critical-fg:#F4A093; --color-critical-solid:#E5503F; --color-critical-on-solid:#1A0705;
+  --color-warning-bg:#2A1F08; --color-warning-border:#6A4A10; --color-warning-fg:#F2C060; --color-warning-solid:#E0A12C;
+  --color-success-bg:#0F2619; --color-success-border:#23593A; --color-success-fg:#7FD3A1; --color-success-solid:#3FAE6F;
+  --color-info-bg:#10203A; --color-info-border:#284C80; --color-info-fg:#9DBDF3; --color-info-solid:#5B8FE6;
+  --color-banner-bg:#12332F; --color-banner-fg:#E8EEED; --color-banner-muted:#A8D8CF; --color-banner-divider:rgb(255 255 255 / .14);
+  --color-banner-alert-bg:#F9B5AB; --color-banner-alert-fg:#4A120D;
+  --color-inverse-bg:#E5EBEA; --color-inverse-fg:#172020;
+  --color-skeleton:#1F2A29; --color-skeleton-shine:#283533; --color-highlight:#6A4A10;
+  --shadow-rgb:0 0 0;
+  color-scheme:dark;
+}
+/* Densidad automática: compacta con ratón, cómoda en táctil; el usuario puede fijar una */
+@media (pointer: fine){ :root:not([data-density="comfortable"]){ --control-h:40px; --control-h-sm:32px; --control-px:16px; } }
+:root[data-density="compact"]{ --control-h:40px; --control-h-sm:32px; --control-px:16px; }
+
+/* ── Mapeo a las variables de shadcn/ui ──
+   Los colores del DS son hexadecimales, así que se usan como color completo (var(--background)),
+   no como componentes HSL. */
+:root{
+  --background:var(--color-bg);
+  --card:var(--color-surface);
+  --card-foreground:var(--color-text);
+  --popover:var(--color-surface);
+  --popover-foreground:var(--color-text);
+  --foreground:var(--color-text);
+  --muted:var(--color-surface-hover);
+  --muted-foreground:var(--color-text-muted);
+  --primary:var(--color-action);
+  --primary-foreground:var(--color-action-fg);
+  --secondary:var(--color-surface);
+  --secondary-foreground:var(--color-action-text);
+  --accent:var(--color-action-subtle);
+  --accent-foreground:var(--color-action-text);
+  --destructive:var(--color-critical-solid);
+  --destructive-foreground:var(--color-critical-on-solid);
+  --border:var(--color-border);
+  --input:var(--color-border-input);
+  --ring:var(--color-focus);
+  --radius:8px;
+}

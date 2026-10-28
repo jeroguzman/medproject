@@ -67,6 +67,8 @@ Mientras la API no esté lista, trabajas con los datos de ejemplo (§12).
 
 ## 6. Prompts para Lovable
 
+> **Actualización:** usa el paquete de [`lovable/README.md`](lovable/README.md). Tiene estos mismos pasos con el detalle exacto de la app de referencia (`frontend/`), las capturas que hay que adjuntar a cada prompt, el conocimiento del proyecto para Lovable, los prompts de Backboard, Tavily y Linear, y el backlog de Linear en CSV. Los prompts de abajo quedan como resumen.
+
 Pega un prompt a la vez y revisa el resultado antes del siguiente. Lovable guarda cada cambio en su repositorio de GitHub. Conéctalo al inicio; un nombre sugerido es `medproject-frontend`.
 
 **Prompt 1: base del proyecto**

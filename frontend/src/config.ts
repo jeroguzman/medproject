@@ -45,8 +45,8 @@ export const LIMITES = {
 } as const;
 
 export const CLAVES_STORAGE = {
-  token: "vozclinica:token",
-  prefijoBorrador: "vozclinica:borrador:",
-  prefijoCorreccion: "vozclinica:correccion:",
-  mockDb: "vozclinica:mock:db",
+  token: "medvox:token",
+  prefijoBorrador: "medvox:borrador:",
+  prefijoCorreccion: "medvox:correccion:",
+  mockDb: "medvox:mock:db",
 } as const;

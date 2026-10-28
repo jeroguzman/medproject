@@ -4,9 +4,9 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from vozclinica_ia.extraccion import ErrorIA, extraer
-from vozclinica_ia.filtros import aplicar
-from vozclinica_ia.esquema import validar
+from medvox_ia.extraccion import ErrorIA, extraer
+from medvox_ia.filtros import aplicar
+from medvox_ia.esquema import validar
 
 
 def main() -> int:

@@ -5,7 +5,7 @@ import { borrarLocal, EVENTO_DESCARTAR_TODO, guardarLocal } from "@/lib/borrador
 export type EstadoGuardado = "sin_cambios" | "pendiente" | "guardado" | "error";
 
 interface Opciones<T> {
-  /** Clave de localStorage ("vozclinica:borrador:<id>" o "vozclinica:correccion:<id>"). */
+  /** Clave de localStorage ("medvox:borrador:<id>" o "medvox:correccion:<id>"). */
   clave: string;
   /** false mientras faltan los datos para crear el documento (por ejemplo, el paciente). */
   listo: boolean;

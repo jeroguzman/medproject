@@ -1,4 +1,4 @@
-# Spec Kit en VozClínica
+# Spec Kit en MedVox
 
 Inicializado con Specify CLI 1.2.4, integración Codex en modo skills y scripts Bash.
 Los archivos `.specify/` y `.agents/skills/` forman parte del proyecto.

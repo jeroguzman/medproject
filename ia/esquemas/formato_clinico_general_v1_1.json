@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://vozclinica.local/esquemas/formato_clinico_general/1.1",
-  "title": "VozClinica - Formato Clinico General v1.1",
+  "$id": "https://medvox.local/esquemas/formato_clinico_general/1.1",
+  "title": "MedVox - Formato Clinico General v1.1",
   "type": "object",
   "additionalProperties": false,
   "required": [

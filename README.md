@@ -1,4 +1,4 @@
-# medproject · VozClínica
+# MedVox
 
 Asistente de documentación clínica por voz (hackathon). Todos los datos son ficticios.
 Backend Django en `backend/` y aplicación del médico en React en `frontend/`,

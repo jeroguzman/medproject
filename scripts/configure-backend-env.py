@@ -6,8 +6,8 @@ from pathlib import Path
 
 path = Path(__file__).resolve().parents[1] / "backend" / ".env"
 values = {
-    "POSTGRES_DB": "vozclinica",
-    "POSTGRES_USER": "vozclinica",
+    "POSTGRES_DB": "medvox",
+    "POSTGRES_USER": "medvox",
     "POSTGRES_PORT": "55432",
     "DEBUG": "true",
     "ALLOWED_HOSTS": "127.0.0.1,localhost",
@@ -19,7 +19,7 @@ if path.exists():
 password = secrets.token_urlsafe(32)
 values.update(
     POSTGRES_PASSWORD=password,
-    DATABASE_URL=f"postgresql://vozclinica:{password}@127.0.0.1:55432/vozclinica",
+    DATABASE_URL=f"postgresql://medvox:{password}@127.0.0.1:55432/medvox",
     DJANGO_SECRET_KEY=secrets.token_urlsafe(64),
     DEMO_PASSWORD=secrets.token_urlsafe(24),
 )

@@ -101,7 +101,7 @@ Backend implementado; frontend todavía previsto:
 backend/
 ├── manage.py
 ├── requirements.txt
-├── vozclinica/                 # settings, urls, wsgi
+├── medvox/                 # settings, urls, wsgi
 ├── cuentas/                    # perfil, login, me y tests
 ├── pacientes/                  # búsquedas, registro, detalle y tests
 └── notas/                      # modelos compartidos y lectura; sin autorizar aún

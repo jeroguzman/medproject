@@ -1,4 +1,4 @@
-# Especificaciones de VozClínica
+# Especificaciones de MedVox
 
 Derivadas de los documentos existentes, 2026-10-28. Estado: borradores revisados documentalmente.
 La funcionalidad 001 tiene [plan técnico](001-acceso-pacientes/plan.md), investigación,

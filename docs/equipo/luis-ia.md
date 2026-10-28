@@ -16,7 +16,7 @@ Haces que un audio se convierta en un borrador del Formato Clínico General **si
 | VC-10 | Probar Scribe con audio real en español: diarización, números y keyterms | M | Día 1 |
 | VC-11 | Guiones de 5 o 6 casos, audios con TTS y JSON esperado | M | Día 1 (caso 01) → día 2 (los demás) |
 | VC-12 | Prompt de extracción v1 en Backboard | M | Día 1 |
-| — | Paquete `ia/vozclinica_ia` con esquema, extracción, filtros y pipeline (§6) | M | Día 1 |
+| — | Paquete `ia/medvox_ia` con esquema, extracción, filtros y pipeline (§6) | M | Día 1 |
 | VC-13 | Workflow WF-1 `procesar-audio` en n8n (Jeroben prepara las credenciales) | M | Día 1 → hito 1 |
 | VC-18 | Script de evaluación y comparación de modelos; prompt v2 | S | Día 2 |
 | VC-19 | Evidencia por campo: lado de la IA, y apoyo a German con el panel | S | Día 2 |
@@ -37,7 +37,7 @@ Haces que un audio se convierta en un borrador del Formato Clínico General **si
 | Con | Recibes | Entregas |
 |---|---|---|
 | German | Avisos de campos mal llenados | `ia/esquemas/ejemplos/procesar_faringitis.json` en la primera hora, audios de prueba y la tabla para el pitch |
-| Jeroben | Cuenta y credenciales de n8n, URL y secreto del webhook, backend desplegado | El paquete `vozclinica_ia` (§6), el contrato del webhook (§10) y los workflows exportados en `n8n/` |
+| Jeroben | Cuenta y credenciales de n8n, URL y secreto del webhook, backend desplegado | El paquete `medvox_ia` (§6), el contrato del webhook (§10) y los workflows exportados en `n8n/` |
 
 **Las claves de los campos son un contrato.** Están en REQUERIMIENTOS §7.2 y en la [guía de German](german-frontend.md), §8. No las cambies sin avisar a los dos.
 
@@ -187,7 +187,7 @@ El archivo real tiene que ser JSON puro, sin comentarios. Pon todos los campos c
 ia/
   requirements.txt            # jsonschema, rapidfuzz, requests (lo instala el backend)
   requirements-dev.txt        # pydub y lo que use la evaluación (el backend no lo necesita)
-  vozclinica_ia/
+  medvox_ia/
     __init__.py
     esquema.py
     stt.py
@@ -369,7 +369,7 @@ Forma de cada alerta: `{ "tipo", "severidad": "critica" | "advertencia" | "info"
 
 **Contrato con Django** (Jeroben lo llama así; no lo cambies sin avisar):
 
-Petición: `POST {N8N_BASE_URL}/webhook/procesar-audio`, encabezado `X-VozClinica-Secret`, en multipart:
+Petición: `POST {N8N_BASE_URL}/webhook/procesar-audio`, encabezado `X-MedVox-Secret`, en multipart:
 
 | Campo | Contenido |
 |---|---|
@@ -389,7 +389,7 @@ Respuesta 200:
 Error: 502 con `{ "error": { "codigo": "stt_fallo" | "llm_fallo" | "llm_sin_json", "mensaje": "…" } }`. Django agrega `ms_total` y aplica los filtros.
 
 **Nodos**
-1. **Webhook:** POST, ruta `procesar-audio`, autenticación Header Auth (credencial `VozClinica webhook`) y respuesta "Using 'Respond to Webhook' Node". En la primera ejecución revisa cómo se llama la propiedad binaria del audio y úsala en el nodo siguiente.
+1. **Webhook:** POST, ruta `procesar-audio`, autenticación Header Auth (credencial `MedVox webhook`) y respuesta "Using 'Respond to Webhook' Node". En la primera ejecución revisa cómo se llama la propiedad binaria del audio y úsala en el nodo siguiente.
 2. **Code "Marcar inicio":** `return [{ json: { t0: Date.now() } }]`.
 3. **HTTP Request "ElevenLabs STT":** con los parámetros de la §7. `diarize` = `{{ $('Webhook').first().json.body.modo === 'consulta' }}`. Timeout de 120 s. "On Error: Continue (using error output)" hacia la respuesta 502.
 4. **Code "Formatear segmentos":** la función de la §7, y además `ms_transcripcion = Date.now() - $('Marcar inicio').first().json.t0`.
@@ -484,7 +484,7 @@ En las listas, empareja los renglones por nombre normalizado (medicamento o desc
 ## 14. Cuándo está terminado lo tuyo
 
 - [ ] El esquema y `procesar_faringitis.json` están en el repositorio, y German los usa.
-- [ ] `vozclinica_ia` se importa desde Django con las firmas de la §6.
+- [ ] `medvox_ia` se importa desde Django con las firmas de la §6.
 - [ ] WF-1 está activo, exportado en `n8n/` y responde con el contrato de la §10.
 - [ ] CA-01: menos de 60 s por cada 5 min de audio, medido de punta a punta.
 - [ ] CA-04: negado y sin información salen correctos en los casos 02 y 04.

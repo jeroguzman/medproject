@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from vozclinica_ia.esquema import cargar, validar, validar_contenido, contenido_vacio
+from medvox_ia.esquema import cargar, validar, validar_contenido, contenido_vacio
 import json
 from jsonschema import Draft202012Validator
 

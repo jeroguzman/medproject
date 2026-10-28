@@ -71,10 +71,10 @@ git clone https://github.com/<tu-cuenta>/medproject-frontend.git
 medproject/docs/equipo/lovable/copiar-cimientos.sh medproject-frontend
 ```
 ```bash
-cd medproject-frontend && git add src && git commit -m "Agregar cimientos de VozClínica" && git push origin main
+cd medproject-frontend && git add src public && git commit -m "Agregar cimientos de MedVox" && git push origin main
 ```
 
-Revisa en Lovable (vista de código) que aparezcan `src/api/`, `src/lib/`, `src/hooks/`, `src/mocks/`, `src/plantilla/` y `src/styles/`. Son 29 archivos; la lista está en [`copiar-cimientos.sh`](copiar-cimientos.sh).
+Revisa en Lovable (vista de código) que aparezcan `src/api/`, `src/lib/`, `src/hooks/`, `src/mocks/`, `src/plantilla/`, `src/styles/`, `src/components/ui/Logo.tsx`, `public/favicon.svg` y `public/marca/`. Son 36 archivos; la lista está en [`copiar-cimientos.sh`](copiar-cimientos.sh).
 
 **Paso 4. Conocimiento del proyecto.** En *Project settings → Knowledge*, pega el contenido de [`conocimiento.md`](conocimiento.md). Lovable lo toma en cuenta en cada mensaje: reglas, archivos que no debe tocar, formatos y vocabulario.
 
@@ -93,7 +93,7 @@ Cada prompt lleva: qué adjuntar, el texto para pegar tal cual y qué revisar en
 Adjunta: nada.
 
 ```text
-Crea una aplicación web llamada VozClínica: asistente de documentación clínica por voz para médicos en México. Es para un hackathon y todos los datos son ficticios.
+Crea una aplicación web llamada MedVox: asistente de documentación clínica por voz para médicos en México. Es para un hackathon y todos los datos son ficticios.
 
 Stack: React 18 + TypeScript + Vite + Tailwind + shadcn/ui + lucide-react + react-router-dom + @tanstack/react-query + sonner.
 IMPORTANTE: no uses Supabase, ni Lovable Cloud, ni autenticación de Lovable, ni ningún backend propio. Todos los datos vienen de una API REST externa (Django). En el siguiente paso subiré por GitHub la capa de datos ya hecha.
@@ -103,7 +103,7 @@ Por ahora solo:
 2. Toda la interfaz en español de México, tratando de "tú" al usuario. Diseño primero para escritorio de 1366 × 768.
 3. Una etiqueta pequeña fija abajo a la izquierda con un icono de matraz (FlaskConical) y el texto "Datos ficticios", visible en todas las pantallas y oculta al imprimir.
 4. QueryClientProvider con staleTime de 30 s y sin recargar al enfocar la ventana, y el Toaster de sonner abajo al centro con richColors y botón de cerrar.
-5. En index.html: lang="es-MX", título "VozClínica" y las fuentes de Google "Atkinson Hyperlegible Next" (pesos 400 a 700) y "Atkinson Hyperlegible Mono" (pesos 400 a 600).
+5. En index.html: lang="es-MX", título "MedVox", el icono <link rel="icon" type="image/svg+xml" href="/favicon.svg"> (el archivo llega con los cimientos) y las fuentes de Google "Atkinson Hyperlegible Next" (pesos 400 a 700) y "Atkinson Hyperlegible Mono" (pesos 400 a 600).
 No agregues datos de ejemplo ni pantallas todavía.
 ```
 
@@ -158,7 +158,7 @@ Adjunta: `p03-login.png`, `p04-pacientes.png` y `p03-cerrar-sesion.png`.
 Construye el inicio de sesión y el layout autenticado. Usa los archivos base; no reescribas su lógica. Las capturas son la referencia de diseño.
 
 Inicio de sesión (/login), como en p03-login:
-- Tarjeta centrada de 384 px con sombra: cuadro verde (--color-banner-bg) con el icono Stethoscope, "VozClínica" y el lema "Menos tiempo escribiendo, más tiempo atendiendo."
+- Tarjeta centrada de 384 px con sombra: el logotipo dentro del h1 (<Logo className="h-12" /> de src/components/ui/Logo.tsx) y debajo el lema "Menos tiempo escribiendo, más tiempo atendiendo."
 - Campos "Usuario" (name="username", autocomplete="username", sin mayúscula automática) y "Contraseña" (type="password", autocomplete="current-password"). Se permite pegar y usar gestores de contraseñas.
 - Botón primario de ancho completo "Iniciar sesión" con icono LogIn; mientras envía dice "Entrando…".
 - Al enviar: iniciarSesion(usuario, contrasena) de src/api/consultas.ts, guardarToken(r.access), queryClient.setQueryData(claves.medico, r.medico) y navega a location.state.desde o a /pacientes.
@@ -170,12 +170,12 @@ Inicio de sesión (/login), como en p03-login:
 Rutas protegidas: componente RutaProtegida que, sin token, redirige a /login guardando la ruta en state.desde. /notas/:id/imprimir es protegida pero sin layout.
 
 Layout autenticado (AppLayout), como en p04-pacientes:
-- Barra superior fija de 48 px (surface, borde inferior): a la izquierda el cuadro verde con Stethoscope y "VozClínica" (enlace a /pacientes); a la derecha el nombre del médico en negritas (useMedico()), " · Céd. " y la cédula en mono, y el botón fantasma chico "Cerrar sesión" con icono LogOut.
+- Barra superior fija de 48 px (surface, borde inferior): a la izquierda el logotipo <Logo className="h-8" /> (enlace a /pacientes); a la derecha el nombre del médico en negritas (useMedico()), " · Céd. " y la cédula en mono, y el botón fantasma chico "Cerrar sesión" con icono LogOut.
 - Navegación lateral fija de 208 px con el enlace "Pacientes" (icono Users); el activo con fondo --color-action-subtle y texto --color-action-text.
 - En /pacientes/:id/consulta y /notas/:id/corregir la navegación se reduce a un riel de 88 px con el icono arriba y la etiqueta abajo.
 - Enlace "Saltar al contenido" visible solo con teclado. Al cambiar de ruta, la página vuelve arriba (con un useEffect de bloque que no devuelva nada).
 - Cerrar sesión: si hayTrabajoSinAutorizar() es true, abre el diálogo de p03-cerrar-sesion: título "¿Cerrar sesión?", cuerpo "Tienes un borrador sin autorizar. Si cierras sesión se pierde.", botones "Seguir trabajando" (secundario) y "Descartar y salir" (btn-critical, que llama descartarTodoElTrabajo()). Al salir: borrarToken(), queryClient.clear() y navegar a /login.
-- Títulos de pestaña con useTitulo ("Pacientes · VozClínica").
+- Títulos de pestaña con useTitulo ("Pacientes · MedVox").
 ```
 
 Revisa: entra con `pmendez` / `demo1234`; con otra contraseña aparece el error; el nombre de la doctora sale arriba.
@@ -284,7 +284,7 @@ Conecta la consulta al borrador local. Las reglas ya están programadas en los a
 - Mientras carga: tarjeta con Esqueleto. Título de pestaña: "GARCÍA LÓPEZ, María Fernanda · Consulta".
 ```
 
-Revisa: escribe en un campo, recarga la página y sigue ahí (CA-03); en las herramientas del navegador (*Application → Local Storage*) existe `vozclinica:borrador:1`; "Cerrar sesión" ahora pregunta antes.
+Revisa: escribe en un campo, recarga la página y sigue ahí (CA-03); en las herramientas del navegador (*Application → Local Storage*) existe `medvox:borrador:1`; "Cerrar sesión" ahora pregunta antes.
 
 ### Prompt 8 · Grabadora y "Procesar audio"
 
@@ -410,12 +410,12 @@ Adjunta: `p14-impresion.png`.
 ```text
 Pantalla /notas/:id/imprimir, sin layout ni navegación, con un diseño parecido a la plantilla en papel (VC-23). La captura es la referencia de diseño.
 - Barra con "Volver a la nota" (secundario, ArrowLeft) e "Imprimir o guardar como PDF" (primario, Printer), oculta al imprimir (print:hidden). Al cargar la nota llama window.print() a los 400 ms.
-- Encabezado: "VOZCLÍNICA · NOTA DE CONSULTA" pequeño, título "Formato Clínico General" y a la derecha "Versión de plantilla 1.1" y "Nota 12 · v2", con una línea gruesa abajo.
+- Encabezado: el logotipo <Logo className="mb-3 flex h-8" /> (al imprimir sale la versión monocroma), "NOTA DE CONSULTA" pequeño, título "Formato Clínico General" y a la derecha "Versión de plantilla 1.1" y "Nota 12 · v2", con una línea gruesa abajo.
 - Si la URL trae ?version=N y no es la vigente: franja punteada ámbar "Versión anterior · no vigente (la vigente es la versión 2)".
 - 01 Identificación de paciente y atención, en dos columnas de etiqueta y valor: Paciente (nombreNatural), Expediente (mono), Fecha de nacimiento, Edad / sexo, Fecha y hora de atención, Tipo de consulta, Médico responsable, Cédula profesional (mono), Alergias registradas y Modo de captura (" · el paciente autorizó la grabación" si aplica).
 - Secciones 02 a 08 con NotaLectura en modo impresión: título en mayúsculas con línea inferior, etiqueta y valor en dos columnas, sin insignias de origen; cada sección evita cortarse entre páginas (break-inside: avoid).
 - 09 Revisión y autorización: Estado, Versión impresa ("v2 (vigente)"), Autorizada el, Autorizada por y Motivo del cambio; abajo una línea de firma con el nombre del médico y "Nombre del médico (equivale a la firma) · Céd. 12345678".
-- Pie: "Datos ficticios · Documento generado por VozClínica el <fecha y hora>. La autorización electrónica de esta nota no sustituye una firma electrónica avanzada."
+- Pie: "Datos ficticios · Documento generado por MedVox el <fecha y hora>. La autorización electrónica de esta nota no sustituye una firma electrónica avanzada."
 - Carta con márgenes de 14 mm y fondo blanco al imprimir (ya está en ds.css).
 ```
 
@@ -539,7 +539,7 @@ Gasta más créditos y Lovable a veces "mejora" el código. Revisa cada archivo 
 
 [`linear-backlog.csv`](linear-backlog.csv) tiene los 27 issues de REQUERIMIENTOS §13.2, en orden, con etiquetas (`frontend`, `backend`, `ia`, `demo`), prioridad (M → High, S → Medium, C → Low) y una descripción que apunta a la guía de cada quien.
 
-1. En Linear crea el equipo **VozClínica** con el identificador **VC** y déjalo vacío, para que los issues se numeren de VC-1 a VC-27.
+1. En Linear crea el equipo **MedVox** con el identificador **VC** y déjalo vacío, para que los issues se numeren de VC-1 a VC-27.
 2. Crea una clave personal de API: *Settings → Account → Security & access → Personal API keys*.
 3. (Opcional) Para asignar al importar, cambia la columna `Assignee` por el correo con el que cada quien entró a Linear. Si no, asígnalos después; el CSV trae el nombre en la descripción.
 4. Ejecuta el importador oficial de Linear y responde las preguntas:
@@ -548,7 +548,7 @@ Gasta más créditos y Lovable a veces "mejora" el código. Revisa cada archivo 
 npx @linear/import
 ```
 
-   Elige **"Linear (CSV export)"**, pega la clave de API, selecciona `docs/equipo/lovable/linear-backlog.csv`, contesta que **no** quieres crear un equipo nuevo, elige **VozClínica** y, en la asignación, "[Provided assignee]" si hiciste el paso 3 (si no, sin asignar).
+   Elige **"Linear (CSV export)"**, pega la clave de API, selecciona `docs/equipo/lovable/linear-backlog.csv`, contesta que **no** quieres crear un equipo nuevo, elige **MedVox** y, en la asignación, "[Provided assignee]" si hiciste el paso 3 (si no, sin asignar).
 5. Revisa que los números coincidan (VC-1 = esquema JSON… VC-27 = guion de la demo). Crea el ciclo de 2 días con todo lo de prioridad alta y conecta GitHub en Linear (*Settings → Integrations → GitHub*): si una rama o un PR menciona `VC-7`, el issue se mueve solo.
 
 ## 8. Plan B si se acaba el tiempo

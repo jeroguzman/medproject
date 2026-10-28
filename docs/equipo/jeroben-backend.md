@@ -36,7 +36,7 @@ Construyes y despliegas la API en Django, que es la **única** que escribe en Po
 | Con | Recibes | Entregas |
 |---|---|---|
 | German | El dominio de Lovable para CORS | URL de la API, usuarios de prueba y el contrato de la §6. **No lo cambies sin avisar.** |
-| Luis | El paquete `ia/vozclinica_ia` ([su guía, §6](luis-ia.md)), el esquema JSON, el contrato del webhook ([su guía, §10](luis-ia.md)) y el JSON de ejemplo | La cuenta de n8n con credenciales, la URL y el secreto del webhook, y un backend desplegado para probar de punta a punta |
+| Luis | El paquete `ia/medvox_ia` ([su guía, §6](luis-ia.md)), el esquema JSON, el contrato del webhook ([su guía, §10](luis-ia.md)) y el JSON de ejemplo | La cuenta de n8n con credenciales, la URL y el secreto del webhook, y un backend desplegado para probar de punta a punta |
 
 ## 5. Plan por hitos
 
@@ -222,7 +222,7 @@ Objeto **NotaDetalle** (también es la respuesta de `GET /api/notas/{id}`):
 backend/
   manage.py
   requirements.txt        # incluye la línea -r ../ia/requirements.txt
-  vozclinica/             # settings, urls, wsgi
+  medvox/             # settings, urls, wsgi
   cuentas/                # Medico, login, me
   pacientes/              # Paciente, búsqueda, historial
   notas/                  # Plantilla, Nota, VersionNota, Bitacora, autorizar, versiones
@@ -236,7 +236,7 @@ backend/
 import sys
 from datetime import timedelta
 
-sys.path.append(str(BASE_DIR.parent / "ia"))  # hace importable vozclinica_ia
+sys.path.append(str(BASE_DIR.parent / "ia"))  # hace importable medvox_ia
 
 INSTALLED_APPS += [
     "django.contrib.postgres", "rest_framework", "corsheaders",
@@ -362,7 +362,7 @@ Debe poder ejecutarse varias veces sin duplicar (`get_or_create`). Con `--reinic
 | 0004-8102 | HERNÁNDEZ RUIZ, Ana Sofía | 2019-05-03 | mujer | Sin alergias conocidas | — | — |
 | 0004-8299 | PÉREZ GÓMEZ, Juan Carlos | 1979-11-30 | hombre | Sin alergias conocidas | — | — |
 
-Para el `contenido` de las notas previas, parte de `vozclinica_ia.esquema.contenido_vacio()` (lo da Luis) y llena solo motivo, padecimiento, diagnóstico y plan. La plantilla se carga desde `ia/esquemas/formato_clinico_general_v1_1.json`.
+Para el `contenido` de las notas previas, parte de `medvox_ia.esquema.contenido_vacio()` (lo da Luis) y llena solo motivo, padecimiento, diagnóstico y plan. La plantilla se carga desde `ia/esquemas/formato_clinico_general_v1_1.json`.
 
 ## 10. `/api/ia/procesar`
 
@@ -372,10 +372,10 @@ Se elige el modo con la variable `IA_ORQUESTADOR`:
 |---|---|---|
 | `eco` | Espera 3 s y devuelve `ia/esquemas/ejemplos/procesar_faringitis.json` | Que German integre desde el día 1 sin esperar a la IA |
 | `n8n` | Manda el audio al WF-1 de n8n y aplica los filtros | **Modo normal** |
-| `django` | Llama a `vozclinica_ia.pipeline` directamente, sin n8n | Plan C si n8n falla en la demo |
+| `django` | Llama a `medvox_ia.pipeline` directamente, sin n8n | Plan C si n8n falla en la demo |
 
 ```python
-from vozclinica_ia import extraccion, filtros, pipeline
+from medvox_ia import extraccion, filtros, pipeline
 
 def procesar(request):
     audio = request.FILES.get("audio")
@@ -387,7 +387,7 @@ def procesar(request):
     if settings.IA_ORQUESTADOR == "n8n":
         r = requests.post(
             f"{settings.N8N_BASE_URL}/webhook/procesar-audio",
-            headers={"X-VozClinica-Secret": settings.N8N_SECRET},
+            headers={"X-MedVox-Secret": settings.N8N_SECRET},
             data={
                 "modo": modo,
                 "prompt": extraccion.prompt_sistema(modo),
@@ -424,7 +424,7 @@ def autorizar(request):
     datos.is_valid(raise_exception=True)
     contenido = datos.validated_data["contenido"]
 
-    errores = esquema.validar(contenido)          # vozclinica_ia.esquema
+    errores = esquema.validar(contenido)          # medvox_ia.esquema
     faltantes = faltantes_para_autorizar(contenido, datos.validated_data)
     if errores or faltantes:
         return error_validacion(faltantes, errores)
@@ -473,7 +473,7 @@ Luis arma los nodos; tú dejas lista la base:
 2. **Credenciales** (en *Credentials*, nunca escritas dentro de los nodos):
    - `ElevenLabs`: Header Auth con `xi-api-key`.
    - `Backboard`: lo que pida su API (revisar docs.backboard.io).
-   - `VozClinica webhook`: Header Auth con el encabezado `X-VozClinica-Secret` y un secreto largo y aleatorio. Ese mismo secreto va en `N8N_SECRET` de Django.
+   - `MedVox webhook`: Header Auth con el encabezado `X-MedVox-Secret` y un secreto largo y aleatorio. Ese mismo secreto va en `N8N_SECRET` de Django.
    - (C) `Tavily` y `Linear`.
 3. **URL:** el webhook de producción es `https://<tu-espacio>.app.n8n.cloud/webhook/procesar-audio`. La URL `/webhook-test/…` solo funciona con el editor abierto. **El workflow tiene que estar activo.**
 4. **Ajustes de cada workflow:** en la demo, "Save successful production executions: Do not save", para que no queden audios ni transcripciones. Durante el desarrollo puedes guardar las fallidas para depurar.
@@ -484,7 +484,7 @@ Luis arma los nodos; tú dejas lista la base:
 Recomendación (P-05): **Railway** (o Render) para Django y PostgreSQL, y n8n Cloud.
 - **El servicio se construye desde la raíz del repositorio**, no desde `backend/`: si eliges `backend/` como raíz, se pierde `ia/`.
 - Comando de construcción: `pip install -r backend/requirements.txt`.
-- Comando de inicio: `cd backend && python manage.py migrate && python manage.py cargar_demo && gunicorn vozclinica.wsgi --bind 0.0.0.0:$PORT --timeout 180 --workers 1 --threads 8`.
+- Comando de inicio: `cd backend && python manage.py migrate && python manage.py cargar_demo && gunicorn medvox.wsgi --bind 0.0.0.0:$PORT --timeout 180 --workers 1 --threads 8`.
 - Archivos estáticos del admin con WhiteNoise (`collectstatic` en la construcción).
 
 | Variable | Ejemplo / nota |

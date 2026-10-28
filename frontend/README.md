@@ -1,4 +1,4 @@
-# VozClínica · frontend de referencia
+# MedVox · frontend de referencia
 
 Implementación de la [guía de German](../docs/equipo/german-frontend.md): todo lo que ve el médico, desde el inicio de sesión hasta autorizar y corregir una nota, con el borrador guardado **solo en el navegador** (D-02).
 
@@ -64,9 +64,23 @@ Recursos: `auth`, `pacientes`, `notas`, `ia`, `plantillas`, `referencias`.
 
 `formatoClinicoGeneral.ts` y las claves de los campos son un contrato con Luis y Jeroben: no las cambies sin avisarles.
 
+## Marca
+
+El nombre oficial es **MedVox**. Los logotipos viven en `public/marca/` y el favicon en `public/favicon.svg`:
+
+| Archivo | Uso |
+|---|---|
+| `medvox-logo.svg` | Fondo claro (predeterminado) |
+| `medvox-logo-oscuro.svg` | Modo oscuro |
+| `medvox-logo-mono.svg` | Una sola tinta: impresión |
+| `medvox-logo-blanco.svg` | Sobre fondos de color o fotografías |
+| `medvox-isotipo.svg` | Solo el símbolo, para espacios cuadrados |
+
+En pantalla usa `<Logo className="h-8" />` (`src/components/ui/Logo.tsx`): la altura va en `className` y las clases `.logo-*` de `ds.css` muestran la variante clara, la oscura o la monocroma según el tema y al imprimir.
+
 ## Reglas que respeta
 
-- Nada clínico sale del navegador hasta autorizar. El borrador vive en `vozclinica:borrador:<pacienteId>` y la corrección en `vozclinica:correccion:<notaId>`; el audio vive solo en memoria y se descarta después de procesarlo.
+- Nada clínico sale del navegador hasta autorizar. El borrador vive en `medvox:borrador:<pacienteId>` y la corrección en `medvox:correccion:<notaId>`; el audio vive solo en memoria y se descarta después de procesarlo.
 - La identificación es de solo lectura: viene de la API.
 - Un campo vacío se ve como "— Sin información"; "Negado" es un estado distinto.
 - Corregir no sobrescribe: cada corrección autorizada crea una versión nueva.

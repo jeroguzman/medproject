@@ -42,7 +42,7 @@ def _unir_tokens(tokens: list[dict[str, Any]]) -> str:
 
 
 def normalizar_respuesta(respuesta: dict[str, Any], modo: str) -> dict[str, Any]:
-    """Adapta la respuesta de Scribe al contrato de VozClínica.
+    """Adapta la respuesta de Scribe al contrato de MedVox.
 
     HABLANTE_1/2 designan turnos acústicos, NO roles clínicos verificados.
     """

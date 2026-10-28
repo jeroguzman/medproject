@@ -131,7 +131,7 @@ redirecciones incorrectas. No se habilita confianza genérica en encabezados ext
 ```bash
 python manage.py collectstatic --noinput
 python manage.py check --deploy
-python -m gunicorn vozclinica.wsgi:application --bind 0.0.0.0:8000
+python -m gunicorn medvox.wsgi:application --bind 0.0.0.0:8000
 ```
 
 Estos comandos corresponden al runtime del proveedor, con sus variables ya

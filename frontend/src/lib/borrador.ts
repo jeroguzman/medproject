@@ -84,7 +84,7 @@ export function hayTrabajoSinAutorizar(): boolean {
 }
 
 /** Evento que avisa a las pantallas abiertas que ya no deben volver a guardar su borrador. */
-export const EVENTO_DESCARTAR_TODO = "vozclinica:descartar-todo";
+export const EVENTO_DESCARTAR_TODO = "medvox:descartar-todo";
 
 export function descartarTodoElTrabajo(): void {
   window.dispatchEvent(new Event(EVENTO_DESCARTAR_TODO));

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vozclinica.serializers import StrictSerializerMixin
+from medvox.serializers import StrictSerializerMixin
 
 from cuentas.models import Medico
 

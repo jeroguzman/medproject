@@ -14,7 +14,7 @@ para orden, contratos y criterios de cierre.
 
 ## Phase 1: Setup — estructura y dependencias
 
-- [x] T001 Crear el esqueleto Django 5.2/Python 3.12 en `backend/manage.py`, `backend/vozclinica/` y apps `backend/cuentas/`, `backend/pacientes/`, `backend/notas/`; resolver dependencias del plan y fijar versiones compatibles en `backend/requirements.txt`, separando herramientas de prueba en `backend/requirements-dev.txt`.
+- [x] T001 Crear el esqueleto Django 5.2/Python 3.12 en `backend/manage.py`, `backend/medvox/` y apps `backend/cuentas/`, `backend/pacientes/`, `backend/notas/`; resolver dependencias del plan y fijar versiones compatibles en `backend/requirements.txt`, separando herramientas de prueba en `backend/requirements-dev.txt`.
 
 - [x] T003 [P] Definir PostgreSQL 16 para desarrollo/pruebas en `compose.yaml`, con credenciales tomadas de variables locales, comprobación de salud y persistencia solo de la base; documentar acceso a unaccent y creación de base de tests en `docs/DESARROLLO.md`; no iniciar IA ni n8n para esta fase.
 
@@ -22,9 +22,9 @@ para orden, contratos y criterios de cierre.
 
 ## Phase 2: Foundational — base común
 
-- [x] T005 Configurar PostgreSQL, apps, zona America/Mexico_City, idioma es-mx, JWT de acceso de 12 horas sin refresh y autenticación predeterminada en `backend/vozclinica/settings.py`; limitar CORS a orígenes exactos, manejar configuración por entorno y mantener logs sin tokens ni cuerpos clínicos.
+- [x] T005 Configurar PostgreSQL, apps, zona America/Mexico_City, idioma es-mx, JWT de acceso de 12 horas sin refresh y autenticación predeterminada en `backend/medvox/settings.py`; limitar CORS a orígenes exactos, manejar configuración por entorno y mantener logs sin tokens ni cuerpos clínicos.
 
-- [x] T006 Definir errores `{error:{codigo,mensaje}}`, validación con faltantes/detalles, 404 uniforme y permiso de usuario activo con perfil médico en `backend/vozclinica/exceptions.py` y `backend/cuentas/permissions.py`; conectar el manejador en `backend/vozclinica/settings.py` y rutas sin slash final en `backend/vozclinica/urls.py`.
+- [x] T006 Definir errores `{error:{codigo,mensaje}}`, validación con faltantes/detalles, 404 uniforme y permiso de usuario activo con perfil médico en `backend/medvox/exceptions.py` y `backend/cuentas/permissions.py`; conectar el manejador en `backend/medvox/settings.py` y rutas sin slash final en `backend/medvox/urls.py`.
 
 - [x] T009 Preparar descubrimiento de pruebas Django y validación de respuestas contra `specs/001-acceso-pacientes/contracts/openapi.json` en `backend/tests/contracts.py`; fijar herramientas en `backend/requirements-dev.txt`, usar PostgreSQL con base de pruebas aislada y evitar que cero tests cuente como éxito. Coordinar con German los datos de API necesarios para T045.
 
@@ -68,4 +68,4 @@ para orden, contratos y criterios de cierre.
 
 - [x] T040 Verificar todos los endpoints implementados de `specs/001-acceso-pacientes/contracts/openapi.json` con pruebas transversales en `backend/tests/test_contract_security.py`: status/cuerpos, token inválido y permisos médicos, datos internos rechazados, 404 y métodos clínicos de escritura ausentes; si PATCH S no se entrega, registrar explícitamente esa excepción de alcance.
 
-- [ ] T041 Validar configuración de despliegue HTTPS/CORS y ausencia de tokens/cuerpos clínicos en logs; actualizar `docs/DESARROLLO.md` y `backend/vozclinica/settings.py` con configuración segura por entorno, sin elegir ni publicar proveedor no acordado; distinguir comprobación local de verificación HTTPS real y registrar lo que falte en `specs/001-acceso-pacientes/validation/jeroben.md`.
+- [ ] T041 Validar configuración de despliegue HTTPS/CORS y ausencia de tokens/cuerpos clínicos en logs; actualizar `docs/DESARROLLO.md` y `backend/medvox/settings.py` con configuración segura por entorno, sin elegir ni publicar proveedor no acordado; distinguir comprobación local de verificación HTTPS real y registrar lo que falte en `specs/001-acceso-pacientes/validation/jeroben.md`.

@@ -23,7 +23,7 @@ def _evidencia_valida(evidencia: Any, transcripcion: str) -> bool:
     if not isinstance(evidencia, list) or not evidencia:
         return False
     completo = _texto_norm(transcripcion)
-    return all(isinstance(e, str) and len(_texto_norm(e)) >= 3 and _texto_norm(e) in completo for e in evidencia)
+    return all(isinstance(e, str) and len(_texto_norm(e)) >= 3 and f" {_texto_norm(e)} " in f" {completo} " for e in evidencia)
 
 
 def _alerta(tipo: str, campo: str, mensaje: str) -> dict:

@@ -1,0 +1,217 @@
+{
+  "name": "WF-1 | VozClinica | Procesar Audio",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "procesar-audio",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        16
+      ],
+      "id": "05066753-0d35-45ad-920f-98b6e550ba7c",
+      "name": "Webhook",
+      "webhookId": "04a84335-b48d-4f5c-b659-02aae8678e3f"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst item = $input.first();\n\nconst audio = item.binary?.audio;\nconst modo = item.json.body?.modo ?? \"dictado\";\n\nreturn [{\n  json: {\n    ok: Boolean(audio),\n    mensaje: audio\n      ? \"Audio recibido correctamente\"\n      : \"No se encontró el archivo de audio\",\n    modo,\n    archivo: audio?.fileName ?? null,\n    campos_binarios: Object.keys(item.binary ?? {}),\n    t0: Date.now()\n  },\n  binary: item.binary\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        16
+      ],
+      "id": "12e9dabe-0259-407b-aaaf-01353b622c69",
+      "name": "Validar recepción"
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1168,
+        16
+      ],
+      "id": "b512aba1-c0a0-4867-a399-359d2d1a6b4f",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/speech-to-text",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "audio"
+            },
+            {
+              "name": "model_id",
+              "value": "scribe_v2"
+            },
+            {
+              "name": "language_code",
+              "value": "es"
+            },
+            {
+              "name": "diarize",
+              "value": "false"
+            },
+            {
+              "name": "tag_audio_events",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        304,
+        16
+      ],
+      "id": "371eb2d3-d54e-47b1-9aef-6182aac9585d",
+      "name": "ElevenLabs STT"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst stt = $input.first().json;\nconst modo = $('Validar recepción').first().json.modo;\n\nconst segmentos = [];\nconst etiquetas = {};\n\nfor (const w of stt.words ?? []) {\n  if (w.type === 'audio_event') continue;\n\n  if (w.type === 'spacing') {\n    if (segmentos.length > 0) {\n      segmentos[segmentos.length - 1].texto += w.text;\n    }\n    continue;\n  }\n\n  const speakerId = modo === 'consulta'\n    ? (w.speaker_id ?? 'speaker_0')\n    : 'speaker_0';\n\n  if (!etiquetas[speakerId]) {\n    etiquetas[speakerId] =\n      `HABLANTE_${Object.keys(etiquetas).length + 1}`;\n  }\n\n  const hablante = etiquetas[speakerId];\n  const ultimo = segmentos[segmentos.length - 1];\n\n  if (ultimo && ultimo.hablante === hablante) {\n    ultimo.texto += w.text;\n    ultimo.fin = w.end;\n  } else {\n    segmentos.push({\n      hablante,\n      texto: w.text,\n      inicio: w.start,\n      fin: w.end\n    });\n  }\n}\n\nfor (const s of segmentos) {\n  s.texto = s.texto.trim();\n}\n\nconst texto = stt.text ??\n  segmentos.map(s => s.texto).join(' ');\n\nif (!texto.trim()) {\n  throw new Error('Transcripción vacía');\n}\n\nif (segmentos.length === 0) {\n  segmentos.push({\n    hablante: 'HABLANTE_1',\n    texto,\n    inicio: 0,\n    fin: stt.audio_duration_secs ?? null\n  });\n}\n\nconst transcripcionParaLLM = segmentos\n  .map(s => `${s.hablante}: ${s.texto}`)\n  .join('\\n');\n\nreturn [{\n  json: {\n    transcripcion: {\n      texto,\n      segmentos\n    },\n    transcripcion_para_llm: transcripcionParaLLM,\n    duracion_audio_s: stt.audio_duration_secs ?? null,\n    t1: Date.now()\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        16
+      ],
+      "id": "af81b5bf-5004-4464-acb8-772b47adcc56",
+      "name": "Formatear segmentos"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.backboard.io/api/threads/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "=\n{{ JSON.stringify({\n  content: \"TRANSCRIPCIÓN:\\n\" + $json.transcripcion_para_llm,\n  system_prompt: $('Webhook').first().json.body.prompt,\n  llm_provider: \"openai\",\n  model_name: \"gpt-4o\",\n  memory: \"off\",\n  web_search: \"off\",\n  json_output: true,\n  stream: false\n}) }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        752,
+        16
+      ],
+      "id": "89baa861-e324-41b7-b624-6bedf6cdd90c",
+      "name": "Backboard LLM"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst respuesta = $input.first().json;\nconst formato = $('Formatear segmentos').first().json;\n\n// Verificar respuesta de Backboard\nif (respuesta.status !== 'COMPLETED') {\n  throw new Error('La extracción de Backboard no se completó');\n}\n\nif (typeof respuesta.content !== 'string') {\n  throw new Error('Backboard no devolvió contenido de texto');\n}\n\n// Limpiar posibles bloques Markdown\nconst contenido = respuesta.content\n  .trim()\n  .replace(/^```(?:json)?\\s*/i, '')\n  .replace(/\\s*```$/, '')\n  .trim();\n\n// Convertir respuesta a JSON\nlet extraccion;\n\ntry {\n  extraccion = JSON.parse(contenido);\n} catch (error) {\n  throw new Error('Backboard devolvió JSON inválido');\n}\n\n// Comprobar estructura mínima\nif (\n  !extraccion ||\n  typeof extraccion !== 'object' ||\n  Array.isArray(extraccion) ||\n  !extraccion.secciones ||\n  typeof extraccion.secciones !== 'object' ||\n  !extraccion.hablantes ||\n  typeof extraccion.hablantes !== 'object'\n) {\n  throw new Error('La extracción no cumple la estructura mínima');\n}\n\n// Tiempos medidos por el workflow\nconst t0 = $('Validar recepción').first().json.t0;\nconst t1 = formato.t1;\n\nconst msTranscripcion =\n  typeof t0 === 'number' && typeof t1 === 'number'\n    ? Math.max(0, t1 - t0)\n    : null;\n\nconst msExtraccion =\n  typeof t1 === 'number'\n    ? Math.max(0, Date.now() - t1)\n    : null;\n\n// Contrato de respuesta para Django\nreturn [{\n  json: {\n    transcripcion: formato.transcripcion,\n    extraccion_raw: JSON.stringify(extraccion),\n    metricas: {\n      duracion_audio_s: formato.duracion_audio_s,\n      ms_transcripcion: msTranscripcion,\n      ms_extraccion: msExtraccion\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        976,
+        16
+      ],
+      "id": "db314fe8-9c40-47f1-99e3-db5a4d64d1d1",
+      "name": "Preparar respuesta Django."
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validar recepción",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar recepción": {
+      "main": [
+        [
+          {
+            "node": "ElevenLabs STT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ElevenLabs STT": {
+      "main": [
+        [
+          {
+            "node": "Formatear segmentos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear segmentos": {
+      "main": [
+        [
+          {
+            "node": "Backboard LLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Backboard LLM": {
+      "main": [
+        [
+          {
+            "node": "Preparar respuesta Django.",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar respuesta Django.": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "nodeGroups": [],
+  "tags": []
+}

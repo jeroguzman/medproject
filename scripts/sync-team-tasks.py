@@ -52,7 +52,7 @@ def render() -> str:
            "[interfaz](contracts/ui.md) y [quickstart.md](quickstart.md).", "",
            "US1/US2 son P1/M; US3 es P2/S. `[P]` permite trabajo en paralelo una vez",
            "resueltos los prerrequisitos; cada tarea tiene un responsable único. Las rutas",
-           "de aplicación son destinos previstos. Las casillas describen trabajo futuro.", "",
+           "de aplicación indican los entregables; las casillas reflejan su estado verificado.", "",
            "| Miembro | Área | Tareas | Completadas | Fuente editable |",
            "|---|---|---|---|---|"]
     for slug, name, role, count, done, _ in entries:

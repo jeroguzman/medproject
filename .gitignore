@@ -1,0 +1,29 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.ruff_cache/
+.coverage
+htmlcov/
+# Frontend and build outputs
+node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+# Local tools and editors
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+.vscode/
+.idea/
+staticfiles/

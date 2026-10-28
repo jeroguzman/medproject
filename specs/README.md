@@ -3,13 +3,13 @@
 Derivadas de los documentos existentes, 2026-10-28. Estado: borradores revisados documentalmente.
 La funcionalidad 001 tiene [plan técnico](001-acceso-pacientes/plan.md), investigación,
 modelo, contratos y guía de validación. Las demás conservan su especificación.
-La funcionalidad 001 tiene [45 tareas pendientes](001-acceso-pacientes/tasks.md),
+La funcionalidad 001 tiene [45 tareas por responsable](001-acceso-pacientes/tasks.md),
 separadas por miembro: [German](001-acceso-pacientes/tasks/german.md),
 [Jeroben](001-acceso-pacientes/tasks/jeroben.md) y
 [Luis](001-acceso-pacientes/tasks/luis.md). Las listas conservan historias,
 dependencias y validaciones, con [coordinación compartida](001-acceso-pacientes/tasks/coordination.md).
-No se ha generado código
-de aplicación. Frontend y backend compartirán
+El backend tiene 21 tareas de Jeroben completadas y [37 pruebas verificadas](001-acceso-pacientes/validation/jeroben.md);
+la carga de notas de demo y el despliegue HTTPS siguen pendientes. Frontend y backend comparten
 este repositorio, conforme a la decisión del usuario registrada en DECISIONES.md.
 
 ## Funcionalidades

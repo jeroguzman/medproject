@@ -23,6 +23,7 @@ class ContractSecurityTests(APITestCase):
             ("patch", f"/api/pacientes/{self.patient.pk}"),
             ("get", f"/api/pacientes/{self.patient.pk}/notas"),
             ("get", f"/api/notas/{self.note.pk}"),
+            ("post", "/api/ia/procesar"),
         ]
 
     def test_all_clinical_operations_deny_missing_expired_tampered_token(self):

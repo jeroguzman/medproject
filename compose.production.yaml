@@ -15,6 +15,11 @@ x-backend: &backend
     AUTH_PROVIDER: ${AUTH_PROVIDER:-mojoauth}
     MOJOAUTH_API_KEY: ${MOJOAUTH_API_KEY:-}
     MOJOAUTH_API_SECRET: ${MOJOAUTH_API_SECRET:-}
+    IA_ORQUESTADOR: ${IA_ORQUESTADOR:-n8n}
+    N8N_BASE_URL: ${N8N_BASE_URL:-}
+    N8N_SECRET: ${N8N_SECRET:-}
+    ELEVENLABS_API_KEY: ${ELEVENLABS_API_KEY:-}
+    BACKBOARD_API_KEY: ${BACKBOARD_API_KEY:-}
   read_only: true
   tmpfs:
     - /tmp:size=64m,mode=1777

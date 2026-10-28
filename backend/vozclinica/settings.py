@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "cuentas",
     "pacientes",
     "notas",
+    "ia_api",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -96,6 +97,7 @@ REST_FRAMEWORK = {
         "login": "30/minute",
         "mojoauth_start": "10/minute",
         "mojoauth_verify": "30/minute",
+        "ia_procesar": "20/minute",
     },
 }
 SIMPLE_JWT = {"ACCESS_TOKEN_LIFETIME": timedelta(hours=12)}
@@ -150,3 +152,17 @@ if AUTH_PROVIDER == "mojoauth" and not MOJOAUTH_API_KEY:
     raise ImproperlyConfigured(
         "Configura MOJOAUTH_API_KEY para habilitar el acceso por correo."
     )
+
+
+# Procesamiento de audio (docs/equipo/jeroben-backend.md §10). eco: ejemplo fijo;
+# n8n: workflow WF-1; django: ElevenLabs y Backboard directamente (plan C).
+IA_ORQUESTADOR = os.environ.get("IA_ORQUESTADOR", "eco").strip().lower()
+if IA_ORQUESTADOR not in ("eco", "n8n", "django"):
+    raise ImproperlyConfigured("IA_ORQUESTADOR debe ser eco, n8n o django.")
+N8N_BASE_URL = os.environ.get("N8N_BASE_URL", "").strip().rstrip("/")
+N8N_SECRET = os.environ.get("N8N_SECRET", "").strip()
+IA_TIMEOUT_S = 170
+IA_ECO_ESPERA_S = 3
+IA_AUDIO_MAX_BYTES = 50 * 1024 * 1024
+# El audio se procesa en memoria y nunca se escribe en disco ni en la base (D-02).
+FILE_UPLOAD_MAX_MEMORY_SIZE = IA_AUDIO_MAX_BYTES + 1024 * 1024

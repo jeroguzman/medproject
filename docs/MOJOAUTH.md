@@ -88,6 +88,6 @@ las respuestas reales. El código y las pruebas de reto, autorización y concurr
 están preparados. German: verificar en navegador el flujo de correo/código, errores,
 expiración y navegación con el backend real. La interfaz ya compila con ese modo.
 
-Para la demo elegida, audio, procesamiento y autorización de nuevas notas siguen
-pendientes y no se presentan como capacidades operativas de este despliegue.
+Para la demo elegida, la autorización de nuevas notas sigue pendiente y no se
+presenta como capacidad operativa de este despliegue.
 El frontend no usa mocks en el perfil backend seleccionado por el usuario.

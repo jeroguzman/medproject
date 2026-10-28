@@ -149,6 +149,6 @@ MojoAuth y no acreditan la forma real de `/users/status` para proveedores social
 están preparados. German: verificar en navegador el flujo de correo/código, errores,
 expiración y navegación con el backend real. La interfaz ya compila con ese modo.
 
-Para la demo elegida, la autorización de nuevas notas sigue pendiente y no se
-presenta como capacidad operativa de este despliegue.
+Para la demo elegida, las correcciones de notas (nuevas versiones) siguen
+pendientes y no se presentan como capacidad operativa de este despliegue.
 El frontend no usa mocks en el perfil backend seleccionado por el usuario.

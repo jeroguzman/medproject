@@ -16,8 +16,9 @@ no utiliza PostgreSQL administrado y comparte con el servidor su disponibilidad.
 El frontend del mismo repositorio se compila y sirve desde Caddy. Para la demo,
 `https://medvox.tech` aloja la aplicación y `/api/` se dirige al backend del mismo
 origen. No hace falta un subdominio adicional. El modo elegido usa backend real
-y MojoAuth. El procesamiento de audio (`POST /api/ia/procesar`) está integrado;
-la autorización de notas nuevas todavía no.
+y MojoAuth. El procesamiento de audio (`POST /api/ia/procesar`) y la autorización
+de notas nuevas (`POST /api/notas`) están integrados; las correcciones con nuevas
+versiones todavía no.
 
 ## Prerrequisitos del Droplet
 

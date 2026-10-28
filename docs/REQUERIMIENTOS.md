@@ -35,6 +35,9 @@
 | D-09 | Estados de la nota: **Borrador** (solo en el navegador) → **Autorizada** (versión 1) → **Corregida** (versión 2 en adelante). | Unifica la propuesta inicial, la plantilla y el DS |
 | D-10 | El verbo es **"Autorizar"**, no "Firmar": el MVP no tiene firma electrónica. | Plantilla |
 | D-11 | Hay un solo rol: **médico**. Registra pacientes y captura la consulta. | DS (D1, D16) |
+| D-12 | La validación del esquema y los filtros corren en Django, con el paquete Python `ia/vozclinica_ia` (el mismo que usa la evaluación). n8n solo orquesta la transcripción y la llamada al LLM. | Guías del equipo |
+| D-13 | Al LLM no se le envían el nombre ni los datos del paciente: solo la transcripción. La comparación de nombres se hace en Django. | Guías del equipo |
+| D-14 | Reparto: **German** (A) frontend, **Jeroben** (B) backend y despliegue, **Luis** (C) IA. Cada quien tiene su guía en [`equipo/`](equipo/). | Equipo |
 
 ## 3. Alcance
 
@@ -309,9 +312,9 @@ Todos los campos que llena la IA tienen la misma forma:
 
 **Negado no es lo mismo que sin información** (DS §1, "un campo vacío no es un no"). Si el paciente "niega alergias", queda `{"valor": "Negadas", "estado": "negado"}`. Si nadie habló de alergias, queda `{"valor": null, "estado": "sin_informacion"}`.
 
-### 7.4 Ejemplo de respuesta de la IA (extracto)
+### 7.4 Ejemplo de borrador después de los filtros (extracto)
 
-El esquema completo va en `ia/esquemas/formato_clinico_general_v1_1.json` (tarea VC-01).
+El esquema completo va en `ia/esquemas/formato_clinico_general_v1_1.json` (tarea VC-01). El LLM solo devuelve los campos con información; los filtros (§8.3) completan el resto como `sin_informacion` y agregan las `alertas`. La `evidencia` es texto literal, sin la etiqueta del hablante.
 
 ```json
 {
@@ -319,19 +322,20 @@ El esquema completo va en `ia/esquemas/formato_clinico_general_v1_1.json` (tarea
   "version": "1.1",
   "modo_captura": "consulta",
   "paciente_mencionado": "María Fernanda García",
+  "hablantes": { "HABLANTE_1": "medico", "HABLANTE_2": "paciente" },
   "secciones": {
     "motivo_padecimiento": {
       "motivo_consulta": {
         "valor": "Me duele mucho la garganta y tengo calentura",
         "estado": "referido",
-        "evidencia": ["PACIENTE: me duele mucho la garganta y tengo calentura desde el lunes"]
+        "evidencia": ["me duele mucho la garganta y tengo calentura desde el lunes"]
       },
       "padecimiento_actual": {
         "valor": "Odinofagia y fiebre desde el lunes. Se automedicó con paracetamol 500 mg cada 8 h, con mejoría parcial.",
         "estado": "referido",
         "evidencia": [
-          "PACIENTE: me duele mucho la garganta y tengo calentura desde el lunes",
-          "PACIENTE: me tomé paracetamol de 500 cada 8 horas y sí me bajó un poco"
+          "me duele mucho la garganta y tengo calentura desde el lunes",
+          "me tomé paracetamol de 500 cada 8 horas y sí me bajó un poco"
         ]
       }
     },
@@ -339,23 +343,23 @@ El esquema completo va en `ia/esquemas/formato_clinico_general_v1_1.json` (tarea
       "alergias": {
         "valor": "Penicilina (ronchas)",
         "estado": "referido",
-        "evidencia": ["PACIENTE: soy alérgica a la penicilina, me salen ronchas"]
+        "evidencia": ["a la penicilina, me salen ronchas"]
       },
       "heredofamiliares": { "valor": null, "estado": "sin_informacion", "evidencia": null }
     },
     "signos_vitales": {
       "temperatura": {
         "valor": 38.4, "unidad": "°C", "estado": "medido",
-        "evidencia": ["MÉDICO: trae 38.4 de temperatura"]
+        "evidencia": ["trae 38.4 de temperatura"]
       },
       "presion_arterial": {
         "valor": { "sistolica": 148, "diastolica": 92 }, "unidad": "mmHg", "estado": "medido",
-        "evidencia": ["MÉDICO: la presión está en 148 sobre 92"]
+        "evidencia": ["la presión está en 148 sobre 92"]
       }
     },
     "valoracion": {
       "diagnosticos": [
-        { "descripcion": "Faringitis aguda", "condicion": "presuntivo", "evidencia": ["MÉDICO: parece una faringitis"] }
+        { "descripcion": "Faringitis, probablemente viral", "condicion": "presuntivo", "evidencia": ["parece una faringitis, probablemente viral"] }
       ]
     },
     "plan": {
@@ -363,16 +367,18 @@ El esquema completo va en `ia/esquemas/formato_clinico_general_v1_1.json` (tarea
         {
           "medicamento": "Paracetamol", "dosis": "500 mg", "via": "oral",
           "frecuencia": "cada 8 h", "duracion": "3 días",
-          "evidencia": ["MÉDICO: paracetamol de 500 cada 8 horas por 3 días"]
+          "evidencia": ["paracetamol de 500 cada 8 horas por 3 días"]
         }
       ]
     }
   },
   "alertas": [
-    { "tipo": "fuera_de_rango", "campo": "signos_vitales.temperatura", "mensaje": "38.4 °C fuera de rango (36.0–37.5 °C)" }
+    { "tipo": "fuera_de_rango", "severidad": "advertencia", "campo": "signos_vitales.temperatura", "mensaje": "38.4 °C fuera de rango (36.0–37.5 °C)", "bloquea": false }
   ]
 }
 ```
+
+El diagnóstico dice "Faringitis, probablemente viral" y no "Faringitis aguda": "aguda" no se dijo en el audio.
 
 ## 8. IA: componentes y reglas
 
@@ -382,7 +388,7 @@ El esquema completo va en `ia/esquemas/formato_clinico_general_v1_1.json` (tarea
 - **Sin entrenamiento ni fine-tuning:** no cabe en 2 días y no mejora la demo.
 
 ### 8.2 Reglas del prompt de extracción
-1. Usar **solo** lo que se dice en la transcripción. No inferir ni completar con conocimiento médico.
+1. Usar **solo** lo que se dice en la transcripción. No inferir ni completar con conocimiento médico. Sí se puede redactar en lenguaje técnico-médico ("dolor de garganta" → "odinofagia") siempre que no se agregue información.
 2. Distinguir `negado` de `sin_informacion` (§7.3).
 3. Diagnósticos, pronóstico y medicamentos se llenan **solo si el médico los dijo explícitamente**. La IA nunca sugiere.
 4. No calcular ni convertir fechas relativas: "desde el lunes" se queda así.
@@ -395,7 +401,7 @@ El esquema completo va en `ia/esquemas/formato_clinico_general_v1_1.json` (tarea
 
 ### 8.3 Filtros después del LLM (código, no IA)
 
-Se ejecutan en n8n (nodo Code) o en Django:
+Se ejecutan en Django con el paquete `ia/vozclinica_ia` (D-12), tanto si la orquestación va por n8n como si va directa:
 1. Validar el JSON contra el esquema. Si falla, se reintenta una vez; si vuelve a fallar, se devuelve un error.
 2. **Filtro de evidencia:** si una cita no aparece en la transcripción (comparación aproximada, sin acentos ni mayúsculas), el campo se vacía y se agrega la alerta `sin_evidencia`.
 3. Rangos de signos vitales: alertas `valor_imposible` o `fuera_de_rango` (DS 7.3).
@@ -434,7 +440,7 @@ flowchart LR
 |---|---|---|
 | **Lovable** | Genera el frontend en React (Vite, TypeScript, Tailwind, shadcn/ui y lucide). Recibe el DS (§10) y el contrato de API (§9.4). **Hay que pedirle que no use Supabase ni Lovable Cloud:** todo va contra la API de Django (`VITE_API_URL`). | M |
 | **ElevenLabs** | Scribe v2 para transcribir (español, diarización y *keyterms*). TTS para crear los audios sintéticos de prueba y demo. (C) Scribe v2 Realtime para transcribir en vivo. | M |
-| **n8n** | WF-1 `procesar-audio` (M): transcripción → LLM → filtros → respuesta. WF-2 `nota-autorizada` (S): envía la nota a la memoria de Backboard. WF-3 `referencias` (C): Tavily. WF-4 `reportar-error` (C): Linear. **n8n nunca escribe en PostgreSQL.** | M |
+| **n8n** | WF-1 `procesar-audio` (M): transcripción → LLM → respuesta (los filtros corren en Django, D-12). WF-2 `nota-autorizada` (S): envía la nota a la memoria de Backboard. WF-3 `referencias` (C): Tavily. WF-4 `reportar-error` (C): Linear. WF-5 `preguntar-expediente` (S): preguntas a la memoria de Backboard. **n8n nunca escribe en PostgreSQL.** | M |
 | **backboard.io** | LLM de extracción (M), con varios modelos comparados en la misma API (S). Memoria o RAG por paciente para "Pregúntale al expediente", **solo con notas autorizadas** (S). Hay que revisar en su documentación cómo aislar la memoria de cada paciente y si admite salida JSON con esquema. | M / S |
 | **Tavily** | Referencias de apoyo para diagnósticos y medicamentos, limitadas a dominios confiables. **Solo recibe el término clínico, nunca datos del paciente**, y nunca llena campos. | C |
 | **Linear** | Backlog y seguimiento del equipo (§13). (C) Issues automáticos desde "Reportar error de la IA". | M (gestión) |
@@ -449,21 +455,21 @@ sequenceDiagram
     participant EL as ElevenLabs
     participant BB as Backboard
     FE->>API: POST /api/ia/procesar con audio, paciente y modo
-    API->>N: webhook con audio, modo, nombre del paciente y esquema
+    API->>N: webhook con audio, modo, prompt y keyterms, sin datos del paciente
     N->>EL: transcribir en español, con diarización si es Consulta
     EL-->>N: transcripción con hablantes
     N->>BB: prompt de extracción y transcripción
     BB-->>N: JSON
-    N->>N: validar esquema y aplicar filtros
-    N-->>API: transcripción, borrador y alertas
-    API-->>FE: respuesta sin guardar nada
+    N-->>API: transcripción y JSON del LLM
+    API->>API: validar esquema y aplicar filtros
+    API-->>FE: transcripción, borrador y alertas, sin guardar nada
     FE->>FE: guarda el borrador en el navegador
 ```
 
 Notas:
 - La llamada es síncrona. Gunicorn con `--timeout 180`, y el frontend muestra el avance. Objetivo: menos de 60 s por cada 5 min de audio.
 - **Plan B** si el tiempo no alcanza: Django devuelve un `id` de trabajo, guarda el resultado **solo en una caché en memoria** durante 15 min y el frontend consulta hasta que esté listo. La base de datos sigue sin tocarse.
-- **Plan C** si n8n falla en la demo: Django llama directamente a ElevenLabs y Backboard con el mismo contrato (variable `IA_ORQUESTADOR=n8n|django`).
+- **Plan C** si n8n falla en la demo: Django llama directamente a ElevenLabs y Backboard con el mismo contrato (variable `IA_ORQUESTADOR=eco|n8n|django`; `eco` devuelve un JSON de ejemplo para integrar el frontend sin esperar a la IA).
 - En n8n hay que desactivar el guardado de datos de ejecución para que no queden audios ni transcripciones.
 
 ### 9.4 API (Django REST Framework)
@@ -484,16 +490,19 @@ Notas:
 | GET | `/api/notas/{id}/pdf` | PDF de la nota | S |
 | POST | `/api/pacientes/{id}/preguntar` | Pregúntale al expediente | S |
 | GET | `/api/referencias?termino=` | Referencias con Tavily | C |
+| POST | `/api/ia/reportar-error` | Reporta un campo mal llenado por la IA (solo IDs y nombre del campo) | C |
+
+El detalle de cada petición y respuesta está en la [guía de Jeroben](equipo/jeroben-backend.md), §6.
 
 ### 9.5 Modelo de datos
 
 No hay tablas de borradores ni de audio: por D-02 no existen en el servidor.
 
 - **Medico** (extiende el usuario de Django): `nombre_completo`, `cedula_profesional`, `especialidad`.
-- **Paciente**: `numero_expediente` (único, asignado por el sistema, formato `0000-0000`), `nombres`, `apellido_paterno`, `apellido_materno`, `fecha_nacimiento`, `sexo` (`mujer` \| `hombre` \| `no_especificado`), `alergias` (texto; "Sin alergias conocidas" explícito), `tipo_sangre` (opcional), `telefono` (opcional), `creado_por`, `creado_en`.
+- **Paciente**: `numero_expediente` (único, asignado por el sistema, formato `0000-0000`), `nombres`, `apellido_paterno`, `apellido_materno`, `fecha_nacimiento`, `sexo` (`mujer` \| `hombre` \| `no_especificado`), `alergias` (texto; "Sin alergias conocidas" explícito), `tipo_sangre` (opcional), `telefono` (opcional), `memoria_ref` (S: referencia a su memoria en Backboard), `creado_por`, `creado_en`.
 - **Plantilla**: `clave`, `version`, `esquema` (JSON), `activa`.
 - **Nota**: `paciente`, `medico`, `plantilla`, `fecha_consulta`, `hora_atencion`, `tipo_consulta`, `modo_captura` (`dictado` \| `consulta`), `consentimiento_grabacion`, `estado` (`autorizada` \| `corregida`), `version_vigente`, `creada_en`.
-- **VersionNota** (inmutable): `nota`, `numero` (1, 2, 3…), `contenido` (JSON según la plantilla, con `estado`, `evidencia` y `origen` de cada campo), `transcripcion` (texto, P-06), `autorizada_por`, `autorizada_en`, `motivo_cambio` (obligatorio desde la versión 2).
+- **VersionNota** (inmutable): `nota`, `numero` (1, 2, 3…), `contenido` (JSON según la plantilla, con `estado`, `evidencia` y `origen` de cada campo), `transcripcion` (JSON con `texto` y `segmentos` por hablante, P-06), `autorizada_por`, `autorizada_en`, `motivo_cambio` (obligatorio desde la versión 2).
 - **Bitacora** (S): `usuario`, `accion` (`ver` \| `autorizar` \| `corregir` \| `exportar` \| `preguntar`), `entidad`, `entidad_id`, `fecha`.
 
 Reglas:
@@ -587,7 +596,9 @@ Lovable usa Tailwind con shadcn/ui, que leen variables CSS. Hay que pegar `token
 
 ## 13. Plan de trabajo
 
-Equipo: **A**, fullstack (frontend con Lovable) · **B**, fullstack (Django, PostgreSQL, n8n y despliegue) · **C**, especialista en IA (transcripción, prompt, evaluación y Backboard).
+Equipo: **A = German**, fullstack (frontend con Lovable, Linear y coordinación de la demo) · **B = Jeroben**, fullstack (Django, PostgreSQL, infraestructura de n8n y despliegue) · **C = Luis**, IA (esquema, transcripción, prompt, filtros, workflows de n8n, evaluación y Backboard).
+
+Guías individuales: [German](equipo/german-frontend.md) · [Jeroben](equipo/jeroben-backend.md) · [Luis](equipo/luis-ia.md).
 
 ### 13.1 Hitos
 
@@ -626,7 +637,7 @@ Congelar el contrato primero permite que los tres trabajen en paralelo: A con JS
 | VC-20 | Alerta de paciente que no coincide | B + A | S |
 | VC-21 | Validación de signos vitales e IMC | A | S |
 | VC-22 | WF-2 y "Pregúntale al expediente" con Backboard | C + B | S |
-| VC-23 | PDF de la nota autorizada | B | S |
+| VC-23 | PDF de la nota autorizada, como vista de impresión del navegador | A | S |
 | VC-24 | Bitácora | B | S |
 | VC-25 | Referencias con Tavily | C | C |
 | VC-26 | Alerta de alergia contra medicamento | A + B | C |

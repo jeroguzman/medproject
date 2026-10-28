@@ -4,6 +4,43 @@
 >
 > **Versión 1.0 · 28/oct/2026.** Para todo lo que se construye en el hackathon, este documento reemplaza a la propuesta inicial ([`referencias/propuesta-inicial-VozClinica.md`](referencias/propuesta-inicial-VozClinica.md)).
 
+## Contexto en 5 minutos
+
+**Qué es.** VozClínica convierte el audio de una consulta médica en una nota clínica prellenada. La IA transcribe y llena el Formato Clínico General; el médico revisa, corrige y autoriza. Solo lo autorizado entra al expediente.
+
+**El flujo en una línea.** Elegir paciente → grabar (dictado o consulta) → la IA prellena el formato → el médico edita → autoriza → la nota entra al expediente → si hace falta, se corrige y se crea una versión nueva.
+
+**Reglas que no se rompen**
+1. **Nada se guarda antes de autorizar** (D-02). El borrador vive solo en el navegador y el audio nunca se guarda.
+2. **Corregir no sobrescribe** (D-03). Cada corrección autorizada es una versión nueva e inmutable.
+3. **La IA solo usa lo que se dijo.** Negado no es lo mismo que sin información, y la IA no diagnostica, no prescribe ni sugiere.
+4. **La identificación sale del expediente** y es de solo lectura en la nota (P-01).
+5. **Al LLM solo le llega la transcripción** (D-13), nunca datos del paciente.
+6. **Solo datos ficticios** en todo el hackathon.
+
+**Stack y herramientas.** React generado con **Lovable** · **Django** + DRF · **PostgreSQL** · **n8n** orquesta · **ElevenLabs** Scribe v2 transcribe (y su TTS genera los audios de prueba) · **backboard.io** da el LLM y la memoria · **Tavily** busca referencias (opcional) · **Linear** lleva el backlog.
+
+**Equipo**
+
+| Quién | Rol | Guía |
+|---|---|---|
+| German | Frontend con Lovable, Linear y demo | [`equipo/german-frontend.md`](equipo/german-frontend.md) |
+| Jeroben | Backend Django, n8n (infraestructura) y despliegue | [`equipo/jeroben-backend.md`](equipo/jeroben-backend.md) |
+| Luis | IA: esquema, transcripción, prompt, filtros, workflows y evaluación | [`equipo/luis-ia.md`](equipo/luis-ia.md) |
+
+**Qué leer de este documento**
+
+| Quién | Secciones | Tiempo |
+|---|---|---|
+| Todos | Este resumen · §2 Decisiones · §3 Alcance · §5 Flujo y estados · §14 Guion de demo · §16 Pendientes | 10–15 min |
+| German, además | §6 Requerimientos funcionales · §7 Plantilla · §10 Interfaz y design system · §12 Criterios de aceptación | 15 min |
+| Jeroben, además | §6 · §9 Arquitectura (sobre todo 9.3 a 9.6) · §11 No funcionales · §12 | 15 min |
+| Luis, además | §7 Plantilla · §8 IA · §9.2 y 9.3 · §12 | 15 min |
+
+Después, cada quien sigue con su guía: ahí están sus tareas, su plan por hitos y los contratos con los demás.
+
+**Contratos que no se cambian sin avisar a los otros dos:** las claves de los campos (§7.2), la API ([guía de Jeroben, §6](equipo/jeroben-backend.md)), la interfaz del paquete de IA y el webhook de n8n ([guía de Luis, §6 y §10](equipo/luis-ia.md)).
+
 ## 0. Cómo leer este documento
 
 - **Prioridad (MoSCoW):** **M** = indispensable para la demo · **S** = deseable · **C** = opcional, si sobra tiempo · **W** = fuera del hackathon.

@@ -1,0 +1,169 @@
+{
+  "plantilla": "formato_clinico_general",
+  "version": "1.1",
+  "modo_captura": "dictado",
+  "paciente_mencionado": "Juan Pérez",
+  "hablantes": {
+    "HABLANTE_1": "medico"
+  },
+  "secciones": {
+    "motivo_padecimiento": {
+      "motivo_consulta": {
+        "valor": "Dolor lumbar",
+        "estado": "referido",
+        "evidencia": [
+          "Acude por dolor lumbar desde ayer"
+        ]
+      },
+      "padecimiento_actual": {
+        "valor": "Dolor lumbar desde ayer.",
+        "estado": "referido",
+        "evidencia": [
+          "Acude por dolor lumbar desde ayer"
+        ]
+      }
+    },
+    "antecedentes": {
+      "heredofamiliares": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "personales_patologicos": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "personales_no_patologicos": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "alergias": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "medicamentos_actuales": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    },
+    "interrogatorio": {
+      "aparatos_sistemas": {
+        "valor": "Niega fiebre.",
+        "estado": "negado",
+        "evidencia": [
+          "Niega fiebre"
+        ]
+      }
+    },
+    "signos_vitales": {
+      "presion_arterial": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "frecuencia_cardiaca": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "frecuencia_respiratoria": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "temperatura": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "saturacion_o2": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "peso": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "talla": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "otros_parametros": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    },
+    "exploracion_fisica": {
+      "habitus_exterior": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "cabeza_cuello": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "torax_cardiopulmonar": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "abdomen": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "extremidades_otros": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "genitourinario_otros": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    },
+    "estudios": {
+      "estudios_resultados": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    },
+    "valoracion": {
+      "diagnosticos": [],
+      "pronostico": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    },
+    "plan": {
+      "medicamentos": [],
+      "medidas_seguimiento": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    }
+  },
+  "alertas": [
+    {
+      "tipo": "paciente_no_coincide",
+      "severidad": "critica",
+      "campo": null,
+      "mensaje": "El nombre mencionado no coincide con el paciente seleccionado. Confirma la identidad antes de continuar.",
+      "bloquea": true
+    }
+  ]
+}

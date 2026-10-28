@@ -1,0 +1,497 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vozclinica.local/esquemas/formato_clinico_general/1.1",
+  "title": "VozClinica - Formato Clinico General v1.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plantilla",
+    "version",
+    "secciones"
+  ],
+  "properties": {
+    "plantilla": {
+      "const": "formato_clinico_general"
+    },
+    "version": {
+      "const": "1.1"
+    },
+    "modo_captura": {
+      "enum": [
+        "dictado",
+        "consulta"
+      ]
+    },
+    "paciente_mencionado": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "hablantes": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "medico",
+          "paciente",
+          "acompanante",
+          "desconocido"
+        ]
+      }
+    },
+    "secciones": {
+      "$ref": "#/$defs/secciones"
+    },
+    "alertas": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/alerta"
+      }
+    }
+  },
+  "$defs": {
+    "evidencia": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "origen": {
+      "enum": [
+        "ia",
+        "editado",
+        "manual"
+      ]
+    },
+    "campoTexto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valor",
+        "estado",
+        "evidencia"
+      ],
+      "properties": {
+        "valor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "estado": {
+          "enum": [
+            "referido",
+            "negado",
+            "sin_informacion"
+          ]
+        },
+        "evidencia": {
+          "$ref": "#/$defs/evidencia"
+        },
+        "origen": {
+          "$ref": "#/$defs/origen"
+        }
+      }
+    },
+    "campoVital": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valor",
+        "estado",
+        "evidencia"
+      ],
+      "properties": {
+        "valor": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "unidad": {
+          "type": "string"
+        },
+        "estado": {
+          "enum": [
+            "medido",
+            "referido",
+            "sin_informacion"
+          ]
+        },
+        "evidencia": {
+          "$ref": "#/$defs/evidencia"
+        },
+        "origen": {
+          "$ref": "#/$defs/origen"
+        }
+      }
+    },
+    "campoPresion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valor",
+        "estado",
+        "evidencia"
+      ],
+      "properties": {
+        "valor": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "sistolica",
+                "diastolica"
+              ],
+              "properties": {
+                "sistolica": {
+                  "type": "integer"
+                },
+                "diastolica": {
+                  "type": "integer"
+                }
+              }
+            }
+          ]
+        },
+        "unidad": {
+          "type": "string"
+        },
+        "estado": {
+          "enum": [
+            "medido",
+            "referido",
+            "sin_informacion"
+          ]
+        },
+        "evidencia": {
+          "$ref": "#/$defs/evidencia"
+        },
+        "origen": {
+          "$ref": "#/$defs/origen"
+        }
+      }
+    },
+    "diagnostico": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "descripcion",
+        "condicion",
+        "evidencia"
+      ],
+      "properties": {
+        "descripcion": {
+          "type": "string",
+          "minLength": 2
+        },
+        "condicion": {
+          "enum": [
+            "confirmado",
+            "presuntivo",
+            "por_determinar"
+          ]
+        },
+        "cie10": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidencia": {
+          "$ref": "#/$defs/evidencia"
+        },
+        "origen": {
+          "$ref": "#/$defs/origen"
+        }
+      }
+    },
+    "medicamento": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "medicamento",
+        "dosis",
+        "via",
+        "frecuencia",
+        "duracion",
+        "evidencia"
+      ],
+      "properties": {
+        "medicamento": {
+          "type": "string",
+          "minLength": 2
+        },
+        "dosis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "via": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "frecuencia": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "duracion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidencia": {
+          "$ref": "#/$defs/evidencia"
+        },
+        "origen": {
+          "$ref": "#/$defs/origen"
+        }
+      }
+    },
+    "alerta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tipo",
+        "severidad",
+        "campo",
+        "mensaje",
+        "bloquea"
+      ],
+      "properties": {
+        "tipo": {
+          "type": "string",
+          "minLength": 2
+        },
+        "severidad": {
+          "enum": [
+            "critica",
+            "advertencia",
+            "info"
+          ]
+        },
+        "campo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mensaje": {
+          "type": "string"
+        },
+        "bloquea": {
+          "type": "boolean"
+        }
+      }
+    },
+    "secciones": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "motivo_padecimiento",
+        "antecedentes",
+        "interrogatorio",
+        "signos_vitales",
+        "exploracion_fisica",
+        "estudios",
+        "valoracion",
+        "plan"
+      ],
+      "properties": {
+        "motivo_padecimiento": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "motivo_consulta",
+            "padecimiento_actual"
+          ],
+          "properties": {
+            "motivo_consulta": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "padecimiento_actual": {
+              "$ref": "#/$defs/campoTexto"
+            }
+          }
+        },
+        "antecedentes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "heredofamiliares",
+            "personales_patologicos",
+            "personales_no_patologicos",
+            "alergias",
+            "medicamentos_actuales"
+          ],
+          "properties": {
+            "heredofamiliares": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "personales_patologicos": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "personales_no_patologicos": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "alergias": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "medicamentos_actuales": {
+              "$ref": "#/$defs/campoTexto"
+            }
+          }
+        },
+        "interrogatorio": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "aparatos_sistemas"
+          ],
+          "properties": {
+            "aparatos_sistemas": {
+              "$ref": "#/$defs/campoTexto"
+            }
+          }
+        },
+        "signos_vitales": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "presion_arterial",
+            "frecuencia_cardiaca",
+            "frecuencia_respiratoria",
+            "temperatura",
+            "saturacion_o2",
+            "peso",
+            "talla",
+            "otros_parametros"
+          ],
+          "properties": {
+            "presion_arterial": {
+              "$ref": "#/$defs/campoPresion"
+            },
+            "frecuencia_cardiaca": {
+              "$ref": "#/$defs/campoVital"
+            },
+            "frecuencia_respiratoria": {
+              "$ref": "#/$defs/campoVital"
+            },
+            "temperatura": {
+              "$ref": "#/$defs/campoVital"
+            },
+            "saturacion_o2": {
+              "$ref": "#/$defs/campoVital"
+            },
+            "peso": {
+              "$ref": "#/$defs/campoVital"
+            },
+            "talla": {
+              "$ref": "#/$defs/campoVital"
+            },
+            "otros_parametros": {
+              "$ref": "#/$defs/campoTexto"
+            }
+          }
+        },
+        "exploracion_fisica": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "habitus_exterior",
+            "cabeza_cuello",
+            "torax_cardiopulmonar",
+            "abdomen",
+            "extremidades_otros",
+            "genitourinario_otros"
+          ],
+          "properties": {
+            "habitus_exterior": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "cabeza_cuello": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "torax_cardiopulmonar": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "abdomen": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "extremidades_otros": {
+              "$ref": "#/$defs/campoTexto"
+            },
+            "genitourinario_otros": {
+              "$ref": "#/$defs/campoTexto"
+            }
+          }
+        },
+        "estudios": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "estudios_resultados"
+          ],
+          "properties": {
+            "estudios_resultados": {
+              "$ref": "#/$defs/campoTexto"
+            }
+          }
+        },
+        "valoracion": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "diagnosticos",
+            "pronostico"
+          ],
+          "properties": {
+            "diagnosticos": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/diagnostico"
+              }
+            },
+            "pronostico": {
+              "$ref": "#/$defs/campoTexto"
+            }
+          }
+        },
+        "plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "medicamentos",
+            "medidas_seguimiento"
+          ],
+          "properties": {
+            "medicamentos": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/medicamento"
+              }
+            },
+            "medidas_seguimiento": {
+              "$ref": "#/$defs/campoTexto"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "plantilla": "formato_clinico_general",
+  "version": "1.1",
+  "modo_captura": "consulta",
+  "paciente_mencionado": "María Fernanda García",
+  "hablantes": {
+    "HABLANTE_1": "medico",
+    "HABLANTE_2": "paciente"
+  },
+  "secciones": {
+    "motivo_padecimiento": {
+      "motivo_consulta": {
+        "valor": "Me duele mucho la garganta y tengo calentura",
+        "estado": "referido",
+        "evidencia": [
+          "Me duele mucho la garganta y tengo calentura desde el lunes"
+        ]
+      },
+      "padecimiento_actual": {
+        "valor": "Dolor de garganta y fiebre referidos desde el lunes. Automedicación con paracetamol de 500 mg cada 8 h, con mejoría parcial.",
+        "estado": "referido",
+        "evidencia": [
+          "Me duele mucho la garganta y tengo calentura desde el lunes",
+          "Me tomé paracetamol de quinientos cada ocho horas y sí me bajó un poco"
+        ]
+      }
+    },
+    "antecedentes": {
+      "heredofamiliares": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "personales_patologicos": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "personales_no_patologicos": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "alergias": {
+        "valor": "Penicilina; le produce ronchas.",
+        "estado": "referido",
+        "evidencia": [
+          "a la penicilina, me salen ronchas"
+        ]
+      },
+      "medicamentos_actuales": {
+        "valor": "Se automedicó con paracetamol 500 mg cada 8 h.",
+        "estado": "referido",
+        "evidencia": [
+          "Me tomé paracetamol de quinientos cada ocho horas y sí me bajó un poco"
+        ]
+      }
+    },
+    "interrogatorio": {
+      "aparatos_sistemas": {
+        "valor": "Niega tos; refiere escurrimiento nasal leve.",
+        "estado": "referido",
+        "evidencia": [
+          "Tos no, nada más un poquito de moco"
+        ]
+      }
+    },
+    "signos_vitales": {
+      "presion_arterial": {
+        "valor": {
+          "sistolica": 148,
+          "diastolica": 92
+        },
+        "estado": "medido",
+        "evidencia": [
+          "La presión está en ciento cuarenta y ocho sobre noventa y dos"
+        ],
+        "unidad": "mmHg"
+      },
+      "frecuencia_cardiaca": {
+        "valor": 88,
+        "estado": "medido",
+        "evidencia": [
+          "Frecuencia cardiaca de ochenta y ocho por minuto"
+        ],
+        "unidad": "lpm"
+      },
+      "frecuencia_respiratoria": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "temperatura": {
+        "valor": 38.4,
+        "estado": "medido",
+        "evidencia": [
+          "treinta y ocho punto cuatro de temperatura"
+        ],
+        "unidad": "°C"
+      },
+      "saturacion_o2": {
+        "valor": 97,
+        "estado": "medido",
+        "evidencia": [
+          "Saturación de noventa y siete por ciento"
+        ],
+        "unidad": "%"
+      },
+      "peso": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "talla": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "otros_parametros": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    },
+    "exploracion_fisica": {
+      "habitus_exterior": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "cabeza_cuello": {
+        "valor": "Amígdalas hipertróficas y enrojecidas, sin placas. Ganglios cervicales pequeños y dolorosos.",
+        "estado": "referido",
+        "evidencia": [
+          "Las amígdalas están hipertróficas y enrojecidas, sin placas",
+          "En el cuello hay ganglios pequeños, dolorosos"
+        ]
+      },
+      "torax_cardiopulmonar": {
+        "valor": "Pulmones bien ventilados, sin ruidos agregados.",
+        "estado": "referido",
+        "evidencia": [
+          "Pulmones bien ventilados, sin ruidos agregados"
+        ]
+      },
+      "abdomen": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "extremidades_otros": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      },
+      "genitourinario_otros": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    },
+    "estudios": {
+      "estudios_resultados": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    },
+    "valoracion": {
+      "diagnosticos": [
+        {
+          "descripcion": "Faringitis, probablemente viral",
+          "condicion": "presuntivo",
+          "evidencia": [
+            "Parece una faringitis, probablemente viral"
+          ]
+        }
+      ],
+      "pronostico": {
+        "valor": null,
+        "estado": "sin_informacion",
+        "evidencia": null
+      }
+    },
+    "plan": {
+      "medicamentos": [
+        {
+          "medicamento": "Paracetamol",
+          "dosis": "500 mg",
+          "via": null,
+          "frecuencia": "cada 8 h",
+          "duracion": "3 días",
+          "evidencia": [
+            "paracetamol de quinientos cada ocho horas por tres días"
+          ]
+        }
+      ],
+      "medidas_seguimiento": {
+        "valor": "Líquidos y reposo. Regresar si continúa con fiebre o presenta dificultad para tragar en 48 horas.",
+        "estado": "referido",
+        "evidencia": [
+          "mucho líquido y reposo",
+          "Si en cuarenta y ocho horas sigue con fiebre o le cuesta tragar, regresa"
+        ]
+      }
+    }
+  },
+  "alertas": [
+    {
+      "tipo": "fuera_de_rango",
+      "severidad": "advertencia",
+      "campo": "signos_vitales.temperatura",
+      "mensaje": "38.4 °C supera la referencia de ejemplo para adultos (36.0–37.5 °C). Requiere revisión médica.",
+      "bloquea": false
+    }
+  ]
+}

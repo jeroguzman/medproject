@@ -4,6 +4,7 @@ import os
 import sys
 from datetime import timedelta
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
@@ -97,6 +98,8 @@ REST_FRAMEWORK = {
         "login": "30/minute",
         "mojoauth_start": "10/minute",
         "mojoauth_verify": "30/minute",
+        "mojoauth_social_start": "20/minute",
+        "mojoauth_social_verify": "30/minute",
         "ia_procesar": "20/minute",
     },
 }
@@ -151,6 +154,23 @@ MOJOAUTH_API_SECRET = os.environ.get("MOJOAUTH_API_SECRET", "")
 if AUTH_PROVIDER == "mojoauth" and not MOJOAUTH_API_KEY:
     raise ImproperlyConfigured(
         "Configura MOJOAUTH_API_KEY para habilitar el acceso por correo."
+    )
+# Acceso con Google o Facebook mediante MojoAuth. La URL de regreso la fija el
+# servidor (nunca el navegador) y debe estar autorizada en el proyecto de MojoAuth.
+MOJOAUTH_SOCIAL_PROVIDERS = [p.lower() for p in csv_env("MOJOAUTH_SOCIAL_PROVIDERS")]
+if set(MOJOAUTH_SOCIAL_PROVIDERS) - {"google", "facebook"}:
+    raise ImproperlyConfigured("MOJOAUTH_SOCIAL_PROVIDERS admite google y facebook.")
+MOJOAUTH_REDIRECT_URL = os.environ.get("MOJOAUTH_REDIRECT_URL", "").strip()
+_regreso = urlsplit(MOJOAUTH_REDIRECT_URL)
+if MOJOAUTH_REDIRECT_URL and (
+    _regreso.scheme not in (("https", "http") if DEBUG else ("https",))
+    or not _regreso.hostname
+    or _regreso.username
+    or _regreso.query
+    or _regreso.fragment
+):
+    raise ImproperlyConfigured(
+        "MOJOAUTH_REDIRECT_URL debe ser una URL HTTPS sin query ni fragmento."
     )
 
 

@@ -53,6 +53,7 @@ values = {
     "AUTH_PROVIDER": args.auth_provider,
     "MOJOAUTH_API_KEY": "",
     "MOJOAUTH_API_SECRET": "",
+    "MOJOAUTH_SOCIAL_PROVIDERS": "google,facebook",
     "IA_ORQUESTADOR": "n8n",
     "N8N_BASE_URL": "",
     "N8N_SECRET": "",

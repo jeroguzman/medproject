@@ -15,6 +15,8 @@ x-backend: &backend
     AUTH_PROVIDER: ${AUTH_PROVIDER:-mojoauth}
     MOJOAUTH_API_KEY: ${MOJOAUTH_API_KEY:-}
     MOJOAUTH_API_SECRET: ${MOJOAUTH_API_SECRET:-}
+    MOJOAUTH_SOCIAL_PROVIDERS: ${MOJOAUTH_SOCIAL_PROVIDERS:-google,facebook}
+    MOJOAUTH_REDIRECT_URL: https://${API_DOMAIN}/login/social
     IA_ORQUESTADOR: ${IA_ORQUESTADOR:-n8n}
     N8N_BASE_URL: ${N8N_BASE_URL:-}
     N8N_SECRET: ${N8N_SECRET:-}
@@ -94,6 +96,7 @@ services:
         VITE_API_URL: ""
         VITE_USAR_MOCKS: ${FRONTEND_MOCKS:-false}
         VITE_AUTH_PROVIDER: ${AUTH_PROVIDER:-mojoauth}
+        VITE_MOJOAUTH_SOCIAL: ${MOJOAUTH_SOCIAL_PROVIDERS:-google,facebook}
     restart: unless-stopped
     environment:
       API_DOMAIN: ${API_DOMAIN:?Configura API_DOMAIN}

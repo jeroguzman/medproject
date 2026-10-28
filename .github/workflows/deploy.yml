@@ -60,6 +60,7 @@ jobs:
         env:
           VITE_USAR_MOCKS: 'false'
           VITE_AUTH_PROVIDER: mojoauth
+          VITE_MOJOAUTH_SOCIAL: google,facebook
           VITE_API_URL: ''
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

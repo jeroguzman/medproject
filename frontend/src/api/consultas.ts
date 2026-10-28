@@ -15,6 +15,7 @@ import type {
   RespuestaReferencias,
   VersionNueva,
 } from "@/api/tipos";
+import type { ProveedorSocial } from "@/config";
 import type { ModoCaptura } from "@/plantilla/valores";
 
 export const claves = {
@@ -144,5 +145,19 @@ export function solicitarCodigoMojoAuth(email: string) {
 export function confirmarCodigoMojoAuth(challenge_id: string, otp: string) {
   return pedir<RespuestaLogin>("/api/auth/mojoauth/verify", {
     metodo: "POST", cuerpo: { challenge_id, otp },
+  });
+}
+
+/** Acceso con Google o Facebook: Django crea el flujo y la URL de MojoAuth. */
+export function iniciarAccesoSocial(proveedor: ProveedorSocial) {
+  return pedir<{ flujo: string; url: string; expires_in: number }>("/api/auth/mojoauth/social/start", {
+    metodo: "POST", cuerpo: { proveedor },
+  });
+}
+
+/** Django confirma con MojoAuth el state_id con el que volvió el navegador. */
+export function confirmarAccesoSocial(flujo: string, state_id: string) {
+  return pedir<RespuestaLogin>("/api/auth/mojoauth/social/verify", {
+    metodo: "POST", cuerpo: { flujo, state_id },
   });
 }

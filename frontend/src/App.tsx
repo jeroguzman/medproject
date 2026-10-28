@@ -8,6 +8,7 @@ import { RutaProtegida } from "@/components/layout/RutaProtegida";
 import Consulta from "@/pages/Consulta";
 import Expediente from "@/pages/Expediente";
 import Login from "@/pages/Login";
+import LoginSocial from "@/pages/LoginSocial";
 import NoEncontrada from "@/pages/NoEncontrada";
 import NotaCorregir from "@/pages/NotaCorregir";
 import NotaImprimir from "@/pages/NotaImprimir";
@@ -31,6 +32,7 @@ export default function App() {
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/login/social" element={<LoginSocial />} />
           <Route element={<RutaProtegida />}>
             <Route path="/notas/:id/imprimir" element={<NotaImprimir />} />
             <Route element={<AppLayout />}>

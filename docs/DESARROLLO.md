@@ -61,7 +61,7 @@ python manage.py cargar_demo --solo-medicos
 | POSTGRES_DB / POSTGRES_USER / POSTGRES_PASSWORD / POSTGRES_PORT | Servicio local de Compose |
 
 German usa VITE_API_URL con la URL pública del backend, sin ninguna clave privada.
-El origen localhost:5173 del configurador es solo un valor inicial de desarrollo;
+El origen localhost:8080 del configurador es solo un valor inicial de desarrollo;
 German debe comunicar los orígenes exactos de cada entorno antes de integrarlo.
 No usar `*` para CORS ni pasar credenciales de IA al frontend.
 

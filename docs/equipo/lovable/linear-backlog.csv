@@ -1,0 +1,190 @@
+Title,Description,Priority,Status,Assignee,Labels
+Esquema JSON de la plantilla v1.1 (ia/esquemas/) y 2 respuestas de ejemplo,"ID del plan: VC-01
+
+Responsable: Luis (C)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/luis-ia.md §5
+
+Hecho cuando: El esquema y procesar_faringitis.json están en el repo y German los usa.",High,Todo,Luis,ia
+"Proyecto Django con DRF, JWT, PostgreSQL y CORS; despliegue","ID del plan: VC-02
+
+Responsable: Jeroben (B)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/jeroben-backend.md §7 y §13
+
+Hecho cuando: /api/salud responde { ok: true } en el ambiente desplegado con HTTPS.",High,Todo,Jeroben,backend
+Modelos (§9.5) y datos ficticios precargados,"ID del plan: VC-03
+
+Responsable: Jeroben (B)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/jeroben-backend.md §8 y §9
+
+Hecho cuando: cargar_demo crea médicos, pacientes y notas sin duplicar; --reiniciar deja todo listo.",High,Todo,Jeroben,backend
+"Endpoints de pacientes, historial y plantilla","ID del plan: VC-04
+
+Responsable: Jeroben (B)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/jeroben-backend.md §6
+
+Hecho cuando: Responden con el contrato de la §6; la búsqueda ignora acentos.",High,Todo,Jeroben,backend
+"Proyecto en Lovable con los tokens del DS, layout de escritorio e inicio de sesión","ID del plan: VC-05
+
+Responsable: German (A)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/lovable/README.md, prompts 1 a 3
+
+Hecho cuando: Inicio de sesión con la API y layout con riel en la consulta.",High,Todo,German,frontend
+"Pantallas de pacientes: lista, búsqueda, registro mínimo y expediente","ID del plan: VC-06
+
+Responsable: German (A)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/lovable/README.md, prompts 4 y 5
+
+Hecho cuando: RF-03 a RF-06: búsqueda sin acentos, duplicados antes de registrar, historial.",High,Todo,German,frontend
+"Pantalla de consulta: cabecera, índice de secciones y formulario completo con JSON de ejemplo","ID del plan: VC-07
+
+Responsable: German (A)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/lovable/README.md, prompt 6
+
+Hecho cuando: Todos los tipos de campo con su origen; CA-04.",High,Todo,German,frontend
+"Borrador en el navegador: autoguardado, indicador y descartar","ID del plan: VC-08
+
+Responsable: German (A)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/lovable/README.md, prompt 7
+
+Hecho cuando: CA-03: al recargar, el borrador sigue ahí.",High,Todo,German,frontend
+"Grabadora y subida de archivo, con modos y consentimiento","ID del plan: VC-09
+
+Responsable: German (A)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/lovable/README.md, prompt 8
+
+Hecho cuando: CA-10: en modo Consulta no se graba sin consentimiento.",High,Todo,German,frontend
+Probar ElevenLabs Scribe con audio real en español y keyterms,"ID del plan: VC-10
+
+Responsable: Luis (C)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/luis-ia.md §7
+
+Hecho cuando: transcripcion.json del caso 01 con diarización revisada.",High,Todo,Luis,ia
+"Guiones de 4 a 6 consultas, audios con TTS y JSON esperado","ID del plan: VC-11
+
+Responsable: Luis (C)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/luis-ia.md §11
+
+Hecho cuando: Caso 01 completo el día 1; los demás el día 2.",High,Todo,Luis,ia
+Prompt de extracción en Backboard (§8.2),"ID del plan: VC-12
+
+Responsable: Luis (C)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/luis-ia.md §8
+
+Hecho cuando: pipeline.py extrae el caso 01 con JSON válido.",High,Todo,Luis,ia
+"Workflow WF-1 procesar-audio en n8n, con los filtros (§8.3)","ID del plan: VC-13
+
+Responsable: Luis (C) + Jeroben (B)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/luis-ia.md §10 y docs/equipo/jeroben-backend.md §12
+
+Hecho cuando: WF-1 activo, exportado en n8n/ y con el contrato de la §10.",High,Todo,Luis,"ia, backend"
+Endpoint /api/ia/procesar (pasa la petición a n8n sin guardar nada),"ID del plan: VC-14
+
+Responsable: Jeroben (B)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/jeroben-backend.md §10
+
+Hecho cuando: CA-02: procesar no crea registros en la base de datos.",High,Todo,Jeroben,backend
+"Integrar ""Procesar"" con el borrador y las insignias de origen","ID del plan: VC-15
+
+Responsable: German (A)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/lovable/README.md, prompt 8
+
+Hecho cuando: CA-01 e hito 1: audio de prueba → formulario lleno con insignias IA.",High,Todo,German,frontend
+"Autorizar: validación, diálogo y POST /api/notas","ID del plan: VC-16
+
+Responsable: German (A) + Jeroben (B)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/lovable/README.md, prompt 11, y docs/equipo/jeroben-backend.md §11
+
+Hecho cuando: CA-06, CA-07 y CA-08.",High,Todo,German,"frontend, backend"
+Corrección con versiones y vista de versiones,"ID del plan: VC-17
+
+Responsable: German (A) + Jeroben (B)
+Prioridad: M (indispensable para la demo)
+Guía: docs/equipo/lovable/README.md, prompts 12 y 13, y docs/equipo/jeroben-backend.md §11
+
+Hecho cuando: CA-09: la versión 2 tiene motivo y la 1 no cambia.",High,Todo,German,"frontend, backend"
+Script de evaluación y comparación de modelos,"ID del plan: VC-18
+
+Responsable: Luis (C)
+Prioridad: S (deseable)
+Guía: docs/equipo/luis-ia.md §12
+
+Hecho cuando: Tabla de resultados en ia/evaluacion/resultados/ con 0 datos inventados.",Medium,Todo,Luis,ia
+Evidencia por campo y panel de transcripción,"ID del plan: VC-19
+
+Responsable: German (A) + Luis (C)
+Prioridad: S (deseable)
+Guía: docs/equipo/lovable/README.md, prompt 9
+
+Hecho cuando: RF-27: al enfocar un campo se resalta su cita.",Medium,Todo,German,"frontend, ia"
+Alerta de paciente que no coincide,"ID del plan: VC-20
+
+Responsable: Jeroben (B) + German (A)
+Prioridad: S (deseable)
+Guía: docs/equipo/jeroben-backend.md §10 y docs/equipo/lovable/README.md, prompt 10
+
+Hecho cuando: CA-11: la alerta bloquea autorizar.",Medium,Todo,Jeroben,"backend, frontend"
+Validación de signos vitales e IMC,"ID del plan: VC-21
+
+Responsable: German (A)
+Prioridad: S (deseable)
+Guía: docs/equipo/lovable/README.md, prompts 6 y 10
+
+Hecho cuando: RF-28: imposible bloquea, fuera de rango avisa; IMC calculado.",Medium,Todo,German,frontend
+"WF-2 y ""Pregúntale al expediente"" con Backboard","ID del plan: VC-22
+
+Responsable: Luis (C) + Jeroben (B)
+Prioridad: S (deseable)
+Guía: docs/equipo/luis-ia.md §13 y docs/equipo/lovable/README.md, prompt 15
+
+Hecho cuando: RF-38: responde solo con notas autorizadas y cita la fuente.",Medium,Todo,Luis,"ia, backend"
+"PDF de la nota autorizada, como vista de impresión del navegador","ID del plan: VC-23
+
+Responsable: German (A)
+Prioridad: S (deseable)
+Guía: docs/equipo/lovable/README.md, prompt 14
+
+Hecho cuando: RF-42: imprimir o guardar como PDF desde la nota.",Medium,Todo,German,frontend
+Bitácora,"ID del plan: VC-24
+
+Responsable: Jeroben (B)
+Prioridad: S (deseable)
+Guía: docs/equipo/jeroben-backend.md §8
+
+Hecho cuando: RF-43: quién vio, autorizó, corrigió o exportó cada nota.",Medium,Todo,Jeroben,backend
+Referencias con Tavily,"ID del plan: VC-25
+
+Responsable: Luis (C)
+Prioridad: C (opcional)
+Guía: docs/equipo/luis-ia.md §13 y docs/equipo/lovable/README.md, prompt 16
+
+Hecho cuando: RF-39: solo viaja el término, nunca datos del paciente.",Low,Todo,Luis,ia
+Alerta de alergia contra medicamento,"ID del plan: VC-26
+
+Responsable: German (A) + Jeroben (B)
+Prioridad: C (opcional)
+Guía: docs/equipo/lovable/README.md, prompt 10
+
+Hecho cuando: RF-40: la alerta aparece en el renglón del medicamento.",Low,Todo,German,"frontend, backend"
+"Guion de demo, video de respaldo y pitch","ID del plan: VC-27
+
+Responsable: Todos (coordina German)
+Prioridad: M (indispensable para la demo)
+Guía: docs/REQUERIMIENTOS.md §14
+
+Hecho cuando: Ensayo 2 o 3 veces y video de respaldo grabado 3 h antes de la entrega.",High,Todo,German,demo

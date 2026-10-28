@@ -1,6 +1,6 @@
 # Validación de Jeroben — backend de acceso y pacientes
 
-Fecha: 2026-10-28. Código local, sin commit ni push de esta implementación.
+Fecha: 2026-10-28. Evidencia de la implementación de backend antes de su publicación en PR.
 Backend ejecutado con Python 3.12.14, Django 5.2.18 y PostgreSQL 16 en Docker.
 Dependencias fijadas en requirements; configuración local ignorada por Git.
 
@@ -63,7 +63,8 @@ seis fichas precargadas. Las pruebas automatizadas no dependen de ese registro.
   en logs están configurados y probados localmente. Falta verificar HTTPS/CORS en
   proveedor y dominio reales, aún no definidos. `check --deploy` y el cliente de
   pruebas no acreditan TLS de red ni una publicación.
-- Frontend, aceptación E2E de German y contrato completo de Luis no ejecutados.
+- Frontend de referencia recibido desde main; no se ejecutó su integración ni la
+  aceptación E2E de German. El contrato completo de Luis sigue pendiente.
   La funcionalidad 001 integrada sigue pendiente de esas entregas.
 - No se implementaron captura/IA ni escrituras de autorización/corrección de
   notas: pertenecen a las funcionalidades posteriores.

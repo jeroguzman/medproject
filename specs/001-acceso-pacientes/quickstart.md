@@ -2,8 +2,8 @@
 
 El backend ya está implementado: 37 pruebas pasan sobre PostgreSQL 16 y se verificó
 la API mediante HTTP real. Consulta [la evidencia](validation/jeroben.md) y la
-[preparación reproducible](../../docs/DESARROLLO.md). El frontend y las notas de demo
-con el esquema completo siguen pendientes; los comandos E2E son una guía futura.
+[preparación reproducible](../../docs/DESARROLLO.md). `main` ya incluye un frontend de referencia; su integración con esta API y las notas
+de demo con el esquema completo siguen pendientes. Los comandos E2E son una guía futura.
 
 ## Prerrequisitos
 

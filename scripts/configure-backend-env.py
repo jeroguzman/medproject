@@ -11,7 +11,7 @@ values = {
     "POSTGRES_PORT": "55432",
     "DEBUG": "true",
     "ALLOWED_HOSTS": "127.0.0.1,localhost",
-    "CORS_ALLOWED_ORIGINS": "http://localhost:5173",
+    "CORS_ALLOWED_ORIGINS": "http://localhost:8080",
 }
 if path.exists():
     print("backend/.env ya existe; se conserva sin modificar.")

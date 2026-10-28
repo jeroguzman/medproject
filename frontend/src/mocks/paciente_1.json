@@ -1,0 +1,14 @@
+{
+  "id": 1,
+  "numero_expediente": "0004-8217",
+  "nombres": "María Fernanda",
+  "apellido_paterno": "García",
+  "apellido_materno": "López",
+  "fecha_nacimiento": "1992-03-12",
+  "sexo": "mujer",
+  "alergias": "Penicilina (urticaria generalizada)",
+  "tipo_sangre": "O+",
+  "telefono": null,
+  "ultima_consulta": "2026-08-14",
+  "total_notas": 3
+}

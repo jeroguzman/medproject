@@ -1,0 +1,32 @@
+[
+  {
+    "id": 12,
+    "fecha_consulta": "2026-08-14",
+    "hora_atencion": "10:30",
+    "tipo_consulta": "seguimiento",
+    "diagnostico_principal": "Faringitis, probablemente viral",
+    "estado": "corregida",
+    "version_vigente": 2,
+    "medico": "Dra. Paula Méndez Ortiz"
+  },
+  {
+    "id": 11,
+    "fecha_consulta": "2026-02-03",
+    "hora_atencion": "09:15",
+    "tipo_consulta": "seguimiento",
+    "diagnostico_principal": "Control anual sin hallazgos relevantes",
+    "estado": "autorizada",
+    "version_vigente": 1,
+    "medico": "Dra. Paula Méndez Ortiz"
+  },
+  {
+    "id": 10,
+    "fecha_consulta": "2025-09-21",
+    "hora_atencion": "17:40",
+    "tipo_consulta": "primera_vez",
+    "diagnostico_principal": "Infección de vías urinarias",
+    "estado": "autorizada",
+    "version_vigente": 1,
+    "medico": "Dr. Ernesto Salas Ibarra"
+  }
+]

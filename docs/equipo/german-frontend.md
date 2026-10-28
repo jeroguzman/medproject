@@ -73,10 +73,10 @@ Pega un prompt a la vez y revisa el resultado antes del siguiente. Lovable guard
 
 **Prompt 1: base del proyecto**
 ```text
-Crea una aplicación web llamada VozClínica con React, TypeScript, Vite, Tailwind, shadcn/ui, lucide-react, react-router y TanStack Query.
+Crea una aplicación web llamada MedVox con React, TypeScript, Vite, Tailwind, shadcn/ui, lucide-react, react-router y TanStack Query.
 IMPORTANTE: no uses Supabase, ni Lovable Cloud, ni ningún backend propio. Todos los datos vienen de una API REST externa.
 - Crea src/config.ts con API_URL (string) y USAR_MOCKS (boolean).
-- Crea src/api/cliente.ts: un fetch que antepone API_URL, agrega "Authorization: Bearer <token>" (token guardado en localStorage con la clave "vozclinica:token"), convierte errores HTTP en excepciones con el JSON { error: { codigo, mensaje } } y redirige a /login si recibe 401.
+- Crea src/api/cliente.ts: un fetch que antepone API_URL, agrega "Authorization: Bearer <token>" (token guardado en localStorage con la clave "medvox:token"), convierte errores HTTP en excepciones con el JSON { error: { codigo, mensaje } } y redirige a /login si recibe 401.
 - Si USAR_MOCKS es true, el cliente responde con los archivos JSON de src/mocks/ en lugar de llamar a la red.
 - Toda la interfaz va en español de México, tratando de "tú" al usuario. Se diseña primero para escritorio de 1366 × 768.
 - Muestra siempre una etiqueta pequeña y fija con el texto "Datos ficticios".
@@ -102,9 +102,9 @@ Aplica el design system que te doy abajo.
 ```text
 - Pantalla /login con usuario, contraseña y el botón "Iniciar sesión". Permite pegar y usar gestores de contraseñas. Llama a POST /api/auth/login, que responde { access, medico }, y guarda access como token.
 - Rutas protegidas: sin token, redirige a /login.
-- Layout autenticado: barra superior de 48 px con "VozClínica", el nombre del médico (GET /api/auth/me) y "Cerrar sesión". Navegación lateral con "Pacientes".
+- Layout autenticado: barra superior de 48 px con "MedVox", el nombre del médico (GET /api/auth/me) y "Cerrar sesión". Navegación lateral con "Pacientes".
 - En la pantalla de consulta, la navegación se reduce a un riel de 88 px con icono y etiqueta.
-- Al cerrar sesión, si existe alguna clave de localStorage que empiece con "vozclinica:borrador:" o "vozclinica:correccion:", pregunta antes con un diálogo: "Tienes un borrador sin autorizar. Si cierras sesión se pierde." con los botones "Seguir trabajando" y "Descartar y salir".
+- Al cerrar sesión, si existe alguna clave de localStorage que empiece con "medvox:borrador:" o "medvox:correccion:", pregunta antes con un diálogo: "Tienes un borrador sin autorizar. Si cierras sesión se pierde." con los botones "Seguir trabajando" y "Descartar y salir".
 ```
 
 **Prompt 4: pacientes y expediente**
@@ -139,7 +139,7 @@ Junto con este prompt pega el archivo de la §8.
 **Prompt 6: borrador en el navegador**
 ```text
 Implementa el borrador local de la consulta con estas reglas exactas:
-- Clave de localStorage: "vozclinica:borrador:<pacienteId>". Un borrador por paciente.
+- Clave de localStorage: "medvox:borrador:<pacienteId>". Un borrador por paciente.
 - Estructura: { version_formato: 1, paciente_id, plantilla: { clave: "formato_clinico_general", version: "1.1" }, identificacion: { fecha_consulta, hora_atencion, tipo_consulta }, modo_captura, consentimiento_grabacion, secciones, transcripcion: { texto, segmentos }, alertas, alertas_resueltas, actualizado_en }.
 - Se guarda 500 ms después de cada cambio y se vuelve a cargar al abrir la pantalla.
 - El audio NUNCA se guarda en localStorage.
@@ -177,7 +177,7 @@ Sección 09 "Revisión y autorización":
 **Prompt 9: ver nota, versiones y corregir**
 ```text
 - /notas/:id (GET /api/notas/:id): cabecera de paciente, insignia de estado y la versión vigente del formato completo en solo lectura. Panel de versiones con número, fecha, autor y motivo; al elegir una versión anterior se muestra en solo lectura con el aviso "Versión anterior · no vigente".
-- Botón "Corregir" que abre /notas/:id/corregir: copia de trabajo guardada en localStorage con la clave "vozclinica:correccion:<notaId>", con la insignia "Corrección sin autorizar". Mismo formulario y mismas reglas de origen.
+- Botón "Corregir" que abre /notas/:id/corregir: copia de trabajo guardada en localStorage con la clave "medvox:correccion:<notaId>", con la insignia "Corrección sin autorizar". Mismo formulario y mismas reglas de origen.
 - "Autorizar corrección" pide en el diálogo el campo obligatorio "Motivo del cambio" y llama a POST /api/notas/:id/versiones con { contenido, motivo_cambio, version_base }.
 - Con 201: borra la copia de trabajo y vuelve a /notas/:id. Con 409: "La nota cambió mientras la corregías. Recarga para ver la versión vigente."
 - Botón "Imprimir" que abre /notas/:id/imprimir: diseño parecido a la plantilla en papel, sin navegación, y llama a window.print().
@@ -338,7 +338,7 @@ Cuando la API esté lista, cambia a `USAR_MOCKS = false` pantalla por pantalla.
 
 ## 13. Linear (primera hora)
 
-1. Crea el equipo **VozClínica** con la clave **`VC`**, para que los issues se numeren VC-1, VC-2… igual que el backlog.
+1. Crea el equipo **MedVox** con la clave **`VC`**, para que los issues se numeren VC-1, VC-2… igual que el backlog.
 2. Crea los issues **en el orden** de REQUERIMIENTOS §13.2 para que coincidan los números.
 3. Etiquetas: `frontend`, `backend`, `ia`, `demo`. Prioridades: M → Alta, S → Media, C → Baja.
 4. Asigna cada tarea según la columna "Resp." (A = German, B = Jeroben, C = Luis).

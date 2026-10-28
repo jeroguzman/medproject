@@ -6,6 +6,7 @@ import { useNota } from "@/api/consultas";
 import { NotaLectura } from "@/components/nota/NotaLectura";
 import { Aviso } from "@/components/ui/Aviso";
 import { Esqueleto } from "@/components/ui/Esqueleto";
+import { Logo } from "@/components/ui/Logo";
 import { useTitulo } from "@/hooks/useTitulo";
 import {
   edadEnAnios,
@@ -77,7 +78,8 @@ export default function NotaImprimir() {
 
       <header className="mb-4 flex items-end justify-between border-b-2 border-texto pb-2">
         <div>
-          <p className="t-caption uppercase tracking-wide text-texto-muted">VozClínica · Nota de consulta</p>
+          <Logo className="mb-3 flex h-8" />
+          <p className="t-caption uppercase tracking-wide text-texto-muted">Nota de consulta</p>
           <h1 className="t-title-lg">Formato Clínico General</h1>
         </div>
         <p className="t-body-sm text-right text-texto-muted">
@@ -134,7 +136,7 @@ export default function NotaImprimir() {
       </section>
 
       <footer className="t-caption mt-8 border-t border-border pt-2 text-texto-muted">
-        Datos ficticios · Documento generado por VozClínica el {formatearFechaHora(new Date().toISOString())}. La autorización electrónica de esta nota
+        Datos ficticios · Documento generado por MedVox el {formatearFechaHora(new Date().toISOString())}. La autorización electrónica de esta nota
         no sustituye una firma electrónica avanzada.
       </footer>
     </div>

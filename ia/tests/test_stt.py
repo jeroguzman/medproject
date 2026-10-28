@@ -1,7 +1,7 @@
 """Pruebas SIN llamadas a ElevenLabs ni claves."""
 import unittest
 
-from vozclinica_ia.stt import formatear_para_llm, normalizar_respuesta
+from medvox_ia.stt import formatear_para_llm, normalizar_respuesta
 
 
 class PruebasScribe(unittest.TestCase):

@@ -29,7 +29,7 @@ describe("acceso social", () => {
   });
 
   it("ignora datos dañados y almacenamiento bloqueado", () => {
-    almacenamiento().set("vozclinica:flujo-social", "{no es json");
+    almacenamiento().set("medvox:flujo-social", "{no es json");
     expect(tomarFlujoSocial()).toBeNull();
     vi.stubGlobal("sessionStorage", {
       setItem: () => {

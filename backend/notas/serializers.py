@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
 from cuentas.serializers import MedicoSerializer
+from medvox.serializers import StrictSerializerMixin
 from notas.models import Nota, Plantilla, VersionNota
 from pacientes.serializers import PacienteSerializer
 from pacientes.views import pacientes_queryset
-from vozclinica.serializers import StrictSerializerMixin
 
 CAMPOS_SEGMENTO = {"hablante", "rol", "texto", "inicio", "fin", "audio"}
 

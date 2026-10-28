@@ -14,7 +14,7 @@ class DeploymentTests(TestCase):
 
     def test_readiness_reports_database_unavailable_without_details(self):
         with patch(
-            "vozclinica.health.connection.cursor",
+            "medvox.health.connection.cursor",
             side_effect=DatabaseError("private-detail"),
         ):
             response = self.client.get("/healthz")

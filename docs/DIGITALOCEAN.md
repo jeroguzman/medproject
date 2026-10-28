@@ -51,6 +51,12 @@ contraseñas de DigitalOcean ni tokens por chat.
 
 ## Primera instalación (después del inventario)
 
+> El sistema se llama MedVox, pero la carpeta `/opt/vozclinica`, el proyecto de Compose
+> `vozclinica-production` (prefijo de los volúmenes con la base de datos y los certificados)
+> y la base y el usuario `vozclinica` conservan el nombre provisional porque el Droplet ya
+> los usa. Cambiarlos sin migrar crearía volúmenes vacíos; renómbralos solo con una
+> migración coordinada (respaldo, restauración y ajuste del workflow de despliegue).
+
 Clonar el repositorio en un directorio dedicado, por ejemplo `/opt/vozclinica`, con
 un mecanismo GitHub autorizado en el Droplet. No escribir tokens en URLs de clonación.
 Usar el commit revisado que contiene `compose.production.yaml`, sin reutilizar otro
@@ -107,7 +113,7 @@ disco o base de datos. `IA_ORQUESTADOR` en `.env.production` elige cómo:
 
 | Valor | Qué hace | Variables necesarias |
 |---|---|---|
-| `n8n` (predeterminado) | Envía el audio al workflow WF-1 (`/webhook/procesar-audio`) y aplica los filtros de Django | `N8N_BASE_URL` (por ejemplo `https://tu-espacio.app.n8n.cloud`, sin `/webhook`) y `N8N_SECRET` (el mismo de la credencial `X-VozClinica-Secret`) |
+| `n8n` (predeterminado) | Envía el audio al workflow WF-1 (`/webhook/procesar-audio`) y aplica los filtros de Django | `N8N_BASE_URL` (por ejemplo `https://tu-espacio.app.n8n.cloud`, sin `/webhook`) y `N8N_SECRET` (el mismo de la credencial `X-MedVox-Secret`) |
 | `django` | Plan C: llama a ElevenLabs y Backboard desde Django, sin n8n | `ELEVENLABS_API_KEY` y `BACKBOARD_API_KEY` |
 | `eco` | Espera 3 s y devuelve el caso de ejemplo de faringitis, sin importar el audio | Ninguna. Solo para integración; no presentarlo como procesamiento real |
 

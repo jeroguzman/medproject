@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "VozClínica — acceso y pacientes",
+    "title": "MedVox — acceso y pacientes",
     "version": "0.1.0",
     "description": "Diseño de 001, derivado de guía backend §6. Rutas sin slash final, UTF-8, fechas ISO, horas HH:MM y eventos con zona. Métodos para autorizar/corregir pertenecen a 004/005 y no se implementan aquí. 403/no_encontrado y validación de campos internos son precisiones de este diseño, no respuestas ya verificadas."
   },

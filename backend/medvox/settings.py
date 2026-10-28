@@ -52,7 +52,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-ROOT_URLCONF = "vozclinica.urls"
+ROOT_URLCONF = "medvox.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -67,7 +67,7 @@ TEMPLATES = [
         },
     }
 ]
-WSGI_APPLICATION = "vozclinica.wsgi.application"
+WSGI_APPLICATION = "medvox.wsgi.application"
 if not os.environ.get("DATABASE_URL"):
     raise ImproperlyConfigured("Configura DATABASE_URL de PostgreSQL.")
 DATABASES = {
@@ -91,7 +91,7 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
         "cuentas.permissions.EsMedico",
     ],
-    "EXCEPTION_HANDLER": "vozclinica.exceptions.api_exception_handler",
+    "EXCEPTION_HANDLER": "medvox.exceptions.api_exception_handler",
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
     "DEFAULT_THROTTLE_RATES": {

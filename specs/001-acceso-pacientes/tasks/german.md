@@ -27,13 +27,13 @@ para orden, contratos y criterios de cierre.
 
 ## Phase 3: User Story 1 — Acceder como médico (P1 / M)
 
-- [ ] T011 [P] [US1] Escribir pruebas de login, rutas protegidas y salida en `frontend/src/features/auth/auth.test.tsx`: token `vozclinica:token`, claves `vozclinica:borrador:`/`vozclinica:correccion:`, cancelar conserva todo, confirmar elimina trabajo/token/caché, 401 no descarta borradores y no duplica escrituras.
+- [ ] T011 [P] [US1] Escribir pruebas de login, rutas protegidas y salida en `frontend/src/features/auth/auth.test.tsx`: token `medvox:token`, claves `medvox:borrador:`/`medvox:correccion:`, cancelar conserva todo, confirmar elimina trabajo/token/caché, 401 no descarta borradores y no duplica escrituras.
 
 - [ ] T015 [US1] Implementar estado de sesión y conexión con cliente HTTP en `frontend/src/features/auth/session.ts` y `frontend/src/api/auth.ts`; restaurar token, consumir me y limpiar token/cachés ante 401 manteniendo borradores locales; no presentar salida local como revocación del JWT emitido.
 
 - [ ] T016 [US1] Crear `/login`, protección de rutas y layout autenticado en `frontend/src/pages/LoginPage.tsx`, `frontend/src/components/AppLayout.tsx` y `frontend/src/app/router.tsx`; mostrar médico, cédula, Cerrar sesión y Datos ficticios; permitir pegar contraseñas y mostrar errores accesibles; usar página de destino provisional sin fingir lista de pacientes disponible.
 
-- [ ] T017 [US1] Implementar confirmación Seguir trabajando / Descartar y salir en `frontend/src/components/LogoutDialog.tsx` y `frontend/src/features/auth/logout.ts`; eliminar solo claves de trabajo de VozClínica al confirmar, token y cachés, sin modificar notas del servidor; integrar con `frontend/src/components/AppLayout.tsx`.
+- [ ] T017 [US1] Implementar confirmación Seguir trabajando / Descartar y salir en `frontend/src/components/LogoutDialog.tsx` y `frontend/src/features/auth/logout.ts`; eliminar solo claves de trabajo de MedVox al confirmar, token y cachés, sin modificar notas del servidor; integrar con `frontend/src/components/AppLayout.tsx`.
 
 - [ ] T018 [US1] Ejecutar tests de US1 y agregar recorrido integrado con API real en `frontend/e2e/auth.spec.ts`; cubrir acceso válido, inválido, teclado y salida con borrador sintético local; registrar comandos/conteos/resultados en `specs/001-acceso-pacientes/validation/german.md`, distinguiendo lo ejecutado de lo pendiente. German escribe las pruebas frontend; Jeroben proporciona API, base de pruebas y resultados de suites backend. La tarea se completa solo con la evidencia de ambas partes requerida por el escenario.
 

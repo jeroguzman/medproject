@@ -45,11 +45,11 @@ export const LIMITES = {
 } as const;
 
 export const CLAVES_STORAGE = {
-  token: "vozclinica:token",
-  prefijoBorrador: "vozclinica:borrador:",
-  prefijoCorreccion: "vozclinica:correccion:",
-  mockDb: "vozclinica:mock:db",
-  flujoSocial: "vozclinica:flujo-social",
+  token: "medvox:token",
+  prefijoBorrador: "medvox:borrador:",
+  prefijoCorreccion: "medvox:correccion:",
+  mockDb: "medvox:mock:db",
+  flujoSocial: "medvox:flujo-social",
 } as const;
 
 /** Solo el proveedor de acceso; las credenciales permanecen en Django. */

@@ -13,13 +13,13 @@ El código se implementará en `frontend/` de medproject por instrucción del us
 ## Sesión
 
 Consumir login y me; enviar Bearer en peticiones clínicas. La guía establece
-`vozclinica:token` en localStorage; este almacenamiento no es inmune a XSS.
+`medvox:token` en localStorage; este almacenamiento no es inmune a XSS.
 No registrar tokens ni cuerpos clínicos, ni renderizar HTML arbitrario.
 Sin token, redirigir a /login. Ante 401, borrar token y cachés clínicas de interfaz
 y pedir acceso de nuevo; no reenviar escrituras automáticamente ni descartar
 el borrador por una expiración de sesión.
 
-Cerrar sesión busca claves `vozclinica:borrador:` y `vozclinica:correccion:`.
+Cerrar sesión busca claves `medvox:borrador:` y `medvox:correccion:`.
 Si existen, ofrecer Seguir trabajando / Descartar y salir. Cancelar conserva sesión
 y trabajo; confirmar elimina esas claves, token y cachés y vuelve al login.
 Sin trabajo local salir directamente. El JWT emitido sigue válido hasta su

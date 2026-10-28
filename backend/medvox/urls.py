@@ -2,8 +2,8 @@ from django.urls import include, path
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from vozclinica.exceptions import not_found
-from vozclinica.health import readiness
+from medvox.exceptions import not_found
+from medvox.health import readiness
 
 
 @api_view(["GET"])

@@ -1,5 +1,5 @@
 ﻿import unittest
-from vozclinica_ia.filtros import _evidencia_valida
+from medvox_ia.filtros import _evidencia_valida
 
 
 class PruebasLimitesEvidencia(unittest.TestCase):

@@ -7,7 +7,7 @@ import sys
 import time
 from pathlib import Path
 
-from vozclinica_ia.stt import ErrorTranscripcion, formatear_para_llm, transcribir
+from medvox_ia.stt import ErrorTranscripcion, formatear_para_llm, transcribir
 
 
 def main() -> int:

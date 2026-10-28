@@ -176,7 +176,7 @@ class ProcesarTests(APITestCase):
         self.assertEqual(response.status_code, 200, response.content)
         args, kwargs = post.call_args
         self.assertEqual(args[0], "https://n8n.example.test/webhook/procesar-audio")
-        self.assertEqual(kwargs["headers"]["X-VozClinica-Secret"], "secreto-ficticio")
+        self.assertEqual(kwargs["headers"]["X-MedVox-Secret"], "secreto-ficticio")
         self.assertEqual(kwargs["data"]["modo"], "consulta")
         self.assertIn("consulta", kwargs["data"]["prompt"])
         self.assertEqual(kwargs["files"]["audio"][1], b"audio-ficticio")
@@ -297,7 +297,7 @@ class ProcesarTests(APITestCase):
     )
     @patch("ia_api.servicio.stt.transcribir")
     def test_django_mode_failures(self, transcribir):
-        from vozclinica_ia.stt import ErrorTranscripcion
+        from medvox_ia.stt import ErrorTranscripcion
 
         transcribir.side_effect = ErrorTranscripcion("Falta clave en PowerShell")
         response = self.procesar()

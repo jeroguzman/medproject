@@ -2,8 +2,8 @@
 
 from django.db import transaction
 from django.utils import timezone
+from medvox_ia.esquema import cargar, validar_contenido
 from rest_framework.exceptions import ValidationError
-from vozclinica_ia.esquema import cargar, validar_contenido
 
 from notas.models import Nota, Plantilla, VersionNota
 

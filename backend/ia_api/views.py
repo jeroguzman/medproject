@@ -11,8 +11,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ia_api import servicio
+from medvox.serializers import StrictSerializerMixin
 from pacientes.models import Paciente
-from vozclinica.serializers import StrictSerializerMixin
 
 EXTENSIONES_AUDIO = {".mp3", ".m4a", ".wav", ".webm", ".ogg", ".oga", ".mp4", ".aac"}
 

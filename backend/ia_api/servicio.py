@@ -10,7 +10,7 @@ import time
 
 import requests
 from django.conf import settings
-from vozclinica_ia import extraccion, filtros, stt
+from medvox_ia import extraccion, filtros, stt
 
 MENSAJE_FALLO = (
     "El servicio de IA no respondió bien. Tu audio sigue aquí: puedes reintentar."
@@ -84,7 +84,7 @@ def con_n8n(audio, nombre, tipo, modo):
         respuesta = requests.post(
             base + "/webhook/procesar-audio",
             headers={
-                "X-VozClinica-Secret": settings.N8N_SECRET,
+                "X-MedVox-Secret": settings.N8N_SECRET,
                 "Accept": "application/json",
             },
             data={

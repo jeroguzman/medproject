@@ -1,8 +1,8 @@
-# VozClínica: requerimientos del MVP
+# MedVox: requerimientos del MVP
 
 > Asistente de documentación clínica por voz · Hackathon de 2 días · Equipo de 3
 >
-> **Versión 1.0 · 28/oct/2026.** Para todo lo que se construye en el hackathon, este documento reemplaza a la propuesta inicial ([`referencias/propuesta-inicial-VozClinica.md`](referencias/propuesta-inicial-VozClinica.md)).
+> **Versión 1.0 · 28/oct/2026.** Para todo lo que se construye en el hackathon, este documento reemplaza a la propuesta inicial ([`referencias/propuesta-inicial-MedVox.md`](referencias/propuesta-inicial-MedVox.md)).
 
 ## 0. Cómo leer este documento
 
@@ -35,7 +35,7 @@
 | D-09 | Estados de la nota: **Borrador** (solo en el navegador) → **Autorizada** (versión 1) → **Corregida** (versión 2 en adelante). | Unifica la propuesta inicial, la plantilla y el DS |
 | D-10 | El verbo es **"Autorizar"**, no "Firmar": el MVP no tiene firma electrónica. | Plantilla |
 | D-11 | Hay un solo rol: **médico**. Registra pacientes y captura la consulta. | DS (D1, D16) |
-| D-12 | La validación del esquema y los filtros corren en Django, con el paquete Python `ia/vozclinica_ia` (el mismo que usa la evaluación). n8n solo orquesta la transcripción y la llamada al LLM. | Guías del equipo |
+| D-12 | La validación del esquema y los filtros corren en Django, con el paquete Python `ia/medvox_ia` (el mismo que usa la evaluación). n8n solo orquesta la transcripción y la llamada al LLM. | Guías del equipo |
 | D-13 | Al LLM no se le envían el nombre ni los datos del paciente: solo la transcripción. La comparación de nombres se hace en Django. | Guías del equipo |
 | D-14 | Reparto: **German** (A) frontend, **Jeroben** (B) backend y despliegue, **Luis** (C) IA. Cada quien tiene su guía en [`equipo/`](equipo/). | Equipo |
 
@@ -227,7 +227,7 @@ Si se descarta una corrección, la nota se queda como estaba.
 
 ## 7. Plantilla: Formato Clínico General v1.1 en versión digital
 
-Fuente: [`referencias/VozClinica_Formato_Clinico_General_v1_1.docx`](referencias/VozClinica_Formato_Clinico_General_v1_1.docx). Equivalencia con SOAP: 02–04 = Subjetivo · 05–06 = Objetivo · 07 = Análisis · 08 = Plan.
+Fuente: [`referencias/MedVox_Formato_Clinico_General_v1_1.docx`](referencias/MedVox_Formato_Clinico_General_v1_1.docx). Equivalencia con SOAP: 02–04 = Subjetivo · 05–06 = Objetivo · 07 = Análisis · 08 = Plan.
 
 ### 7.1 Secciones y navegación
 
@@ -401,7 +401,7 @@ El diagnóstico dice "Faringitis, probablemente viral" y no "Faringitis aguda": 
 
 ### 8.3 Filtros después del LLM (código, no IA)
 
-Se ejecutan en Django con el paquete `ia/vozclinica_ia` (D-12), tanto si la orquestación va por n8n como si va directa:
+Se ejecutan en Django con el paquete `ia/medvox_ia` (D-12), tanto si la orquestación va por n8n como si va directa:
 1. Validar el JSON contra el esquema. Si falla, se reintenta una vez; si vuelve a fallar, se devuelve un error.
 2. **Filtro de evidencia:** si una cita no aparece en la transcripción (comparación aproximada, sin acentos ni mayúsculas), el campo se vacía y se agrega la alerta `sin_evidencia`.
 3. Rangos de signos vitales: alertas `valor_imposible` o `fuera_de_rango` (DS 7.3).
@@ -436,7 +436,7 @@ flowchart LR
 
 ### 9.2 Herramientas del hackathon
 
-| Herramienta | Uso en VozClínica | Prio. |
+| Herramienta | Uso en MedVox | Prio. |
 |---|---|---|
 | **Lovable** | Genera el frontend en React (Vite, TypeScript, Tailwind, shadcn/ui y lucide). Recibe el DS (§10) y el contrato de API (§9.4). **Hay que pedirle que no use Supabase ni Lovable Cloud:** todo va contra la API de Django (`VITE_API_URL`). | M |
 | **ElevenLabs** | Scribe v2 para transcribir (español, diarización y *keyterms*). TTS para crear los audios sintéticos de prueba y demo. (C) Scribe v2 Realtime para transcribir en vivo. | M |
@@ -690,7 +690,7 @@ Mientras no se resuelvan, se trabaja con la recomendación.
 
 ## 17. Referencias
 
-- [`referencias/VozClinica_Formato_Clinico_General_v1_1.docx`](referencias/VozClinica_Formato_Clinico_General_v1_1.docx): plantilla en papel.
+- [`referencias/MedVox_Formato_Clinico_General_v1_1.docx`](referencias/MedVox_Formato_Clinico_General_v1_1.docx): plantilla en papel.
 - [`referencias/design-system-clinico-v0.4.html`](referencias/design-system-clinico-v0.4.html): design system (se abre en el navegador).
-- [`referencias/propuesta-inicial-VozClinica.md`](referencias/propuesta-inicial-VozClinica.md): propuesta original del proyecto.
+- [`referencias/propuesta-inicial-MedVox.md`](referencias/propuesta-inicial-MedVox.md): propuesta original del proyecto.
 - NOM-004-SSA3-2012 (expediente clínico) y NOM-024-SSA3-2012 (sistemas de información de registro electrónico para la salud).

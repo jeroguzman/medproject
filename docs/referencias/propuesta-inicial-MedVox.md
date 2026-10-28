@@ -1,4 +1,4 @@
-# VozClínica
+# MedVox
 ## Asistente Inteligente de Documentación Médica mediante Inteligencia Artificial
 
 **Proyecto para Hackatón**
@@ -11,7 +11,7 @@
 
 ## 1. Descripción general del proyecto
 
-**VozClínica** es un asistente basado en inteligencia artificial diseñado para automatizar la elaboración de reportes médicos y facilitar la actualización de expedientes clínicos mediante comandos de voz.
+**MedVox** es un asistente basado en inteligencia artificial diseñado para automatizar la elaboración de reportes médicos y facilitar la actualización de expedientes clínicos mediante comandos de voz.
 
 La solución busca que los profesionales de la salud puedan documentar una consulta médica sin necesidad de escribir manualmente toda la información.
 
@@ -362,7 +362,7 @@ La herramienta estará diseñada como asistente de documentación, no como siste
 
 ## 12. Propuesta de valor
 
-VozClínica busca transformar la manera en que los profesionales de la salud documentan sus consultas.
+MedVox busca transformar la manera en que los profesionales de la salud documentan sus consultas.
 
 ### Beneficios potenciales
 
@@ -396,7 +396,7 @@ La innovación está en integrar varias capacidades en un mismo flujo de trabajo
 
 **Voz → Comprensión del contenido → Estructuración clínica → Validación médica → Vinculación con el paciente → Actualización del expediente.**
 
-Mientras un transcriptor tradicional convierte palabras habladas en texto, VozClínica busca convertir el dictado del médico en documentación clínica organizada y lista para incorporarse al expediente después de ser autorizada.
+Mientras un transcriptor tradicional convierte palabras habladas en texto, MedVox busca convertir el dictado del médico en documentación clínica organizada y lista para incorporarse al expediente después de ser autorizada.
 
 ## 14. Indicadores de éxito del hackatón
 
@@ -415,7 +415,7 @@ Los valores y mejoras reales se determinarán mediante pruebas controladas.
 
 ## 15. Pitch del proyecto
 
-**VozClínica: menos tiempo escribiendo, más tiempo atendiendo.**
+**MedVox: menos tiempo escribiendo, más tiempo atendiendo.**
 
 > Imaginemos a un médico que termina de atender a su paciente y, en lugar de dedicar varios minutos a redactar una nota clínica, simplemente habla.
 >
@@ -423,13 +423,13 @@ Los valores y mejoras reales se determinarán mediante pruebas controladas.
 >
 > El profesional únicamente debe revisar, corregir si es necesario y autorizar el documento.
 >
-> Esto es VozClínica: un asistente de inteligencia artificial que busca reducir la carga administrativa del personal médico, facilitar la documentación clínica y permitir que los profesionales de la salud concentren más tiempo en lo más importante: sus pacientes.
+> Esto es MedVox: un asistente de inteligencia artificial que busca reducir la carga administrativa del personal médico, facilitar la documentación clínica y permitir que los profesionales de la salud concentren más tiempo en lo más importante: sus pacientes.
 
 ---
 
 ## 16. Conclusión
 
-**VozClínica** propone utilizar inteligencia artificial para simplificar uno de los procesos administrativos más recurrentes en los servicios de salud: la documentación médica.
+**MedVox** propone utilizar inteligencia artificial para simplificar uno de los procesos administrativos más recurrentes en los servicios de salud: la documentación médica.
 
 El proyecto combina reconocimiento de voz, procesamiento del lenguaje natural, generación de documentos y gestión de expedientes clínicos en una única solución.
 

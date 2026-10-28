@@ -1,10 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { LogIn, Stethoscope } from "lucide-react";
+import { LogIn } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { Navigate, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ErrorApi, guardarToken, leerToken, mensajeDeError } from "@/api/cliente";
 import { claves, iniciarSesion, iniciarAccesoSocial, solicitarCodigoMojoAuth, confirmarCodigoMojoAuth } from "@/api/consultas";
 import { Aviso } from "@/components/ui/Aviso";
+import { Logo } from "@/components/ui/Logo";
 import { LogoProveedor, NOMBRE_PROVEEDOR } from "@/components/ui/LogoProveedor";
 import { AUTH_PROVIDER, PROVEEDORES_SOCIALES, type ProveedorSocial, usaMock } from "@/config";
 import { useTitulo } from "@/hooks/useTitulo";
@@ -88,14 +89,11 @@ export default function Login() {
   return (
     <main className="grid min-h-screen place-items-center bg-bg p-4">
       <div className="card w-full max-w-sm p-8 shadow-2">
-        <div className="mb-6 flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-md bg-banner-bg text-banner-fg">
-            <Stethoscope className="h-6 w-6" aria-hidden="true" />
-          </span>
-          <div>
-            <h1 className="t-title-lg">VozClínica</h1>
-            <p className="t-body-sm text-texto-muted">Menos tiempo escribiendo, más tiempo atendiendo.</p>
-          </div>
+        <div className="mb-6 grid gap-3">
+          <h1 className="flex">
+            <Logo className="h-12" />
+          </h1>
+          <p className="t-body-sm text-texto-muted">Menos tiempo escribiendo, más tiempo atendiendo.</p>
         </div>
         {parametros.get("sesion") === "expirada" && !error && (
           <Aviso variante="info" titulo="Tu sesión terminó" className="mb-4">

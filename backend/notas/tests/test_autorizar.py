@@ -3,8 +3,8 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from django.utils import timezone
+from medvox_ia.esquema import contenido_vacio
 from rest_framework.test import APITestCase
-from vozclinica_ia.esquema import contenido_vacio
 
 from notas.models import Nota, Plantilla, VersionNota
 from tests.contracts import assert_schema

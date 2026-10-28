@@ -1,7 +1,7 @@
 name: vozclinica-production
 
 x-backend: &backend
-  image: vozclinica-backend:${APP_IMAGE_TAG:-local}
+  image: medvox-backend:${APP_IMAGE_TAG:-local}
   build:
     context: .
     dockerfile: backend/Dockerfile
@@ -88,7 +88,7 @@ services:
         condition: service_healthy
 
   caddy:
-    image: vozclinica-frontend:${APP_IMAGE_TAG:-local}
+    image: medvox-frontend:${APP_IMAGE_TAG:-local}
     build:
       context: .
       dockerfile: frontend/Dockerfile

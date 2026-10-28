@@ -45,6 +45,16 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Login por contraseña deshabilitado en modo MojoAuth.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -441,6 +451,134 @@
           },
           "404": {
             "description": "Recurso inexistente; codigo no_encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/mojoauth/start": {
+      "post": {
+        "operationId": "mojoauthStart",
+        "summary": "Acceso médico mediante código de correo; proveedor/configuración reales pendientes de validar.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MojoAuthStart"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Reto solicitado o sesión creada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MojoAuthChallenge"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de autenticación o proveedor no disponible.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Error de autenticación o proveedor no disponible.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Error de autenticación o proveedor no disponible.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/mojoauth/verify": {
+      "post": {
+        "operationId": "mojoauthVerify",
+        "summary": "Acceso médico mediante código de correo; proveedor/configuración reales pendientes de validar.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MojoAuthVerify"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reto solicitado o sesión creada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRespuesta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error de autenticación o proveedor no disponible.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Error de autenticación o proveedor no disponible.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Error de autenticación o proveedor no disponible.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error de autenticación o proveedor no disponible.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1000,6 +1138,60 @@
           "versiones"
         ],
         "description": "Nota autorizada/corregida; versiones de mayor a menor. Sin métodos de escritura en esta funcionalidad."
+      },
+      "MojoAuthStart": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          }
+        }
+      },
+      "MojoAuthVerify": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "challenge_id",
+          "otp"
+        ],
+        "properties": {
+          "challenge_id": {
+            "type": "string",
+            "minLength": 32,
+            "maxLength": 100
+          },
+          "otp": {
+            "type": "string",
+            "pattern": "^\\d{4,10}$",
+            "writeOnly": true
+          }
+        }
+      },
+      "MojoAuthChallenge": {
+        "type": "object",
+        "required": [
+          "challenge_id",
+          "message",
+          "expires_in"
+        ],
+        "properties": {
+          "challenge_id": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "expires_in": {
+            "type": "integer",
+            "const": 300
+          }
+        }
       }
     }
   }

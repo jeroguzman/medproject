@@ -82,7 +82,8 @@ export async function pedir<T>(ruta: string, { metodo = "GET", cuerpo, signal }:
     throw new ErrorApi(0, "sin_conexion", "No se pudo conectar con el servidor. Revisa tu conexión e intenta de nuevo.");
   }
 
-  if (respuesta.status === 401 && !ruta.startsWith("/api/auth/login")) {
+  const esInicioSesion = ruta.startsWith("/api/auth/login") || ruta.startsWith("/api/auth/mojoauth/");
+  if (respuesta.status === 401 && !esInicioSesion) {
     borrarToken();
     if (window.location.pathname !== "/login") window.location.assign("/login?sesion=expirada");
     throw new ErrorApi(401, "sesion_expirada", "Tu sesión terminó. Vuelve a iniciar sesión.");

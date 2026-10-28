@@ -6,7 +6,7 @@
 
 **Created**: 2026-10-28
 
-**Status**: Draft — derivada de documentos; recomendaciones pendientes registradas.
+**Status**: Implementación parcial; adenda MojoAuth solicitada por el usuario, pendiente de validación con su proyecto.
 
 **Input**: Crear especificaciones con los documentos del repositorio.
 
@@ -64,7 +64,7 @@ Como médico, quiero corregir la ficha del paciente para documentar y consultar 
 
 P1 agrupa M; P2 agrupa S; P3 agrupa C. Esta prioridad no transforma mejoras S/C en obligaciones M.
 
-- **FR-001** (M; RF-01): Permitir acceso con usuario y contraseña de un médico ficticio y mostrar nombre, cédula y especialidad.
+- **FR-001** (M; RF-01): Permitir acceso del médico autorizado mediante MojoAuth en producción y mostrar nombre, cédula y especialidad. La decisión explícita del usuario sustituye la contraseña de RF-01 para el despliegue; password se conserva solo como modo de desarrollo explícito. Ver [adenda](contracts/mojoauth.md).
 - **FR-002** (M; RF-02): Permitir cerrar sesión y advertir antes si existe un borrador sin autorizar.
 - **FR-003** (M; RF-03): Buscar pacientes por nombre sin distinguir acentos, expediente o fecha de nacimiento.
 - **FR-004** (M; RF-04): Registrar nombre, apellido paterno, apellido materno opcional, fecha de nacimiento, sexo y alergias; mostrar coincidencias antes de confirmar y asignar expediente único. Escribir explícitamente Sin alergias conocidas cuando corresponda.

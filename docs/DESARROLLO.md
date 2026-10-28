@@ -36,11 +36,12 @@ un canal seguro, no en commits o logs. Repetir la carga no duplica datos ni camb
 contraseñas o fichas existentes. Cambiar DEMO_PASSWORD en el archivo no cambia
 contraseñas de usuarios ya creados.
 
-Las notas de demo aún no se cargan: falta T027/VC-01 de Luis, el esquema clínico
-v1.1 completo y sus ejemplos. El comando lo indica expresamente. Las rutas de
-historial y lectura están implementadas, pero el historial de estos pacientes
-inicialmente está vacío. Las pruebas usan registros sintéticos aislados de lectura;
-no sustituyen la validación con el esquema clínico completo.
+La carga incluye cinco notas ficticias y seis versiones, con una nota corregida
+que conserva su versión inicial. El esquema completo de Luis y todas las fixtures
+se validan antes de escribir. Si algún dato o plantilla falla, toda la carga se
+revierte; si la plantilla 1.1 existente difiere del contrato, no se sobrescribe.
+Las notas/correcciones ya existentes y las fichas modificadas se conservan.
+No se agrega una API de autorización clínica por cargar fixtures administrativas.
 
 `--solo-medicos` permite preparar exclusivamente las identidades:
 
@@ -141,3 +142,9 @@ o mediante almacenamiento compartido. El backend no registra cuerpos clínicos,
 tokens ni excepciones con contenido de petición; la infraestructura debe evitar
 capturar esos datos también. La comprobación de HTTPS/CORS en un dominio real
 (T041) sigue pendiente; las pruebas locales no acreditan un despliegue.
+
+### Droplet de DigitalOcean
+
+La configuración de contenedores, Caddy/HTTPS, base interna y backups está en
+[docs/DIGITALOCEAN.md](DIGITALOCEAN.md). Es una preparación de despliegue; no se
+ha aplicado al Droplet ni se ha cerrado T041 sin la prueba del dominio real.

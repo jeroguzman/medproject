@@ -1,7 +1,7 @@
 from django.utils import timezone
 from rest_framework import serializers
-from medvox.serializers import StrictSerializerMixin
 
+from medvox.serializers import StrictSerializerMixin
 from pacientes.models import Paciente
 from pacientes.services import crear_paciente
 

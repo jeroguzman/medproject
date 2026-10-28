@@ -1,10 +1,10 @@
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
-from pacientes.models import Paciente
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from notas.models import Nota, VersionNota
 from notas.serializers import NotaDetalleSerializer, NotaResumenSerializer
+from pacientes.models import Paciente
 
 
 def notas_queryset():

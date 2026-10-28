@@ -50,3 +50,6 @@ export const CLAVES_STORAGE = {
   prefijoCorreccion: "medvox:correccion:",
   mockDb: "medvox:mock:db",
 } as const;
+
+/** Solo el proveedor de acceso; las credenciales permanecen en Django. */
+export const AUTH_PROVIDER = import.meta.env.VITE_AUTH_PROVIDER === "mojoauth" ? "mojoauth" : "password";

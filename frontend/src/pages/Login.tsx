@@ -3,10 +3,10 @@ import { LogIn } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Navigate, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ErrorApi, guardarToken, leerToken, mensajeDeError } from "@/api/cliente";
-import { claves, iniciarSesion } from "@/api/consultas";
+import { claves, iniciarSesion, solicitarCodigoMojoAuth, confirmarCodigoMojoAuth } from "@/api/consultas";
 import { Aviso } from "@/components/ui/Aviso";
 import { Logo } from "@/components/ui/Logo";
-import { USAR_MOCKS } from "@/config";
+import { AUTH_PROVIDER, usaMock } from "@/config";
 import { useTitulo } from "@/hooks/useTitulo";
 
 /** Inicio de sesión (RF-01). Se puede pegar y usar gestores de contraseñas (DS §10). */
@@ -18,6 +18,11 @@ export default function Login() {
   const [parametros] = useSearchParams();
   const [usuario, setUsuario] = useState("");
   const [contrasena, setContrasena] = useState("");
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [challenge, setChallenge] = useState<string | null>(null);
+  const [aviso, setAviso] = useState<string | null>(null);
+  const accesoMojo = AUTH_PROVIDER === "mojoauth" && !usaMock("auth");
   const [error, setError] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
   const destino = (ubicacion.state as { desde?: string } | null)?.desde ?? "/pacientes";
@@ -27,18 +32,26 @@ export default function Login() {
   const enviar = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (!usuario.trim() || !contrasena) {
-      setError("Escribe tu usuario y tu contraseña.");
+    if (accesoMojo ? (!email.trim() || (challenge !== null && !otp.trim())) : (!usuario.trim() || !contrasena)) {
+      setError(accesoMojo ? "Escribe tu correo y, si ya lo solicitaste, el código recibido." : "Escribe tu usuario y tu contraseña.");
       return;
     }
     setEnviando(true);
     try {
-      const r = await iniciarSesion(usuario.trim(), contrasena);
+      if (accesoMojo && challenge === null) {
+        const respuesta = await solicitarCodigoMojoAuth(email.trim());
+        setChallenge(respuesta.challenge_id);
+        setAviso(respuesta.message);
+        return;
+      }
+      const r = accesoMojo
+        ? await confirmarCodigoMojoAuth(challenge!, otp)
+        : await iniciarSesion(usuario.trim(), contrasena);
       guardarToken(r.access);
       qc.setQueryData(claves.medico, r.medico);
       navegar(destino, { replace: true });
     } catch (err) {
-      setError(err instanceof ErrorApi && err.status === 401 ? "Usuario o contraseña incorrectos." : mensajeDeError(err));
+      setError(!accesoMojo && err instanceof ErrorApi && err.status === 401 ? "Usuario o contraseña incorrectos." : mensajeDeError(err));
     } finally {
       setEnviando(false);
     }
@@ -59,6 +72,29 @@ export default function Login() {
           </Aviso>
         )}
         <form className="grid gap-4" onSubmit={enviar} noValidate>
+          {accesoMojo ? (
+            <>
+              <div className="field">
+                <label className="field-label" htmlFor="email">Correo autorizado</label>
+                <input id="email" name="email" type="email" className="input" autoComplete="email"
+                  value={email} onChange={(e) => setEmail(e.target.value)} disabled={challenge !== null || enviando} required />
+              </div>
+              {aviso && <Aviso variante="info" titulo="Revisa tu correo">{aviso}</Aviso>}
+              {challenge && (
+                <div className="field">
+                  <label className="field-label" htmlFor="otp">Código de acceso</label>
+                  <input id="otp" name="otp" className="input" inputMode="numeric" autoComplete="one-time-code"
+                    value={otp} onChange={(e) => setOtp(e.target.value)} maxLength={10} required autoFocus />
+                  <p className="help">El código vence en 5 minutos. No lo compartas.</p>
+                  <button type="button" className="btn btn-ghost btn-sm" disabled={enviando}
+                    onClick={() => { setChallenge(null); setOtp(""); setAviso(null); setError(null); }}>
+                    Cambiar correo o solicitar otro código
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+          <>
           <div className="field">
             <label className="field-label" htmlFor="usuario">
               Usuario
@@ -90,6 +126,8 @@ export default function Login() {
               required
             />
           </div>
+          </>
+          )}
           {error && (
             <Aviso variante="critical" titulo="No pudiste entrar">
               {error}
@@ -97,10 +135,10 @@ export default function Login() {
           )}
           <button type="submit" className="btn btn-primary btn-block" disabled={enviando}>
             <LogIn className="h-5 w-5" aria-hidden="true" />
-            {enviando ? "Entrando…" : "Iniciar sesión"}
+            {enviando ? "Procesando…" : accesoMojo && !challenge ? "Enviar código" : "Iniciar sesión"}
           </button>
         </form>
-        {USAR_MOCKS && (
+        {usaMock("auth") && (
           <p className="t-body-sm mt-6 text-texto-muted">
             Modo de datos de ejemplo: usuario <span className="mono">pmendez</span> o <span className="mono">esalas</span>, contraseña{" "}
             <span className="mono">demo1234</span>.

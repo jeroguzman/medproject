@@ -1,5 +1,6 @@
-from cuentas.models import Medico
 from django.contrib.auth import get_user_model
+
+from cuentas.models import Medico
 
 
 def medico(username="doctor"):
@@ -34,6 +35,7 @@ def patient(profile, numero="0004-8217", **kwargs):
 
 def note(profile, patient, **kwargs):
     from django.utils import timezone
+
     from notas.models import Nota, Plantilla, VersionNota
 
     template, _ = Plantilla.objects.get_or_create(

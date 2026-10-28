@@ -3,7 +3,7 @@
 Las 45 tareas de esta funcionalidad tienen un responsable único. Las 43 originales
 conservan sus IDs; T044 separa la configuración frontend de T004 y T045 separa los
 runners frontend de T009. El estado actual está en las listas individuales;
-Jeroben tiene 21 tareas completadas y 2 pendientes. German y Luis conservan sus tareas.
+Jeroben tiene 22 tareas completadas y solo T041 pendiente. German y Luis conservan sus tareas.
 
 | Miembro | Fuente editable | Responsabilidad |
 |---|---|---|
@@ -106,7 +106,9 @@ flowchart TD
 - Luis es responsable de T027: entrega el contrato compartido de 003/VC-01.
   No requiere tener listo el pipeline IA para desbloquear el historial. German y
   Jeroben revisan claves y ejemplos antes de consumirlos. Si falta el esquema,
-  T027/T028/T034/T035 permanecen pendientes; acceso/búsqueda/alta pueden avanzar.
+  el trabajo que requiera ese contrato permanece bloqueado. Actualización: el esquema
+  llegó en main y fue verificado; Jeroben completó T028. La aceptación frontend
+  T034/T035 conserva su propio estado y no se marca por la validación backend.
 - US3: T036 → T037/T038 → T039. T037 y T038 afectan archivos de US2, por lo
   que no deben editarse a la vez que esa historia en curso.
 - Las rutas compartidas settings.py, router.tsx, package.json, serializers.py,

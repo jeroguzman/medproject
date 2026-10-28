@@ -134,3 +134,15 @@ export function useReportarErrorIa() {
       pedir<null>("/api/ia/reportar-error", { metodo: "POST", cuerpo: datos }),
   });
 }
+
+export function solicitarCodigoMojoAuth(email: string) {
+  return pedir<{ challenge_id: string; message: string; expires_in: number }>("/api/auth/mojoauth/start", {
+    metodo: "POST", cuerpo: { email },
+  });
+}
+
+export function confirmarCodigoMojoAuth(challenge_id: string, otp: string) {
+  return pedir<RespuestaLogin>("/api/auth/mojoauth/verify", {
+    metodo: "POST", cuerpo: { challenge_id, otp },
+  });
+}

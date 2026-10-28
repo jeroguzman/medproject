@@ -1,9 +1,12 @@
 from rest_framework import serializers
 
 from cuentas.serializers import MedicoSerializer
+from medvox.serializers import StrictSerializerMixin
 from notas.models import Nota, Plantilla, VersionNota
 from pacientes.serializers import PacienteSerializer
 from pacientes.views import pacientes_queryset
+
+CAMPOS_SEGMENTO = {"hablante", "rol", "texto", "inicio", "fin", "audio"}
 
 
 class NotaResumenSerializer(serializers.ModelSerializer):
@@ -85,3 +88,45 @@ class NotaDetalleSerializer(serializers.ModelSerializer):
             "version_vigente",
             "versiones",
         )
+
+
+class PlantillaEntradaSerializer(StrictSerializerMixin, serializers.Serializer):
+    clave = serializers.CharField(max_length=50)
+    version = serializers.CharField(max_length=10)
+
+
+class NotaEntradaSerializer(StrictSerializerMixin, serializers.Serializer):
+    paciente_id = serializers.IntegerField(min_value=1)
+    plantilla = PlantillaEntradaSerializer()
+    fecha_consulta = serializers.DateField()
+    hora_atencion = serializers.TimeField()
+    tipo_consulta = serializers.ChoiceField(choices=["primera_vez", "seguimiento"])
+    modo_captura = serializers.ChoiceField(choices=["dictado", "consulta"])
+    consentimiento_grabacion = serializers.BooleanField()
+    # Se valida contra el esquema compartido en notas.services.
+    contenido = serializers.JSONField()
+    transcripcion = serializers.JSONField(required=False, allow_null=True)
+
+    def validate_transcripcion(self, value):
+        if value is None:
+            return None
+        invalida = serializers.ValidationError(
+            "La transcripción no tiene el formato esperado."
+        )
+        if not isinstance(value, dict):
+            raise invalida
+        texto, segmentos = value.get("texto"), value.get("segmentos")
+        if not isinstance(texto, str) or not isinstance(segmentos, list):
+            raise invalida
+        if not all(
+            isinstance(s, dict) and isinstance(s.get("texto"), str) for s in segmentos
+        ):
+            raise invalida
+        if not texto.strip() and not segmentos:
+            return None  # Nota capturada a mano, sin audio procesado.
+        return {
+            "texto": texto,
+            "segmentos": [
+                {k: v for k, v in s.items() if k in CAMPOS_SEGMENTO} for s in segmentos
+            ],
+        }

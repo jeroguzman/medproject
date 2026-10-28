@@ -49,7 +49,20 @@ export const CLAVES_STORAGE = {
   prefijoBorrador: "medvox:borrador:",
   prefijoCorreccion: "medvox:correccion:",
   mockDb: "medvox:mock:db",
+  flujoSocial: "medvox:flujo-social",
 } as const;
 
 /** Solo el proveedor de acceso; las credenciales permanecen en Django. */
 export const AUTH_PROVIDER = import.meta.env.VITE_AUTH_PROVIDER === "mojoauth" ? "mojoauth" : "password";
+
+export type ProveedorSocial = "google" | "facebook";
+
+/** Botones de acceso social (MojoAuth). Django decide si el proveedor está habilitado. */
+export const PROVEEDORES_SOCIALES: ProveedorSocial[] = [
+  ...new Set(
+    (import.meta.env.VITE_MOJOAUTH_SOCIAL ?? "")
+      .split(",")
+      .map((p) => p.trim().toLowerCase())
+      .filter((p): p is ProveedorSocial => p === "google" || p === "facebook"),
+  ),
+];

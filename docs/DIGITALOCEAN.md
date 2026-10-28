@@ -16,7 +16,9 @@ no utiliza PostgreSQL administrado y comparte con el servidor su disponibilidad.
 El frontend del mismo repositorio se compila y sirve desde Caddy. Para la demo,
 `https://medvox.tech` aloja la aplicación y `/api/` se dirige al backend del mismo
 origen. No hace falta un subdominio adicional. El modo elegido usa backend real
-y MojoAuth; audio y autorización de notas todavía no están integrados.
+y MojoAuth. El procesamiento de audio (`POST /api/ia/procesar`) y la autorización
+de notas nuevas (`POST /api/notas`) están integrados; las correcciones con nuevas
+versiones todavía no.
 
 ## Prerrequisitos del Droplet
 
@@ -99,9 +101,33 @@ backend. Un fallo detiene el arranque de dependencias; no se presenta como despl
 exitoso. Las migraciones usan la base interna y no exponen credenciales en argumentos.
 
 Gunicorn usa un worker para que el límite básico de intentos del MVP no se fragmente
-entre procesos. No se afirma que ese límite sobreviva a reinicios; al escalar se
-requiere un rate limit compartido. El timeout de 180 s conserva el contrato previsto
-para futuras llamadas de IA; esas rutas todavía no forman parte de este despliegue.
+entre procesos, con 8 hilos para que un audio en proceso no bloquee al resto de la
+aplicación. No se afirma que ese límite sobreviva a reinicios; al escalar se
+requiere un rate limit compartido. El timeout de 180 s cubre `POST /api/ia/procesar`.
+
+## Procesamiento de audio (IA)
+
+`POST /api/ia/procesar` recibe el audio, lo procesa en memoria y devuelve
+transcripción, borrador y alertas. No guarda audio, transcripción ni borrador en
+disco o base de datos. `IA_ORQUESTADOR` en `.env.production` elige cómo:
+
+| Valor | Qué hace | Variables necesarias |
+|---|---|---|
+| `n8n` (predeterminado) | Envía el audio al workflow WF-1 (`/webhook/procesar-audio`) y aplica los filtros de Django | `N8N_BASE_URL` (por ejemplo `https://tu-espacio.app.n8n.cloud`, sin `/webhook`) y `N8N_SECRET` (el mismo de la credencial `X-MedVox-Secret`) |
+| `django` | Plan C: llama a ElevenLabs y Backboard desde Django, sin n8n | `ELEVENLABS_API_KEY` y `BACKBOARD_API_KEY` |
+| `eco` | Espera 3 s y devuelve el caso de ejemplo de faringitis, sin importar el audio | Ninguna. Solo para integración; no presentarlo como procesamiento real |
+
+Sin esas variables, el endpoint responde 503 `ia_no_configurada` y la pantalla
+de la consulta lo indica; el resto de la aplicación funciona normalmente. Los datos
+del paciente nunca se envían a n8n ni a los proveedores; solo se usan en los filtros.
+El workflow de n8n debe estar **activo** (la URL `/webhook-test/` no sirve).
+
+Si `.env.production` ya existe, agregar estas líneas a mano (el script de
+configuración no modifica un archivo existente) y volver a levantar el backend:
+
+```bash
+docker compose --env-file .env.production -f compose.production.yaml up -d --wait backend
+```
 
 ## Identidades ficticias de la demo
 

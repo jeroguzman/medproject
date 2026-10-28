@@ -24,3 +24,14 @@ class MojoAuthVerifySerializer(StrictSerializerMixin, serializers.Serializer):
         min_length=32, max_length=100, trim_whitespace=False
     )
     otp = serializers.RegexField(r"^\d{4,10}$", write_only=True, trim_whitespace=False)
+
+
+class MojoAuthSocialStartSerializer(StrictSerializerMixin, serializers.Serializer):
+    proveedor = serializers.ChoiceField(choices=["google", "facebook"])
+
+
+class MojoAuthSocialVerifySerializer(StrictSerializerMixin, serializers.Serializer):
+    flujo = serializers.CharField(min_length=32, max_length=100, trim_whitespace=False)
+    state_id = serializers.RegexField(
+        r"^[A-Za-z0-9._~+/=-]{8,500}$", trim_whitespace=False
+    )

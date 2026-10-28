@@ -24,3 +24,16 @@ class MojoAuthChallenge(models.Model):
     expires_at = models.DateTimeField(db_index=True)
     attempts = models.PositiveSmallIntegerField(default=0)
     consumed_at = models.DateTimeField(null=True, blank=True)
+
+
+class MojoAuthSocialFlow(models.Model):
+    """One-use social login started by a browser. Provider tokens are never stored."""
+
+    digest = models.CharField(max_length=64, unique=True)
+    proveedor = models.CharField(
+        max_length=20, choices=[("google", "Google"), ("facebook", "Facebook")]
+    )
+    expires_at = models.DateTimeField(db_index=True)
+    # Digest of the provider state_id: unique, so a state can never be replayed.
+    state_digest = models.CharField(max_length=64, unique=True, null=True, blank=True)
+    consumed_at = models.DateTimeField(null=True, blank=True)

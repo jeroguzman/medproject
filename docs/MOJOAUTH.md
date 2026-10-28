@@ -81,13 +81,74 @@ la expiración estándar sigue siendo de 12 horas.
   no disponible. Ningún error expone la respuesta privada del proveedor.
 - Los endpoints de acceso emiten Cache-Control no-store.
 
+## Acceso con Google y Facebook
+
+Mismo principio que el código por correo: MojoAuth confirma la identidad y Django
+decide si es un médico vinculado y emite su propio JWT.
+
+1. El médico pulsa **Continuar con Google** o **Continuar con Facebook**.
+2. Django crea un flujo de un solo uso (10 minutos) y devuelve la URL de MojoAuth:
+   `https://api.mojoauth.com/oauth/social?api_key=…&provider=google|facebook&redirect_url=…`.
+   El navegador guarda el flujo solo en esa pestaña (`sessionStorage`).
+3. MojoAuth lleva al médico a Google o Facebook y lo regresa a
+   `https://<API_DOMAIN>/login/social?state_id=…`. La pantalla quita el `state_id`
+   de la barra de direcciones antes de usarlo.
+4. Django consulta `GET https://api.mojoauth.com/users/status?state_id=…` con
+   X-API-Key y X-API-Secret. Solo acepta `authenticated: true` y toma el correo de
+   `user.email` o, si no viene, de `user.identifier`.
+5. Si ese correo pertenece a **un único** médico activo vinculado con
+   `vincular_medico`, emite el JWT interno. No hay altas automáticas.
+
+Cada flujo recibe una sola respuesta del proveedor y cada `state_id` se acepta una
+sola vez (se guarda su hash con restricción única). Un `state_id` copiado a otro
+navegador no sirve sin el flujo de la pestaña original. No se guardan tokens del
+proveedor. La API key viaja en la URL de MojoAuth porque así funciona su acceso
+social desde el navegador; el secreto nunca sale del servidor.
+
+Implementación basada en el código publicado de `mojoauth-web-sdk@1.17.19`
+(botones sociales y `signInWithStateID`) y de `mojoauth-sdk@1.4.3` (`pingStatus`).
+
+### Configuración
+
+En el panel de MojoAuth (Marketplace → Add Integrations / Social Login):
+
+- **Google:** crear un cliente OAuth "Aplicación web" en Google Cloud y registrar
+  como URI de redirección autorizada la URL de callback que muestra MojoAuth para
+  el proyecto (`https://api.mojoauth.com/oauth/callback/<API key del proyecto>`).
+  Copiar Client ID y secreto en MojoAuth.
+- **Facebook:** crear una app en Meta for Developers con el producto Facebook Login
+  para Web, agregar esa misma URL de callback en "Valid OAuth Redirect URIs",
+  solicitar el permiso `email` y pasar la app a modo Live. Copiar App ID y secreto
+  en MojoAuth.
+- Autorizar en MojoAuth el dominio y la URL de regreso `https://medvox.tech/login/social`.
+
+En `.env.production`:
+
+```dotenv
+MOJOAUTH_SOCIAL_PROVIDERS=google,facebook
+```
+
+Compose usa ese valor para los botones del frontend y para el backend, y fija
+`MOJOAUTH_REDIRECT_URL=https://${API_DOMAIN}/login/social`. Vacío oculta los botones.
+Si una cuenta de Google o Facebook no comparte correo, o el correo no está vinculado,
+el acceso se rechaza con 401 `acceso_social_invalido`.
+
+### Contrato
+
+- POST `/api/auth/mojoauth/social/start`: proveedor (`google`/`facebook`) → 200 con
+  flujo, url y expires_in. 503 si el proveedor no está habilitado o configurado.
+- POST `/api/auth/mojoauth/social/verify`: flujo/state_id → 200 con access/medico;
+  401 si el flujo venció o ya se usó, el estado se repite o el correo no está
+  autorizado; 503 si MojoAuth no responde (el flujo sigue disponible para reintentar).
+
 ## Validación pendiente y responsabilidades
 
 Jeroben: configurar el proyecto/clave en el servidor, vincular el correo y validar
-las respuestas reales. El código y las pruebas de reto, autorización y concurrencia
+las respuestas reales, incluido el acceso con Google y Facebook: las pruebas simulan
+MojoAuth y no acreditan la forma real de `/users/status` para proveedores sociales. El código y las pruebas de reto, autorización y concurrencia
 están preparados. German: verificar en navegador el flujo de correo/código, errores,
 expiración y navegación con el backend real. La interfaz ya compila con ese modo.
 
-Para la demo elegida, audio, procesamiento y autorización de nuevas notas siguen
-pendientes y no se presentan como capacidades operativas de este despliegue.
+Para la demo elegida, las correcciones de notas (nuevas versiones) siguen
+pendientes y no se presentan como capacidad operativa de este despliegue.
 El frontend no usa mocks en el perfil backend seleccionado por el usuario.

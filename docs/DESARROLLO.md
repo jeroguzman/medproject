@@ -80,7 +80,7 @@ Con el entorno y variables cargados como arriba:
 cd backend  # omite este paso si ya estás en backend/
 python manage.py check
 python manage.py makemigrations --check --dry-run
-python manage.py test cuentas pacientes notas tests --verbosity 2
+python manage.py test cuentas pacientes notas ia_api tests --verbosity 2
 ruff check --config ruff.toml .
 ```
 

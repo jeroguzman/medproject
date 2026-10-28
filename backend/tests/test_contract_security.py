@@ -23,6 +23,8 @@ class ContractSecurityTests(APITestCase):
             ("patch", f"/api/pacientes/{self.patient.pk}"),
             ("get", f"/api/pacientes/{self.patient.pk}/notas"),
             ("get", f"/api/notas/{self.note.pk}"),
+            ("post", "/api/notas"),
+            ("post", "/api/ia/procesar"),
         ]
 
     def test_all_clinical_operations_deny_missing_expired_tampered_token(self):
@@ -71,10 +73,10 @@ class ContractSecurityTests(APITestCase):
             self.client.get("/api/pacientes", secure=True).status_code, 200
         )
 
-    def test_no_clinical_write_routes_or_unsafe_methods(self):
+    def test_no_correction_route_or_unsafe_methods(self):
         self.client.force_authenticate(self.user)
-        for url in ["/api/notas", f"/api/notas/{self.note.pk}/versiones"]:
-            self.assertEqual(self.client.post(url, {}, format="json").status_code, 404)
+        url = f"/api/notas/{self.note.pk}/versiones"
+        self.assertEqual(self.client.post(url, {}, format="json").status_code, 404)
         for method in ["put", "delete"]:
             for url in [
                 f"/api/pacientes/{self.patient.pk}",

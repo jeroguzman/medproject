@@ -41,7 +41,7 @@ jobs:
       - run: pip install -r requirements-dev.txt
       - run: ruff check --config ruff.toml .
       - run: python manage.py makemigrations --check --dry-run
-      - run: python manage.py test cuentas pacientes notas tests --noinput
+      - run: python manage.py test cuentas pacientes notas ia_api tests --noinput
   frontend:
     runs-on: ubuntu-24.04
     defaults:
@@ -60,6 +60,7 @@ jobs:
         env:
           VITE_USAR_MOCKS: 'false'
           VITE_AUTH_PROVIDER: mojoauth
+          VITE_MOJOAUTH_SOCIAL: google,facebook
           VITE_API_URL: ''
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

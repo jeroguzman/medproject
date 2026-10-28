@@ -16,6 +16,7 @@ urlpatterns = [
     path("api/auth/", include("cuentas.urls")),
     path("api/", include("pacientes.urls")),
     path("api/", include("notas.urls")),
+    path("api/ia/", include("ia_api.urls")),
     path("api/salud", salud),
 ]
 handler404 = not_found

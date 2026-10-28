@@ -20,4 +20,7 @@ la integración de ambos no está acreditada por las pruebas de backend.
 La carga administrativa de demo usa el esquema clínico compartido de Luis:
 dos médicos, seis pacientes y cinco notas con seis versiones. Repetirla conserva
 los datos existentes. Se pueden probar acceso, pacientes, historial y lectura de
-versiones; la captura/IA y la autorización clínica se integrarán en las siguientes fases.
+versiones, procesar audio con `POST /api/ia/procesar` (configuración en
+[DIGITALOCEAN.md](docs/DIGITALOCEAN.md#procesamiento-de-audio-ia)) y autorizar
+notas nuevas con `POST /api/notas`; las correcciones (nuevas versiones) se
+integrarán en la siguiente fase.

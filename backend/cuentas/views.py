@@ -139,6 +139,75 @@ class MojoAuthVerifyView(APIView):
         )
 
 
+@method_decorator(never_cache, name="dispatch")
+class MojoAuthSocialStartView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    throttle_scope = "mojoauth_social_start"
+
+    def post(self, request):
+        from cuentas import mojoauth
+        from cuentas.serializers import MojoAuthSocialStartSerializer
+
+        data = MojoAuthSocialStartSerializer(data=request.data)
+        data.is_valid(raise_exception=True)
+        try:
+            nonce, url = mojoauth.social_start(data.validated_data["proveedor"])
+        except mojoauth.ProviderUnavailable:
+            return social_unavailable()
+        return Response(
+            {"flujo": nonce, "url": url, "expires_in": mojoauth.SOCIAL_MINUTES * 60}
+        )
+
+
+@method_decorator(never_cache, name="dispatch")
+class MojoAuthSocialVerifyView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    throttle_scope = "mojoauth_social_verify"
+
+    def post(self, request):
+        from cuentas import mojoauth
+        from cuentas.serializers import MojoAuthSocialVerifySerializer
+
+        data = MojoAuthSocialVerifySerializer(data=request.data)
+        data.is_valid(raise_exception=True)
+        user, unavailable = mojoauth.social_verify(
+            data.validated_data["flujo"], data.validated_data["state_id"]
+        )
+        if unavailable:
+            return social_unavailable()
+        if user is None:
+            return Response(
+                {
+                    "error": {
+                        "codigo": "acceso_social_invalido",
+                        "mensaje": "No pudimos confirmar tu acceso. Entra con la "
+                        "cuenta de tu correo autorizado e intenta de nuevo.",
+                    }
+                },
+                status=401,
+            )
+        return Response(
+            {
+                "access": str(AccessToken.for_user(user)),
+                "medico": MedicoSerializer(user.medico).data,
+            }
+        )
+
+
+def social_unavailable():
+    return Response(
+        {
+            "error": {
+                "codigo": "autenticacion_no_disponible",
+                "mensaje": "Este método de acceso no está disponible en este momento.",
+            }
+        },
+        status=503,
+    )
+
+
 def mojoauth_unavailable():
     return Response(
         {

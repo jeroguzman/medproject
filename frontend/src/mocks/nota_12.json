@@ -1,0 +1,493 @@
+{
+  "id": 12,
+  "paciente": {
+    "id": 1,
+    "numero_expediente": "0004-8217",
+    "nombres": "María Fernanda",
+    "apellido_paterno": "García",
+    "apellido_materno": "López",
+    "fecha_nacimiento": "1992-03-12",
+    "sexo": "mujer",
+    "alergias": "Penicilina (urticaria generalizada)",
+    "tipo_sangre": "O+",
+    "telefono": null,
+    "ultima_consulta": "2026-08-14",
+    "total_notas": 3
+  },
+  "medico": {
+    "id": 1,
+    "nombre_completo": "Dra. Paula Méndez Ortiz",
+    "cedula_profesional": "12345678"
+  },
+  "plantilla": {
+    "clave": "formato_clinico_general",
+    "version": "1.1"
+  },
+  "fecha_consulta": "2026-08-14",
+  "hora_atencion": "10:30",
+  "tipo_consulta": "seguimiento",
+  "modo_captura": "consulta",
+  "consentimiento_grabacion": true,
+  "estado": "corregida",
+  "version_vigente": 2,
+  "versiones": [
+    {
+      "numero": 2,
+      "contenido": {
+        "motivo_padecimiento": {
+          "motivo_consulta": {
+            "valor": "Dolor de garganta y fiebre",
+            "estado": "referido",
+            "evidencia": [
+              "me duele la garganta y tengo fiebre"
+            ],
+            "origen": "ia"
+          },
+          "padecimiento_actual": {
+            "valor": "Odinofagia y fiebre de 2 días de evolución, sin tos.",
+            "estado": "referido",
+            "evidencia": [
+              "desde hace dos días"
+            ],
+            "origen": "editado"
+          }
+        },
+        "antecedentes": {
+          "heredofamiliares": {
+            "valor": "Negados",
+            "estado": "negado",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "personales_patologicos": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "personales_no_patologicos": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "alergias": {
+            "valor": "Penicilina (urticaria generalizada)",
+            "estado": "referido",
+            "evidencia": [
+              "soy alérgica a la penicilina"
+            ],
+            "origen": "ia"
+          },
+          "medicamentos_actuales": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "interrogatorio": {
+          "aparatos_sistemas": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "signos_vitales": {
+          "presion_arterial": {
+            "valor": {
+              "sistolica": 132,
+              "diastolica": 84
+            },
+            "unidad": "mmHg",
+            "estado": "medido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "frecuencia_cardiaca": {
+            "valor": null,
+            "unidad": "lpm",
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "frecuencia_respiratoria": {
+            "valor": null,
+            "unidad": "rpm",
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "temperatura": {
+            "valor": 37.9,
+            "unidad": "°C",
+            "estado": "medido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "saturacion_o2": {
+            "valor": null,
+            "unidad": "%",
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "peso": {
+            "valor": 61.5,
+            "unidad": "kg",
+            "estado": "medido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "talla": {
+            "valor": 162,
+            "unidad": "cm",
+            "estado": "medido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "otros_parametros": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "exploracion_fisica": {
+          "habitus_exterior": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "cabeza_cuello": {
+            "valor": "Faringe hiperémica, amígdalas sin exudado.",
+            "estado": "referido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "torax_cardiopulmonar": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "abdomen": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "extremidades_otros": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "genitourinario_otros": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "estudios": {
+          "estudios_resultados": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "valoracion": {
+          "diagnosticos": [
+            {
+              "descripcion": "Faringitis, probablemente viral",
+              "condicion": "presuntivo",
+              "evidencia": [
+                "parece una faringitis, probablemente viral"
+              ],
+              "origen": "ia"
+            }
+          ],
+          "pronostico": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "plan": {
+          "medicamentos": [
+            {
+              "medicamento": "Paracetamol",
+              "dosis": "500 mg",
+              "via": "oral",
+              "frecuencia": "cada 8 h",
+              "duracion": "3 días",
+              "evidencia": [
+                "paracetamol de 500 cada 6 horas"
+              ],
+              "origen": "editado"
+            }
+          ],
+          "medidas_seguimiento": {
+            "valor": "Líquidos abundantes y reposo.",
+            "estado": "referido",
+            "evidencia": [
+              "muchos líquidos y reposo"
+            ],
+            "origen": "ia"
+          }
+        }
+      },
+      "transcripcion": {
+        "texto": "Buenos días. Me duele la garganta y tengo fiebre desde hace dos días. Soy alérgica a la penicilina. Parece una faringitis, probablemente viral. Le dejo paracetamol de 500 cada 6 horas, muchos líquidos y reposo.",
+        "segmentos": [
+          {
+            "hablante": "HABLANTE_1",
+            "rol": "medico",
+            "texto": "Buenos días.",
+            "inicio": 0.0,
+            "fin": 1.0,
+            "audio": 1
+          },
+          {
+            "hablante": "HABLANTE_2",
+            "rol": "paciente",
+            "texto": "Me duele la garganta y tengo fiebre desde hace dos días. Soy alérgica a la penicilina.",
+            "inicio": 1.4,
+            "fin": 6.8,
+            "audio": 1
+          },
+          {
+            "hablante": "HABLANTE_1",
+            "rol": "medico",
+            "texto": "Parece una faringitis, probablemente viral. Le dejo paracetamol de 500 cada 6 horas, muchos líquidos y reposo.",
+            "inicio": 7.2,
+            "fin": 14.0,
+            "audio": 1
+          }
+        ]
+      },
+      "autorizada_por": "Dra. Paula Méndez Ortiz",
+      "autorizada_en": "2026-08-14T11:20:00-06:00",
+      "motivo_cambio": "Se corrige la frecuencia del paracetamol"
+    },
+    {
+      "numero": 1,
+      "contenido": {
+        "motivo_padecimiento": {
+          "motivo_consulta": {
+            "valor": "Dolor de garganta y fiebre",
+            "estado": "referido",
+            "evidencia": [
+              "me duele la garganta y tengo fiebre"
+            ],
+            "origen": "ia"
+          },
+          "padecimiento_actual": {
+            "valor": "Odinofagia y fiebre de 2 días de evolución, sin tos.",
+            "estado": "referido",
+            "evidencia": [
+              "desde hace dos días"
+            ],
+            "origen": "editado"
+          }
+        },
+        "antecedentes": {
+          "heredofamiliares": {
+            "valor": "Negados",
+            "estado": "negado",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "personales_patologicos": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "personales_no_patologicos": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "alergias": {
+            "valor": "Penicilina (urticaria generalizada)",
+            "estado": "referido",
+            "evidencia": [
+              "soy alérgica a la penicilina"
+            ],
+            "origen": "ia"
+          },
+          "medicamentos_actuales": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "interrogatorio": {
+          "aparatos_sistemas": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "signos_vitales": {
+          "presion_arterial": {
+            "valor": {
+              "sistolica": 132,
+              "diastolica": 84
+            },
+            "unidad": "mmHg",
+            "estado": "medido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "frecuencia_cardiaca": {
+            "valor": null,
+            "unidad": "lpm",
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "frecuencia_respiratoria": {
+            "valor": null,
+            "unidad": "rpm",
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "temperatura": {
+            "valor": 37.9,
+            "unidad": "°C",
+            "estado": "medido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "saturacion_o2": {
+            "valor": null,
+            "unidad": "%",
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "peso": {
+            "valor": 61.5,
+            "unidad": "kg",
+            "estado": "medido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "talla": {
+            "valor": 162,
+            "unidad": "cm",
+            "estado": "medido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "otros_parametros": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "exploracion_fisica": {
+          "habitus_exterior": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "cabeza_cuello": {
+            "valor": "Faringe hiperémica, amígdalas sin exudado.",
+            "estado": "referido",
+            "evidencia": null,
+            "origen": "manual"
+          },
+          "torax_cardiopulmonar": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "abdomen": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "extremidades_otros": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          },
+          "genitourinario_otros": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "estudios": {
+          "estudios_resultados": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "valoracion": {
+          "diagnosticos": [
+            {
+              "descripcion": "Faringitis, probablemente viral",
+              "condicion": "presuntivo",
+              "evidencia": [
+                "parece una faringitis, probablemente viral"
+              ],
+              "origen": "ia"
+            }
+          ],
+          "pronostico": {
+            "valor": null,
+            "estado": "sin_informacion",
+            "evidencia": null
+          }
+        },
+        "plan": {
+          "medicamentos": [
+            {
+              "medicamento": "Paracetamol",
+              "dosis": "500 mg",
+              "via": "oral",
+              "frecuencia": "cada 6 h",
+              "duracion": "3 días",
+              "evidencia": [
+                "paracetamol de 500 cada 6 horas"
+              ],
+              "origen": "ia"
+            }
+          ],
+          "medidas_seguimiento": {
+            "valor": "Líquidos abundantes y reposo.",
+            "estado": "referido",
+            "evidencia": [
+              "muchos líquidos y reposo"
+            ],
+            "origen": "ia"
+          }
+        }
+      },
+      "transcripcion": {
+        "texto": "Buenos días. Me duele la garganta y tengo fiebre desde hace dos días. Soy alérgica a la penicilina. Parece una faringitis, probablemente viral. Le dejo paracetamol de 500 cada 6 horas, muchos líquidos y reposo.",
+        "segmentos": [
+          {
+            "hablante": "HABLANTE_1",
+            "rol": "medico",
+            "texto": "Buenos días.",
+            "inicio": 0.0,
+            "fin": 1.0,
+            "audio": 1
+          },
+          {
+            "hablante": "HABLANTE_2",
+            "rol": "paciente",
+            "texto": "Me duele la garganta y tengo fiebre desde hace dos días. Soy alérgica a la penicilina.",
+            "inicio": 1.4,
+            "fin": 6.8,
+            "audio": 1
+          },
+          {
+            "hablante": "HABLANTE_1",
+            "rol": "medico",
+            "texto": "Parece una faringitis, probablemente viral. Le dejo paracetamol de 500 cada 6 horas, muchos líquidos y reposo.",
+            "inicio": 7.2,
+            "fin": 14.0,
+            "audio": 1
+          }
+        ]
+      },
+      "autorizada_por": "Dra. Paula Méndez Ortiz",
+      "autorizada_en": "2026-08-14T10:52:00-06:00",
+      "motivo_cambio": null
+    }
+  ]
+}

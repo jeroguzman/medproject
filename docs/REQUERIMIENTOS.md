@@ -513,8 +513,8 @@ Reglas:
 
 | Repositorio | Contenido |
 |---|---|
-| `medproject` (este) | `docs/` (este documento y sus referencias), `backend/` (Django), `n8n/` (workflows exportados en JSON), `ia/` (esquema, prompts, guiones y audios de prueba, script de evaluación) |
-| Repositorio que crea Lovable | Frontend en React. Lovable sincroniza con un repositorio propio y, por lo que encontramos, no importa repositorios existentes (confirmarlo en su documentación). |
+| `medproject` (este) | `docs/` (este documento y sus referencias), `backend/` (Django), `n8n/` (workflows exportados en JSON), `ia/` (esquema, prompts, guiones y audios de prueba, script de evaluación), `frontend/` (app de referencia en React: sirve para comparar y de ahí salen los archivos base que se copian a Lovable) y `docs/equipo/lovable/` (prompts, capturas y conocimiento para Lovable, y el backlog de Linear en CSV) |
+| Repositorio que crea Lovable | Frontend en React que se presenta. Lovable sincroniza en los dos sentidos solo con la rama principal de su propio repositorio y no importa repositorios existentes: los archivos base se le copian con `docs/equipo/lovable/copiar-cimientos.sh` y la interfaz la genera con los prompts. |
 
 ## 10. Interfaz y design system
 

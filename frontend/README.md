@@ -1,6 +1,8 @@
-# VozClínica · frontend
+# VozClínica · frontend de referencia
 
 Implementación de la [guía de German](../docs/equipo/german-frontend.md): todo lo que ve el médico, desde el inicio de sesión hasta autorizar y corregir una nota, con el borrador guardado **solo en el navegador** (D-02).
+
+**Para construirlo en Lovable** usa el paquete de prompts de [`docs/equipo/lovable/`](../docs/equipo/lovable/README.md): los archivos sin pantallas de aquí se copian al repo de Lovable y la UI la genera Lovable con prompts y capturas de esta app como referencia.
 
 Es el mismo stack que pide la guía para Lovable: React 18, TypeScript, Vite, Tailwind, lucide-react, react-router y TanStack Query. **No usa Supabase ni Lovable Cloud**: todo va contra la API de Django.
 
@@ -23,7 +25,7 @@ Sin `VITE_API_URL` la app usa los datos de ejemplo de `src/mocks/` (usuario `pme
 
 ## Conectar con la API de Django
 
-Copia `.env.example` a `.env` (o define las variables en el hosting):
+Copia `.env.example` a `.env` (o define las variables en el hosting). En Lovable, sin archivo `.env`, cambia las constantes `API_URL_PROYECTO` y `USAR_MOCKS_PROYECTO` de `src/config.ts`:
 
 ```bash
 VITE_API_URL=https://<dominio-de-la-api>   # sin diagonal final
@@ -36,14 +38,14 @@ Para pasar a la API **pantalla por pantalla** (§12 de la guía), `VITE_USAR_MOC
 VITE_USAR_MOCKS=ia,notas
 ```
 
-Recursos: `auth`, `pacientes`, `notas`, `ia`, `plantillas`.
+Recursos: `auth`, `pacientes`, `notas`, `ia`, `plantillas`, `referencias`.
 
 ## Dónde está cada cosa
 
 | Guía | Archivo |
 |---|---|
 | Prompt 1 · config y cliente | `src/config.ts`, `src/api/cliente.ts`, `src/api/mocks.ts` |
-| Prompt 2 · design system | `src/styles/tokens.css` (copiado del DS v0.4, líneas 14 a 130), `src/index.css`, `tailwind.config.ts` |
+| Prompt 2 · design system | `src/styles/tokens.css` (copiado del DS v0.4, líneas 14 a 130), `src/styles/ds.css` (clases de componentes del DS), `tailwind.config.ts` |
 | Prompt 3 · login y layout | `src/pages/Login.tsx`, `src/components/layout/` |
 | Prompt 4 · pacientes y expediente | `src/pages/Pacientes.tsx`, `src/pages/Expediente.tsx`, `src/components/paciente/` |
 | Prompt 5 · consulta y formulario | `src/pages/Consulta.tsx`, `src/components/consulta/` |
@@ -56,6 +58,9 @@ Recursos: `auth`, `pacientes`, `notas`, `ia`, `plantillas`.
 | §10 · alertas | `src/lib/alertas.ts`, `src/lib/vitales.ts` |
 | §11 · formatos | `src/lib/formatos.ts` |
 | §12 · datos de ejemplo | `src/mocks/` |
+| Pregúntale al expediente (Backboard) | `src/components/paciente/PreguntarExpediente.tsx` |
+| Referencias de apoyo (Tavily) | `src/components/consulta/PanelReferencias.tsx` y el botón "Referencias" de cada renglón |
+| Reportar error de la IA (Linear) | `src/components/consulta/DialogoReportarError.tsx`, desde el popover de evidencia |
 
 `formatoClinicoGeneral.ts` y las claves de los campos son un contrato con Luis y Jeroben: no las cambies sin avisarles.
 

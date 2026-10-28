@@ -6,6 +6,8 @@ const v = (nombre: string) => `var(--${nombre})`;
 
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  // Clases del DS (src/styles/ds.css) que se usan con nombres armados en tiempo de ejecución.
+  safelist: [{ pattern: /^(btn|b|alert|badge|seg|msg|vstatus|s|is|pb|t)-/ }],
   theme: {
     extend: {
       colors: {

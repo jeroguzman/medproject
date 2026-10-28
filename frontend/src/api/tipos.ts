@@ -113,3 +113,31 @@ export interface RespuestaProcesar {
   alertas: Alerta[];
   metricas?: Record<string, number>;
 }
+
+// Funciones de apoyo (guía de Jeroben §6): Backboard, Tavily y Linear, siempre a través de Django.
+
+export interface FuenteRespuesta {
+  nota_id: number;
+  fecha_consulta: string;
+  version: number;
+}
+
+/** POST /api/pacientes/{id}/preguntar (S): responde solo con notas autorizadas, vía Backboard. */
+export interface RespuestaPregunta {
+  respuesta: string;
+  fuentes: FuenteRespuesta[];
+}
+
+export interface Referencia {
+  titulo: string;
+  url: string;
+  fragmento: string;
+}
+
+/** GET /api/referencias?termino= (C): Tavily con dominios confiables. Solo recibe el término. */
+export interface RespuestaReferencias {
+  resultados: Referencia[];
+}
+
+/** POST /api/ia/reportar-error (C): n8n crea un issue en Linear sin datos clínicos. */
+export type MotivoReporte = "valor_incorrecto" | "inventado" | "omitido";

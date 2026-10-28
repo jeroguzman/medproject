@@ -30,6 +30,7 @@ export function MarcoCampo({ refCampo, idControl, origen, evidencia, negado, avi
   return (
     <ZonaEvidencia
       id={idCampo(ruta)}
+      ruta={ruta}
       citas={evidencia}
       activa={origen === "ia" || origen === "editado"}
       className={ancho ? "field md:col-span-2" : "field"}

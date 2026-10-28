@@ -17,17 +17,31 @@ interface Props {
 export function IndiceSecciones({ contenido, alertas, faltantes }: Props) {
   const [activa, setActiva] = useState<string>(FORMATO_CLINICO_GENERAL[0].id);
 
+  // La sección activa es la última cuyo inicio ya está en el tercio superior del área visible.
   useEffect(() => {
-    const secciones = [...document.querySelectorAll<HTMLElement>("section[data-seccion]")];
-    const observador = new IntersectionObserver(
-      (entradas) => {
-        const visible = entradas.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-        if (visible) setActiva((visible.target as HTMLElement).dataset.seccion!);
-      },
-      { rootMargin: "-30% 0px -60% 0px" },
-    );
-    secciones.forEach((s) => observador.observe(s));
-    return () => observador.disconnect();
+    let cuadro = 0;
+    const calcular = () => {
+      cuadro = 0;
+      const secciones = [...document.querySelectorAll<HTMLElement>("section[data-seccion]")];
+      if (secciones.length === 0) return;
+      const cabecera = parseFloat(getComputedStyle(secciones[0]).getPropertyValue("--alto-cabecera")) || 48;
+      const alFinal = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      const limite = cabecera + (window.innerHeight - cabecera) * 0.35;
+      const pasadas = secciones.filter((sec) => sec.getBoundingClientRect().top <= limite);
+      const actual = alFinal ? secciones[secciones.length - 1] : (pasadas[pasadas.length - 1] ?? secciones[0]);
+      setActiva(actual.dataset.seccion!);
+    };
+    const programar = () => {
+      if (!cuadro) cuadro = requestAnimationFrame(calcular);
+    };
+    calcular();
+    window.addEventListener("scroll", programar, { passive: true });
+    window.addEventListener("resize", programar);
+    return () => {
+      cancelAnimationFrame(cuadro);
+      window.removeEventListener("scroll", programar);
+      window.removeEventListener("resize", programar);
+    };
   }, []);
 
   return (

@@ -1,12 +1,18 @@
-// Configuración del frontend. Se lee de las variables de entorno de Vite (.env o del hosting).
+// Configuración del frontend. Las variables de entorno de Vite (VITE_API_URL, VITE_USAR_MOCKS) tienen prioridad;
+// en Lovable, sin archivo .env, se cambian las dos constantes de abajo.
+
+/** URL de la API de Django, sin diagonal final. Vacía = datos de ejemplo. */
+const API_URL_PROYECTO = "";
+/** "true", "false" o la lista de recursos que siguen con datos de ejemplo, por ejemplo "ia,notas". */
+const USAR_MOCKS_PROYECTO = "";
 
 /** URL de la API de Django, sin diagonal final. */
-export const API_URL: string = (import.meta.env.VITE_API_URL ?? "").trim().replace(/\/+$/, "");
+export const API_URL: string = (import.meta.env.VITE_API_URL || API_URL_PROYECTO).trim().replace(/\/+$/, "");
 
 /** Recursos de la API: el primer segmento después de /api/. */
-export type Recurso = "auth" | "pacientes" | "notas" | "ia" | "plantillas";
+export type Recurso = "auth" | "pacientes" | "notas" | "ia" | "plantillas" | "referencias";
 
-const valorMocks = (import.meta.env.VITE_USAR_MOCKS ?? "").trim().toLowerCase();
+const valorMocks = (import.meta.env.VITE_USAR_MOCKS || USAR_MOCKS_PROYECTO).trim().toLowerCase();
 
 // VITE_USAR_MOCKS acepta true, false o una lista de recursos ("ia,notas") para pasar a la API real
 // pantalla por pantalla. Sin valor, se usan los datos de ejemplo mientras no haya API_URL.

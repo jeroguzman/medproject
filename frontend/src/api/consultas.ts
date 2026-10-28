@@ -3,13 +3,16 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tansta
 import { pedir } from "@/api/cliente";
 import type {
   Medico,
+  MotivoReporte,
   NotaDetalle,
   NotaNueva,
   NotaResumen,
   Paciente,
   PacienteNuevo,
   RespuestaLogin,
+  RespuestaPregunta,
   RespuestaProcesar,
+  RespuestaReferencias,
   VersionNueva,
 } from "@/api/tipos";
 import type { ModoCaptura } from "@/plantilla/valores";
@@ -104,4 +107,30 @@ export function procesarAudio(audio: Blob, nombreArchivo: string, pacienteId: nu
   datos.append("paciente_id", String(pacienteId));
   datos.append("modo", modo);
   return pedir<RespuestaProcesar>("/api/ia/procesar", { metodo: "POST", cuerpo: datos, signal });
+}
+
+/** Pregúntale al expediente (RF-38): Backboard responde con las notas autorizadas del paciente. */
+export function usePreguntarExpediente(pacienteId: number) {
+  return useMutation({
+    mutationFn: (pregunta: string) =>
+      pedir<RespuestaPregunta>(`/api/pacientes/${pacienteId}/preguntar`, { metodo: "POST", cuerpo: { pregunta } }),
+  });
+}
+
+/** Referencias de apoyo (RF-39): solo se envía el término clínico, nunca datos del paciente (RNF-05). */
+export function useReferencias(termino: string) {
+  return useQuery({
+    queryKey: ["referencias", termino],
+    queryFn: () => pedir<RespuestaReferencias>(`/api/referencias?termino=${encodeURIComponent(termino)}`),
+    enabled: termino.trim().length >= 3,
+    staleTime: 5 * 60_000,
+  });
+}
+
+/** Reportar error de la IA (RF-44): solo la ruta del campo y el motivo; n8n crea el issue en Linear. */
+export function useReportarErrorIa() {
+  return useMutation({
+    mutationFn: (datos: { campo: string; motivo: MotivoReporte }) =>
+      pedir<null>("/api/ia/reportar-error", { metodo: "POST", cuerpo: datos }),
+  });
 }

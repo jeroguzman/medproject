@@ -1,11 +1,21 @@
 // Backend simulado para trabajar sin la API (docs/equipo/german-frontend.md §12).
 // Responde con los archivos de src/mocks/ y guarda los cambios (pacientes y notas autorizadas) en una
 // base de datos de ejemplo en localStorage. Solo datos ficticios. Para empezar de cero: /?reiniciar-mocks
-import type { Medico, NotaDetalle, NotaNueva, NotaResumen, Paciente, PacienteNuevo, VersionNueva } from "@/api/tipos";
+import type {
+  Medico,
+  NotaDetalle,
+  NotaNueva,
+  NotaResumen,
+  Paciente,
+  PacienteNuevo,
+  RespuestaPregunta,
+  RespuestaReferencias,
+  VersionNueva,
+} from "@/api/tipos";
 import { CLAVES_STORAGE } from "@/config";
 import { calcularFaltantes, completarContenido, contenidoVacio } from "@/lib/contenido";
-import { ahoraEnMexico, leerFechaUsuario, nombreNatural, normalizarTexto } from "@/lib/formatos";
-import type { Contenido, Diagnostico } from "@/plantilla/valores";
+import { ahoraEnMexico, formatearFecha, leerFechaUsuario, nombreNatural, normalizarTexto } from "@/lib/formatos";
+import type { CampoPresion, CampoTexto, CampoVital, Contenido, Diagnostico, Medicamento } from "@/plantilla/valores";
 import login from "@/mocks/login.json";
 import me from "@/mocks/me.json";
 import nota12 from "@/mocks/nota_12.json";
@@ -206,6 +216,84 @@ function faltantesApi(contenido: Contenido, extra: Parameters<typeof calcularFal
   return [...new Set(calcularFaltantes({ ...extra, contenido }).map((f) => f.ruta.replace(/^identificacion\./, "")))];
 }
 
+/**
+ * Respuesta de ejemplo de "Pregúntale al expediente". La real la arma Backboard con la memoria del paciente;
+ * aquí se resume lo que dicen las notas autorizadas (última versión) y se citan como fuentes.
+ */
+function responderPregunta(paciente: PacienteBase, pregunta: string): RespuestaPregunta {
+  const notas = notasDe(paciente.id).map((n) => ({ nota: n, version: vigente(n) }));
+  if (notas.length === 0) return { respuesta: "Aún no hay notas autorizadas de este paciente.", fuentes: [] };
+  const q = normalizarTexto(pregunta);
+  const fuente = (n: NotaDetalle) => ({ nota_id: n.id, fecha_consulta: n.fecha_consulta, version: n.version_vigente });
+  const conFecha = (texto: string, n: NotaDetalle) => `${texto} (${formatearFecha(n.fecha_consulta)})`;
+  const hallazgos: Array<{ texto: string; nota: NotaDetalle }> = [];
+  let tema = "";
+
+  for (const { nota, version } of notas) {
+    const c = version.contenido;
+    if (/alergi/.test(q)) {
+      tema = "alergias";
+      const v = (c.antecedentes?.alergias as CampoTexto | undefined)?.valor;
+      if (v) hallazgos.push({ texto: conFecha(v, nota), nota });
+    } else if (/diagnost|padec|enfermedad|problema/.test(q)) {
+      tema = "diagnósticos";
+      for (const d of (c.valoracion?.diagnosticos ?? []) as Diagnostico[]) hallazgos.push({ texto: conFecha(d.descripcion, nota), nota });
+    } else if (/medicament|tratamiento|receta|toma|indic/.test(q)) {
+      tema = "medicamentos indicados";
+      for (const m of (c.plan?.medicamentos ?? []) as Medicamento[]) {
+        const detalle = [m.medicamento, m.dosis, m.frecuencia, m.duracion && `por ${m.duracion}`].filter(Boolean).join(" ");
+        hallazgos.push({ texto: conFecha(detalle, nota), nota });
+      }
+    } else if (/presion|signos|vital|temperatura|peso|talla/.test(q)) {
+      tema = "signos vitales";
+      const sv = c.signos_vitales ?? {};
+      const ta = (sv.presion_arterial as CampoPresion | undefined)?.valor;
+      const partes = [
+        ta?.sistolica && ta.diastolica ? `TA ${ta.sistolica}/${ta.diastolica} mmHg` : null,
+        (sv.temperatura as CampoVital | undefined)?.valor ? `temperatura ${(sv.temperatura as CampoVital).valor} °C` : null,
+        (sv.peso as CampoVital | undefined)?.valor ? `peso ${(sv.peso as CampoVital).valor} kg` : null,
+      ].filter(Boolean);
+      if (partes.length) hallazgos.push({ texto: conFecha(partes.join(", "), nota), nota });
+    }
+  }
+
+  if (!tema) {
+    return { respuesta: "No hay información registrada sobre eso en las notas autorizadas.", fuentes: [] };
+  }
+  if (tema === "alergias") {
+    const respuesta = hallazgos.length
+      ? `El expediente registra: ${paciente.alergias}. En las notas autorizadas se documentó: ${hallazgos.map((h) => h.texto).join("; ")}.`
+      : `El expediente registra: ${paciente.alergias}. Las notas autorizadas no documentan alergias.`;
+    return { respuesta, fuentes: [...new Map(hallazgos.map((h) => [h.nota.id, fuente(h.nota)])).values()] };
+  }
+  if (hallazgos.length === 0) {
+    return { respuesta: `No hay ${tema} registrados en las notas autorizadas.`, fuentes: [] };
+  }
+  return {
+    respuesta: `Según las notas autorizadas, ${tema}: ${hallazgos.map((h) => h.texto).join("; ")}.`,
+    fuentes: [...new Map(hallazgos.map((h) => [h.nota.id, fuente(h.nota)])).values()],
+  };
+}
+
+/** Referencias de ejemplo: con la API real, Tavily busca solo en dominios confiables. */
+function referenciasDeEjemplo(termino: string): RespuestaReferencias {
+  const t = encodeURIComponent(termino.trim());
+  return {
+    resultados: [
+      {
+        titulo: `MedlinePlus en español: «${termino.trim()}»`,
+        url: `https://vsearch.nlm.nih.gov/vivisimo/cgi-bin/query-meta?v%3Aproject=medlineplus-spanish&query=${t}`,
+        fragmento: "Resultado de ejemplo. Con la API real, Tavily devuelve un fragmento del artículo de la fuente confiable.",
+      },
+      {
+        titulo: `Gobierno de México (gob.mx): «${termino.trim()}»`,
+        url: `https://www.gob.mx/busqueda?q=${t}`,
+        fragmento: "Resultado de ejemplo. Dominios permitidos: medlineplus.gov, who.int, paho.org, gob.mx, imss.gob.mx y cenetec-difusion.com.",
+      },
+    ],
+  };
+}
+
 export async function responderMock(
   metodo: string,
   rutaCompleta: string,
@@ -264,6 +352,12 @@ export async function responderMock(
     if (!paciente) return error(404, "no_encontrado", "No encontramos a este paciente.");
     if (partes.length === 3 && metodo === "GET") return json(200, conCalculados(paciente));
     if (partes[3] === "notas" && metodo === "GET") return json(200, notasDe(paciente.id).map(resumen));
+    if (partes[3] === "preguntar" && metodo === "POST") {
+      const pregunta = String((cuerpo as { pregunta?: string } | null)?.pregunta ?? "").trim();
+      if (pregunta.length < 3) return error(400, "validacion", "Escribe una pregunta.");
+      await esperar(1200, signal);
+      return json(200, responderPregunta(paciente, pregunta));
+    }
   }
 
   if (partes[1] === "plantillas" && metodo === "GET") {
@@ -364,6 +458,21 @@ export async function responderMock(
       guardarDb();
       return json(201, notaConPaciente(nota));
     }
+  }
+
+  if (metodo === "GET" && ruta === "/api/referencias") {
+    const termino = parametros.get("termino") ?? "";
+    if (termino.trim().length < 3) return error(400, "validacion", "Escribe un término de al menos 3 letras.");
+    await esperar(800, signal);
+    return json(200, referenciasDeEjemplo(termino));
+  }
+
+  if (metodo === "POST" && ruta === "/api/ia/reportar-error") {
+    const { campo, motivo } = (cuerpo ?? {}) as { campo?: string; motivo?: string };
+    if (!campo || !["valor_incorrecto", "inventado", "omitido"].includes(motivo ?? "")) {
+      return error(400, "validacion", "Falta el campo o el motivo.");
+    }
+    return new Response(null, { status: 202 });
   }
 
   return error(404, "no_encontrado", `El backend de ejemplo no tiene ${metodo} ${ruta}.`);

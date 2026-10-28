@@ -2,6 +2,7 @@ import { ExternalLink, FileText, MessageSquareText } from "lucide-react";
 import { Fragment, useEffect, useId, useRef, useState } from "react";
 import type { NotaResumen } from "@/api/tipos";
 import { useEvidencia } from "@/components/consulta/ContextoEvidencia";
+import { PanelReferencias } from "@/components/consulta/PanelReferencias";
 import { InsigniaEstadoNota } from "@/components/nota/InsigniaEstadoNota";
 import { Esqueleto } from "@/components/ui/Esqueleto";
 import { rangosDeCitas } from "@/lib/evidencia";
@@ -137,26 +138,34 @@ interface Props {
   excluirNota?: number;
 }
 
-/** Panel derecho de 360 px con pestañas "Transcripción" e "Historial" (prompt 5, DS 10.3). */
+type Pestana = "transcripcion" | "historial" | "referencias";
+
+/**
+ * Panel derecho de 360 px (prompt 5, DS 10.3): "Transcripción", "Historial" y "Referencias" (Tavily).
+ */
 export function PanelDerecho({ transcripcion, notas, cargandoNotas, excluirNota }: Props) {
-  const [pestana, setPestana] = useState<"transcripcion" | "historial">("transcripcion");
-  const { solicitud } = useEvidencia();
+  const [pestana, setPestana] = useState<Pestana>("transcripcion");
+  const { solicitud, referencia } = useEvidencia();
   const base = useId();
   const lista = notas?.filter((n) => n.id !== excluirNota);
 
   useEffect(() => {
     if (solicitud.n > 0) setPestana("transcripcion");
   }, [solicitud.n]);
+  useEffect(() => {
+    if (referencia.n > 0) setPestana("referencias");
+  }, [referencia.n]);
 
-  const pestanas = [
-    { id: "transcripcion" as const, etiqueta: "Transcripción", cuenta: transcripcion?.segmentos.length || null },
-    { id: "historial" as const, etiqueta: "Historial", cuenta: lista?.length ?? null },
+  const pestanas: Array<{ id: Pestana; etiqueta: string }> = [
+    { id: "transcripcion", etiqueta: "Transcripción" },
+    { id: "historial", etiqueta: "Historial" },
+    { id: "referencias", etiqueta: "Referencias" },
   ];
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="tabs shrink-0 px-2" role="tablist" aria-label="Panel de apoyo">
-        {pestanas.map((p) => (
+      <div className="tabs shrink-0 px-1 [&_button]:px-2.5" role="tablist" aria-label="Panel de apoyo">
+        {pestanas.map((p, i) => (
           <button
             key={p.id}
             type="button"
@@ -168,14 +177,14 @@ export function PanelDerecho({ transcripcion, notas, cargandoNotas, excluirNota 
             onClick={() => setPestana(p.id)}
             onKeyDown={(e) => {
               if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-                const siguiente = p.id === "transcripcion" ? "historial" : "transcripcion";
+                const paso = e.key === "ArrowRight" ? 1 : -1;
+                const siguiente = pestanas[(i + paso + pestanas.length) % pestanas.length].id;
                 setPestana(siguiente);
                 document.getElementById(`${base}-${siguiente}`)?.focus();
               }
             }}
           >
             {p.etiqueta}
-            {p.cuenta ? <span className="count">{p.cuenta}</span> : null}
           </button>
         ))}
       </div>
@@ -187,7 +196,13 @@ export function PanelDerecho({ transcripcion, notas, cargandoNotas, excluirNota 
         tabIndex={0}
         className="min-h-0 flex-1 overflow-y-auto"
       >
-        {pestana === "transcripcion" ? <PanelTranscripcion transcripcion={transcripcion} /> : <PanelHistorial notas={lista} cargando={cargandoNotas} />}
+        {pestana === "transcripcion" ? (
+          <PanelTranscripcion transcripcion={transcripcion} />
+        ) : pestana === "historial" ? (
+          <PanelHistorial notas={lista} cargando={cargandoNotas} />
+        ) : (
+          <PanelReferencias key={referencia.n} terminoInicial={referencia.termino} />
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
-import { Plus, ShieldCheck, Trash2 } from "lucide-react";
+import { BookOpen, Plus, ShieldCheck, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useEvidencia } from "@/components/consulta/ContextoEvidencia";
 import { InsigniaOrigen } from "@/components/consulta/InsigniaOrigen";
 import { ZonaEvidencia } from "@/components/consulta/ZonaEvidencia";
 import { Aviso } from "@/components/ui/Aviso";
@@ -18,6 +19,23 @@ const editarRenglon = <T extends Diagnostico | Medicamento>(row: T, cambio: Part
 });
 
 const enfocarDespues = (id: string) => window.setTimeout(() => document.getElementById(id)?.focus(), 0);
+
+/** Abre la pestaña de referencias de apoyo (Tavily) con el término del renglón. Solo viaja el término. */
+function BotonReferencias({ termino }: { termino: string }) {
+  const { verReferencias } = useEvidencia();
+  if (termino.trim().length < 3) return null;
+  return (
+    <button
+      type="button"
+      className="btn btn-ghost btn-sm ml-auto"
+      title="Buscar información de apoyo en fuentes confiables"
+      onClick={() => verReferencias(termino.trim())}
+    >
+      <BookOpen className="h-4 w-4" aria-hidden="true" />
+      Referencias
+    </button>
+  );
+}
 
 function SinInformacion() {
   return <p className="t-body-sm rounded-md border border-dashed border-input bg-canvas px-3 py-2 text-texto-subtle">— Sin información</p>;
@@ -48,14 +66,15 @@ export function ListaDiagnosticos({ refCampo, valor, onCambio, avisos }: PropsDx
       <div className="grid gap-3" role="group" aria-labelledby={`${base}-etiqueta`}>
         {valor.length === 0 && <SinInformacion />}
         {valor.map((d, i) => (
-          <ZonaEvidencia key={i} citas={d.evidencia} activa={d.origen === "ia" || d.origen === "editado"}>
+          <ZonaEvidencia key={i} ruta={`${refCampo.ruta}[${i}]`} citas={d.evidencia} activa={d.origen === "ia" || d.origen === "editado"}>
             <div className="grid gap-3 rounded-lg border border-border bg-surface p-3">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="t-label">{i === 0 ? "Diagnóstico principal" : `Diagnóstico ${i + 1}`}</span>
                 <InsigniaOrigen origen={d.origen} />
+                <BotonReferencias termino={d.descripcion} />
                 <button
                   type="button"
-                  className="btn btn-ghost btn-sm btn-icon ml-auto"
+                  className={`btn btn-ghost btn-sm btn-icon ${d.descripcion.trim().length < 3 ? "ml-auto" : ""}`}
                   aria-label={`Quitar diagnóstico ${i + 1}`}
                   title="Quitar diagnóstico"
                   onClick={() => quitar(i)}
@@ -141,7 +160,7 @@ export function ListaMedicamentos({ refCampo, valor, onCambio, avisos, onResolve
           const alergia = avisos.find((a) => a.tipo === "alergia_medicamento" && a.campo === `${refCampo.ruta}[${i}]`);
           const bloqueado = alergia && !alergia.resuelta;
           return (
-            <ZonaEvidencia key={i} citas={m.evidencia} activa={m.origen === "ia" || m.origen === "editado"}>
+            <ZonaEvidencia key={i} ruta={`${refCampo.ruta}[${i}]`} citas={m.evidencia} activa={m.origen === "ia" || m.origen === "editado"}>
               <div className={`grid gap-3 rounded-lg border bg-surface p-3 ${bloqueado ? "border-critico-solid" : "border-border"}`}>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="t-label">Medicamento {i + 1}</span>
@@ -151,9 +170,10 @@ export function ListaMedicamentos({ refCampo, valor, onCambio, avisos, onResolve
                       Alergia revisada
                     </Insignia>
                   )}
+                  <BotonReferencias termino={m.medicamento} />
                   <button
                     type="button"
-                    className="btn btn-ghost btn-sm btn-icon ml-auto"
+                    className={`btn btn-ghost btn-sm btn-icon ${m.medicamento.trim().length < 3 ? "ml-auto" : ""}`}
                     aria-label={`Quitar medicamento ${i + 1}`}
                     title="Quitar medicamento"
                     onClick={() => quitar(i)}

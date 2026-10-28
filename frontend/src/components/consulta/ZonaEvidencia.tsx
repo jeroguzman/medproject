@@ -1,4 +1,4 @@
-import { Quote } from "lucide-react";
+import { Flag, Quote } from "lucide-react";
 import { useRef, useState, type ReactNode } from "react";
 import { useEvidencia } from "@/components/consulta/ContextoEvidencia";
 import { cn } from "@/lib/utils";
@@ -10,14 +10,17 @@ interface Props {
   children: ReactNode;
   className?: string;
   id?: string;
+  /** Ruta del campo o renglón ("plan.medicamentos[0]"): habilita "Reportar error de la IA". */
+  ruta?: string;
 }
 
 /**
  * Al enfocar un campo de la IA o pasar el cursor encima, muestra las citas del audio en un popover con
- * "Ver en la transcripción" (VC-19). Al enfocarlo, también se resaltan en el panel derecho.
+ * "Ver en la transcripción" (VC-19). Al enfocarlo, también se resaltan en el panel derecho. Desde ahí
+ * también se puede reportar que la IA se equivocó (Linear).
  */
-export function ZonaEvidencia({ citas, activa, children, className, id }: Props) {
-  const { enfocar, ver } = useEvidencia();
+export function ZonaEvidencia({ citas, activa, children, className, id, ruta }: Props) {
+  const { enfocar, ver, reportar } = useEvidencia();
   const [hover, setHover] = useState(false);
   const [foco, setFoco] = useState(false);
   const [abajo, setAbajo] = useState(false);
@@ -83,9 +86,17 @@ export function ZonaEvidencia({ citas, activa, children, className, id }: Props)
               </li>
             ))}
           </ul>
-          <button type="button" className="btn btn-ghost btn-sm mt-2" onClick={() => ver(citas!)}>
-            Ver en la transcripción
-          </button>
+          <div className="mt-2 flex flex-wrap gap-1">
+            <button type="button" className="btn btn-ghost btn-sm" onClick={() => ver(citas!)}>
+              Ver en la transcripción
+            </button>
+            {ruta && (
+              <button type="button" className="btn btn-ghost btn-sm text-texto-muted" onClick={() => reportar(ruta)}>
+                <Flag className="h-4 w-4" aria-hidden="true" />
+                Reportar error de la IA
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>

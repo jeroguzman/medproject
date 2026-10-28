@@ -7,10 +7,10 @@ from django.core.management import call_command
 from django.utils import timezone
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import AccessToken
-from tests.contracts import assert_schema
-from tests.helpers import medico
 
 from cuentas.models import Medico
+from tests.contracts import assert_schema
+from tests.helpers import medico
 
 
 class AuthGateTests(APITestCase):

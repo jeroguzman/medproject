@@ -1,77 +1,85 @@
 # Validación de Jeroben — backend de acceso y pacientes
 
-Fecha: 2026-10-28. Evidencia de la implementación de backend antes de su publicación en PR.
-Backend ejecutado con Python 3.12.14, Django 5.2.18 y PostgreSQL 16 en Docker.
-Dependencias fijadas en requirements; configuración local ignorada por Git.
+Actualización: 2026-10-28. Rama local: codex/deploy-digitalocean-droplet.
+Python 3.12.14, Django 5.2.18 y PostgreSQL 16. Esta actualización de fixtures y
+preparación de despliegue no tiene commit ni push todavía.
 
-## Tareas completadas
+## Estado de tareas
 
-T001, T003, T004, T005, T006, T009, T010, T012, T013, T014, T019, T020,
-T021, T023, T024, T025, T026, T029, T036, T037 y T040: **21 de 23**.
-Las fuentes de estado son las casillas de `tasks/jeroben.md`, sincronizadas con
-la vista consolidada. No se marcan tareas de German ni Luis.
+**22 de 23 completadas.** Se completó T028 al recibir el esquema de Luis desde
+main; solo T041 continúa pendiente de comprobación en el Droplet y dominio reales.
+Las casillas de `tasks/jeroben.md` son la fuente de estado. No se marcan tareas
+ni aceptación E2E de German o Luis.
 
-## Evidencia ejecutada
+## Evidencia actual
 
 | Comprobación | Resultado |
 |---|---|
-| Checklist documental de la spec | 10/10 criterios marcados; solo lectura, sin modificar sus casillas |
-| Primeras pruebas de autenticación antes de rutas | 2 fallos esperados por 404 frente a 401 |
-| Primeras pruebas de pacientes antes de rutas | 2 fallos esperados por 404 frente a 201/401 |
-| Primera prueba de lectura de notas antes de rutas | 1 fallo esperado por 404 frente a 401 |
-| `docker compose --env-file backend/.env up -d --wait db` | PostgreSQL saludable |
-| `python manage.py migrate --noinput` | Migraciones aplicadas, unaccent, secuencia y trigger de inmutabilidad |
-| `python manage.py makemigrations --check --dry-run` | Sin cambios de modelo pendientes |
-| `python manage.py check` | Sin incidencias |
-| `DEBUG=false python manage.py check --deploy` | Sin incidencias; inspección de configuración, no un despliegue |
-| `python manage.py cargar_demo`, dos ejecuciones | Dos médicos y seis pacientes, sin duplicar ni sobrescribir; sin notas y con aviso explícito |
-| `python manage.py test cuentas pacientes notas tests --verbosity 1` | **37 pruebas ejecutadas, 37 aprobadas, 0 fallidas, 0 omitidas** |
-| `ruff check --config backend/ruff.toml backend scripts/configure-backend-env.py` desde raíz | Sin incidencias |
+| `python ia/verificar_vc01.py` | Esquema, contenido vacío y dos ejemplos completos válidos |
+| `python manage.py test cuentas pacientes notas tests --verbosity 1` | **47 ejecutadas, 47 aprobadas, 0 fallidas, 0 omitidas** |
+| Primera prueba de T028 antes de implementar | Falló: había 0 notas frente a 5 esperadas |
+| `python manage.py cargar_demo` primera carga completa | 5 notas nuevas; 6 versiones completas |
+| Segunda carga | 0 notas nuevas; versiones y contenido conservados |
+| `python manage.py makemigrations --check --dry-run` | Sin cambios pendientes |
+| Ruff y sincronización de tareas | Sin incidencias |
+| Contenedor producción, `check --deploy` | Sin incidencias; no acredita despliegue público |
 
-Las pruebas incluyen login/me, usuarios inactivos o sin perfil, JWT expirado y
-alterado, contrato OpenAPI, todos los endpoints clínicos sin autenticación,
-campos de entrada no permitidos, búsqueda por nombre/expediente/fecha,
-alta concurrente desde dos conexiones, rango de secuencia, idempotencia de demo,
-PATCH, CORS exacto, políticas de redirección HTTPS y lectura inmutable.
+Las 47 pruebas comprenden las 37 previas, 4 de infraestructura/proxy y 6 de la
+carga completa. Cubren autenticación, contrato API, permisos, búsqueda sin acentos,
+fechas, registro y concurrencia de expedientes, PATCH, lectura e inmutabilidad,
+CORS, proxy HTTPS, disponibilidad y comportamiento de importación.
 
-La base de pruebas es independiente de la base de desarrollo y se elimina al
-terminar. Los tests de lectura usan contenido sintético aislado; no constituyen
-el conjunto de notas de demo validado con el esquema completo de Luis.
+El runner fue comprobado para rechazar una suite de cero pruebas. La base de
+pruebas es independiente de desarrollo y se elimina al terminar. No se necesitan
+credenciales externas ni llamadas a IA para ejecutar estas comprobaciones.
 
-## Smoke HTTP real
+## T028 — fixtures completas y repetibles
 
-Se inició el servidor Django en loopback y se realizaron peticiones reales:
+`backend/notas/fixtures/demo/notas.json` incluye las cinco notas previas de la
+guía de backend §9, con seis versiones y una corrección de demostración. Todas
+las secciones del contenido se validan mediante `vozclinica_ia.esquema` de Luis.
+Los campos capturados son manuales; no se inventa evidencia ni una transcripción.
 
-- Login, me, salud y búsqueda: 200.
-- Búsquedas García/garcia: misma paciente de demo.
-- Alta de un paciente sintético de prueba: 201.
-- PATCH de ese paciente: 200 y número de expediente intacto.
-- Acceso a pacientes sin token: 401.
+La carga valida el lote completo antes de escribir. Si un campo es inválido, no
+crea médicos, pacientes ni notas. Una plantilla existente con el mismo número de
+versión pero distinto esquema bloquea la carga, sin reemplazarla. El comando es
+transaccional y serializa las importaciones administrativas concurrentes.
 
-No se imprimieron tokens, contraseñas ni valores del archivo local. La prueba
-HTTP dejó un paciente sintético adicional en desarrollo; no forma parte de las
-seis fichas precargadas. Las pruebas automatizadas no dependen de ese registro.
+Se comprobó que repetir la carga conserva contraseñas, cambios manuales de ficha,
+contenido de versiones y correcciones clínicas posteriores. Las identidades de
+las notas se basan en paciente, médico, plantilla, fecha y hora; no se reinicia la
+base. `--solo-medicos` conserva su alcance y no carga notas ni pacientes.
 
-## Pendientes concretos
+`jsonschema` y sus dependencias pasan a requirements de ejecución. La imagen
+incluye el módulo de esquema y sus archivos compartidos bajo `/app/ia`; no depende
+de una copia distinta o un esquema reducido dentro del backend.
 
-- **T028**: se implementó la carga repetible de médicos y pacientes; falta cargar
-  las notas previas y una nota corregida de demo usando el esquema v1.1 y los
-  ejemplos completos de **Luis, T027/VC-01**. El comando no inventa un esquema
-  reducido ni crea notas clínicas sin esa validación. Historia vacía es el estado
-  real de los pacientes recién precargados.
-- **T041**: CORS exacto, redirección HTTPS y exclusión de datos clínicos/tokens
-  en logs están configurados y probados localmente. Falta verificar HTTPS/CORS en
-  proveedor y dominio reales, aún no definidos. `check --deploy` y el cliente de
-  pruebas no acreditan TLS de red ni una publicación.
-- Frontend de referencia recibido desde main; no se ejecutó su integración ni la
-  aceptación E2E de German. El contrato completo de Luis sigue pendiente.
-  La funcionalidad 001 integrada sigue pendiente de esas entregas.
-- No se implementaron captura/IA ni escrituras de autorización/corrección de
-  notas: pertenecen a las funcionalidades posteriores.
+## Verificación HTTP/HTTPS
 
-## Operación local
+La API ya se había comprobado por HTTP real para acceso/pacientes: login/me/salud
+200, alta 201, PATCH 200 sin cambiar expediente y acceso sin JWT 401. Ese smoke
+previo dejó un paciente sintético adicional en la base de desarrollo, fuera de
+las seis fichas precargadas; las pruebas no dependen de ese registro.
 
-Seguir `docs/DESARROLLO.md`. Los secretos locales se generan con
-`scripts/configure-backend-env.py`, sin sobrescribir archivos existentes.
-Los usuarios de demo son pmendez y esalas; la contraseña está únicamente en la
-configuración local DEMO_PASSWORD, no en este informe ni en el repositorio.
+Después de incorporar T028 se construyó la imagen y arrancó un Compose aislado.
+Mediante HTTPS local con Caddy y validación de su CA se comprobó:
+
+- Cinco notas y seis versiones devueltas por historial/detalle real.
+- Todas las versiones devueltas cumplen el esquema clínico completo.
+- La nota corregida muestra v2 y permite consultar v1.
+- Una segunda carga deja las respuestas de detalle idénticas.
+- El contenedor pasa `check --deploy`.
+
+El build local utilizó las wheels fijadas descargadas por HTTPS en el host porque
+el DNS/proxy dentro del builder de este entorno no llega a PyPI. Se mantuvo TLS
+verificado. Ver `deploy/VALIDACION.md` para ese límite de validación del build.
+
+## Pendiente
+
+**T041:** falta comprobar DNS, certificado público, proveedor, dominio y CORS real
+en el Droplet. Los tests y certificados locales no equivalen a una publicación.
+La integración E2E del frontend sigue siendo una entrega separada.
+
+No se implementaron nuevas rutas de autorización/corrección ni un pipeline de
+captura/IA en este cambio; las fixtures se cargan mediante un comando administrativo
+explícito. No se modificaron los datos ni servicios de un Droplet real.

@@ -1,9 +1,9 @@
 # Validación prevista — acceso y pacientes
 
-El backend ya está implementado: 37 pruebas pasan sobre PostgreSQL 16 y se verificó
+El backend ya está implementado: 47 pruebas pasan sobre PostgreSQL 16 y se verificó
 la API mediante HTTP real. Consulta [la evidencia](validation/jeroben.md) y la
-[preparación reproducible](../../docs/DESARROLLO.md). `main` ya incluye un frontend de referencia; su integración con esta API y las notas
-de demo con el esquema completo siguen pendientes. Los comandos E2E son una guía futura.
+[preparación reproducible](../../docs/DESARROLLO.md). `main` ya incluye un frontend de referencia; su integración completa con esta API sigue pendiente. Las notas de demo ya usan
+el esquema completo compartido de Luis y se verificaron por API HTTPS local. Los comandos E2E son una guía futura.
 
 ## Prerrequisitos
 

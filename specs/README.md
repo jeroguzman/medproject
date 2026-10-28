@@ -8,8 +8,8 @@ separadas por miembro: [German](001-acceso-pacientes/tasks/german.md),
 [Jeroben](001-acceso-pacientes/tasks/jeroben.md) y
 [Luis](001-acceso-pacientes/tasks/luis.md). Las listas conservan historias,
 dependencias y validaciones, con [coordinación compartida](001-acceso-pacientes/tasks/coordination.md).
-El backend tiene 21 tareas de Jeroben completadas y [37 pruebas verificadas](001-acceso-pacientes/validation/jeroben.md);
-la carga de notas de demo y el despliegue HTTPS siguen pendientes. Frontend y backend comparten
+El backend tiene 22 tareas de Jeroben completadas y [47 pruebas verificadas](001-acceso-pacientes/validation/jeroben.md);
+la carga de notas de demo está verificada y el despliegue HTTPS real sigue pendiente. Frontend y backend comparten
 este repositorio, conforme a la decisión del usuario registrada en DECISIONES.md.
 
 ## Funcionalidades

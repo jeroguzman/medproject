@@ -82,3 +82,13 @@ expresan comportamiento esperado; no acreditan que exista la aplicación, que un
 API externa acepte los formatos candidatos ni que se haya ejecutado la evaluación.
 El plan debe validar compatibilidad y disponibilidad con documentación oficial y
 las integraciones reales cuando corresponda.
+
+
+## Acceso con MojoAuth — decisión del usuario, 2026-10-28
+
+El usuario seleccionó backend real para login, pacientes, historial y versiones,
+y solicitó usar MojoAuth. Se prepara Email OTP como método inicial de trabajo,
+con verificación en Django y JWT interno para la API. Password no será fallback
+en producción. Configurar las claves y vincular correos médicos antes de desplegar.
+Las pruebas de proveedor son simuladas: el acceso real permanece pendiente hasta
+verificar el proyecto. Detalle en [docs/MOJOAUTH.md](../docs/MOJOAUTH.md).

@@ -27,3 +27,7 @@ Thumbs.db
 .vscode/
 .idea/
 staticfiles/
+
+# Production host secrets and database backups
+.env.production
+backups/

@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from rest_framework.test import APITestCase
+
 from tests.contracts import assert_schema
 from tests.helpers import medico, note, patient
 

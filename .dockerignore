@@ -1,7 +1,12 @@
+**/.env
+**/.env.*
+**/__pycache__/
+**/*.pyc
+**/.venv/
+**/venv/
+**/node_modules/
+**/staticfiles/
+**/.ruff_cache/
 .git/
-.env
-.env.*
-__pycache__/
-.venv/
-node_modules/
+frontend/dist/
 coverage/

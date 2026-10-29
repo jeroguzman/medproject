@@ -180,3 +180,87 @@ class CatalogoTests(APITestCase):
         self.assertEqual(result["enlaces"], [FUENTE])
         with self.assertRaises(ErrorCatalogo):
             importar(result)
+
+    def test_pdf_links_resolve_and_deduplicate_only_official_pdfs(self):
+        from catalogo.importacion import enlaces_pdf
+
+        urls = enlaces_pdf(
+            {
+                "fuente": FUENTE,
+                "enlaces": [
+                    "/sites/a.pdf",
+                    "http://www.imss.gob.mx/sites/a.pdf#page=1",
+                    "https://other.test/b.pdf",
+                    "/sites/b.PDF",
+                    "/otra-pagina",
+                    "https://imss.gob.mx.evil.test/a.pdf",
+                    123,
+                ],
+            }
+        )
+        self.assertEqual(
+            urls,
+            [
+                "https://www.imss.gob.mx/sites/a.pdf",
+                "https://www.imss.gob.mx/sites/b.PDF",
+            ],
+        )
+
+    @patch("catalogo.importacion.extraer")
+    def test_collection_extracts_every_pdf_once(self, scrape):
+        from catalogo.importacion import extraer_pdfs
+
+        doc = ejemplo()
+        scrape.side_effect = [
+            dict(doc, enlaces=["/a.pdf", "/b.pdf", "/a.pdf"]),
+            dict(doc, fuente="https://www.imss.gob.mx/a.pdf"),
+            dict(doc, fuente="https://www.imss.gob.mx/b.pdf"),
+        ]
+        result = extraer_pdfs(FUENTE, 2)
+        self.assertEqual(len(result["documentos"]), 2)
+        self.assertEqual(scrape.call_count, 3)
+        self.assertFalse(LoteCatalogo.objects.exists())
+
+    @patch("catalogo.importacion.extraer")
+    def test_collection_limit_and_pdf_failure_never_create_partial_lot(self, scrape):
+        from catalogo.importacion import extraer_pdfs
+
+        index = dict(ejemplo(), enlaces=["/a.pdf", "/b.pdf"])
+        scrape.return_value = index
+        with self.assertRaises(ErrorCatalogo):
+            extraer_pdfs(FUENTE, 1)
+        self.assertEqual(scrape.call_count, 1)
+        scrape.reset_mock()
+        scrape.side_effect = [index, ejemplo(), ErrorCatalogo("PDF ilegible")]
+        with self.assertRaises(ErrorCatalogo):
+            extraer_pdfs(FUENTE, 2)
+        self.assertFalse(LoteCatalogo.objects.exists())
+
+    def test_collection_preserves_pdf_provenance_and_idempotence(self):
+        from catalogo.importacion import importar_documentos
+
+        a = dict(ejemplo(), fuente="https://www.imss.gob.mx/a.pdf")
+        b = dict(ejemplo(), fuente="https://www.imss.gob.mx/b.pdf")
+        collection = {"version": 1, "fuente": FUENTE, "documentos": [a, b]}
+        lote = importar_documentos(collection)
+        self.assertEqual(lote.entradas.count(), 4)
+        collection["documentos"].reverse()
+        self.assertEqual(importar_documentos(collection).pk, lote.pk)
+        publicar(lote.pk)
+        rows = self.buscar().data["resultados"]
+        self.assertEqual(
+            {r["fuente_documento"] for r in rows}, {a["fuente"], b["fuente"]}
+        )
+        self.assertTrue(all(r["documento"] and r["extraido_en"] for r in rows))
+
+    def test_invalid_document_rejects_entire_collection(self):
+        from catalogo.importacion import importar_documentos
+
+        collection = {
+            "version": 1,
+            "fuente": FUENTE,
+            "documentos": [ejemplo(), dict(ejemplo(), medicamentos=[])],
+        }
+        with self.assertRaises(ErrorCatalogo):
+            importar_documentos(collection)
+        self.assertFalse(LoteCatalogo.objects.exists())

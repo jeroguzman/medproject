@@ -230,3 +230,113 @@ def publicar(lote_id):
     lote.publicado_en = timezone.now()
     lote.save(update_fields=["activo", "publicado_en"])
     return lote
+
+
+def enlaces_pdf(indice):
+    """Resolve the index's direct PDF links; do not crawl unrelated pages."""
+    from urllib.parse import unquote, urldefrag, urljoin, urlunsplit
+
+    encontrados = set()
+    links = indice.get("enlaces", [])
+    if not isinstance(links, list):
+        raise ErrorCatalogo("El índice no contiene una lista válida de enlaces.")
+    for link in links:
+        if not isinstance(link, str):
+            continue
+        url = urldefrag(urljoin(indice["fuente"], link))[0]
+        parsed = urlsplit(url)
+        if not unquote(parsed.path).casefold().endswith(".pdf"):
+            continue
+        # Normalize IMSS's HTTP links to HTTPS; never downgrade transport.
+        if parsed.scheme == "http":
+            url = urlunsplit(parsed._replace(scheme="https"))
+        try:
+            fuente_imss(url)
+        except ErrorCatalogo:
+            continue
+        encontrados.add(url)
+    return sorted(encontrados)
+
+
+def extraer_pdfs(url, max_pdfs):
+    if not 1 <= max_pdfs <= 1000:
+        raise ErrorCatalogo("max-pdfs debe estar entre 1 y 1000.")
+    indice = extraer(url)
+    urls = enlaces_pdf(indice)
+    if not urls:
+        raise ErrorCatalogo(
+            "No se encontraron enlaces PDF directos del IMSS. Revisa el índice extraído."
+        )
+    if len(urls) > max_pdfs:
+        raise ErrorCatalogo(
+            f"Se encontraron {len(urls)} PDF; aumenta --max-pdfs explícitamente. No se extrajo ninguno de ellos."
+        )
+    documentos = []
+    for numero, pdf in enumerate(urls, 1):
+        try:
+            documento = extraer(pdf)
+            validar(documento)
+        except ErrorCatalogo as exc:
+            raise ErrorCatalogo(
+                f"Falló el PDF {numero} de {len(urls)}. No se genera un lote parcial. {exc}"
+            ) from None
+        documentos.append(documento)
+    return {
+        "version": 1,
+        "fuente": url,
+        "extraido_en": timezone.now().isoformat(),
+        "documento": f"Colección IMSS: {len(documentos)} documentos",
+        "documentos": documentos,
+    }
+
+
+@transaction.atomic
+def importar_documentos(data):
+    """Keep per-PDF provenance and validate the entire collection before any writes."""
+    if not isinstance(data, dict) or data.get("version") != 1:
+        raise ErrorCatalogo("Colección inválida.")
+    fuente_imss(data.get("fuente"))
+    documentos = data.get("documentos")
+    if not isinstance(documentos, list) or not 1 <= len(documentos) <= 1000:
+        raise ErrorCatalogo("La colección debe contener entre 1 y 1000 documentos.")
+    revisados = [(doc, *validar(doc)) for doc in documentos]
+    if sum(len(rows) for _, _, rows in revisados) > 50000:
+        raise ErrorCatalogo("La colección supera 50000 entradas.")
+    identidades = []
+    entradas = {}
+    for doc, fecha, rows in revisados:
+        identidades.append(
+            {
+                "fuente": doc["fuente"],
+                "documento": doc["documento"],
+                "medicamentos": sorted([row for row, _ in rows], key=huella),
+            }
+        )
+        for row, _ in rows:
+            key = huella(
+                {"fuente": doc["fuente"], "documento": doc["documento"], **row}
+            )
+            entradas[key] = dict(
+                **row,
+                huella=key,
+                fuente_documento=doc["fuente"],
+                documento=doc["documento"],
+                extraido_en=fecha,
+                busqueda=normalizar(" ".join(row.values())),
+            )
+    digest = huella(
+        {"fuente": data["fuente"], "documentos": sorted(identidades, key=huella)}
+    )
+    lote, created = LoteCatalogo.objects.get_or_create(
+        huella=digest,
+        defaults={
+            "fuente": data["fuente"],
+            "documento": f"Colección IMSS: {len(documentos)} documentos",
+            "extraido_en": max(fecha for _, fecha, _ in revisados),
+        },
+    )
+    if created:
+        MedicamentoCatalogo.objects.bulk_create(
+            [MedicamentoCatalogo(lote=lote, **row) for row in entradas.values()]
+        )
+    return lote

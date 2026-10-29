@@ -8,8 +8,8 @@ La clave no se ha recibido ni utilizado en este entorno.
 ## 1. Extraer la fuente
 
 La integración usa POST https://api.firecrawl.dev/v2/scrape con markdown, links y
-extracción JSON con schema. Firecrawl puede consumir créditos. Se procesa una URL
-por ejecución; no se recorre automáticamente todo el sitio. La compatibilidad con
+extracción JSON con schema. Firecrawl puede consumir créditos. El comando extraer procesa una URL. El comando extraer-pdfs recorre los PDF
+directamente enlazados desde el índice; no recorre otras páginas del sitio. La compatibilidad con
 la página/PDF real debe probarse. No se envían datos de pacientes.
 
 Desde /opt/vozclinica después de desplegar el código nuevo:
@@ -38,6 +38,34 @@ Sustituir la ruta por un enlace real, no usar el ejemplo literalmente. Solo se
 aceptan URLs HTTPS de imss.gob.mx y subdominios. Si la fuente solo ofrece HTTP,
 verificar primero la disponibilidad de la misma descarga en HTTPS. Un 403 directo
 desde este entorno no prueba si Firecrawl puede descargarla.
+
+## Recorrer los PDF del índice (opción recomendada)
+
+Después de desplegar la migración adicional de procedencia por medicamento:
+
+```bash
+docker compose --env-file .env.production -f compose.production.yaml \
+  exec -T backend python manage.py catalogo_imss extraer-pdfs --max-pdfs 20 \
+  > catalogo-importaciones/coleccion.pendiente.json
+```
+
+El límite predeterminado es 20 documentos (máximo configurable: 1000). Si encuentra
+más enlaces, informa el número y se detiene antes de extraer los PDF: aumentar el
+límite explícitamente después de revisar créditos. Cada ejecución consume una
+extracción del índice y hasta una por PDF. Las URLs repetidas se eliminan y los
+enlaces HTTP del IMSS se prueban en HTTPS. Se excluyen dominios ajenos y páginas
+que no terminan en .pdf. No se presupone que todos los enlaces sean medicamentos.
+
+El archivo contiene una colección documentos, cada uno con URL, título, fecha,
+texto y medicamentos. No se importa nada automáticamente. Si un PDF falla o no
+contiene filas válidas, la operación falla y no emite una colección parcial.
+No hay reanudación de descargas: reintentar puede volver a consumir créditos.
+Un error puede dejar vacío el archivo de salida; no importarlo.
+
+Para importar la colección revisada se usa el mismo comando importar --archivo -,
+redirigiendo coleccion.pendiente.json. Se conserva la URL/título/fecha del PDF por
+entrada y se muestra el documento al seleccionar el medicamento. Publicar sigue
+siendo un paso separado y reemplaza el catálogo completo de forma atómica.
 
 ## 2. Revisar el lote
 

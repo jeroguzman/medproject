@@ -31,3 +31,6 @@ staticfiles/
 # Production host secrets and database backups
 .env.production
 backups/
+
+# Administrative source/import artifacts
+catalogo-importaciones/

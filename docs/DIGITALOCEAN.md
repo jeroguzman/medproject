@@ -192,3 +192,9 @@ Nunca usar `down -v` ni borrar volúmenes como paso de actualización.
 Para actualizar desde main tras pasar las pruebas, configurar
 [GitHub Actions](DEPLOY_AUTOMATICO.md). Requiere secrets SSH en GitHub y
 una primera ejecución real validada.
+
+## Catálogo IMSS
+
+Configurar FIRECRAWL_API_KEY en .env.production y desplegar la migración del catálogo.
+La extracción y publicación son administrativas y explícitas; no se ejecutan al
+desplegar. Ver [operación del catálogo](CATALOGO_IMSS_OPERACION.md).

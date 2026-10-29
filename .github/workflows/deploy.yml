@@ -41,7 +41,7 @@ jobs:
       - run: pip install -r requirements-dev.txt
       - run: ruff check --config ruff.toml .
       - run: python manage.py makemigrations --check --dry-run
-      - run: python manage.py test cuentas pacientes notas ia_api tests --noinput
+      - run: python manage.py test cuentas pacientes notas ia_api catalogo tests --noinput
   frontend:
     runs-on: ubuntu-24.04
     defaults:
@@ -99,7 +99,7 @@ jobs:
           exec 9>/opt/vozclinica-deploy.lock
           flock -w 1200 9
           test -z "$(git status --porcelain --untracked-files=normal)"
-          git fetch origin main
+          git fetch origin +refs/heads/main:refs/remotes/origin/main
           if [ "$(git rev-parse origin/main)" != "$target" ]; then
             echo 'Commit sustituido por otro en main; se omite este despliegue.'
             exit 0

@@ -14,3 +14,8 @@ que el usuario configuró en el Droplet.
 Pendiente: extracción real del IMSS, cobertura/calidad de páginas/PDF, revisión del
 lote y validación del buscador en navegador. No se acredita compatibilidad del
 proveedor real mediante mocks. No hay catálogo oficial publicado en estas pruebas.
+
+Ampliación PDF: 16 pruebas del catálogo aprobadas (5 nuevas), incluyendo recorrido,
+normalización/deduplicación de enlaces, límite de coste, rechazo del lote parcial,
+procedencia individual e importación idempotente de colecciones. Build frontend y
+comprobación de migraciones aprobados. Sigue pendiente validar PDF reales.

@@ -4,7 +4,15 @@ import sys
 from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand, CommandError
 
-from catalogo.importacion import FUENTE, ErrorCatalogo, extraer, importar, publicar
+from catalogo.importacion import (
+    FUENTE,
+    ErrorCatalogo,
+    extraer,
+    extraer_pdfs,
+    importar,
+    importar_documentos,
+    publicar,
+)
 from catalogo.models import LoteCatalogo
 
 
@@ -15,6 +23,9 @@ class Command(BaseCommand):
         sub = parser.add_subparsers(dest="accion", required=True)
         scrape = sub.add_parser("extraer")
         scrape.add_argument("--url", default=FUENTE)
+        pdfs = sub.add_parser("extraer-pdfs")
+        pdfs.add_argument("--url", default=FUENTE)
+        pdfs.add_argument("--max-pdfs", type=int, default=20)
         load = sub.add_parser("importar")
         load.add_argument("--archivo", required=True)
         publish = sub.add_parser("publicar")
@@ -27,12 +38,30 @@ class Command(BaseCommand):
                 self.stdout.write(
                     json.dumps(extraer(options["url"]), ensure_ascii=False, indent=2)
                 )
+            elif options["accion"] == "extraer-pdfs":
+                self.stdout.write(
+                    json.dumps(
+                        extraer_pdfs(options["url"], options["max_pdfs"]),
+                        ensure_ascii=False,
+                        indent=2,
+                    )
+                )
             elif options["accion"] == "importar":
                 if options["archivo"] == "-":
-                    lote = importar(json.load(sys.stdin))
+                    datos = json.load(sys.stdin)
+                    lote = (
+                        importar_documentos(datos)
+                        if isinstance(datos, dict) and "documentos" in datos
+                        else importar(datos)
+                    )
                 else:
                     with open(options["archivo"], encoding="utf-8") as f:
-                        lote = importar(json.load(f))
+                        datos = json.load(f)
+                        lote = (
+                            importar_documentos(datos)
+                            if isinstance(datos, dict) and "documentos" in datos
+                            else importar(datos)
+                        )
                 self.stdout.write(
                     f"Lote pendiente: {lote.pk}; entradas: {lote.entradas.count()}"
                 )

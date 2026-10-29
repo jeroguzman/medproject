@@ -18,3 +18,7 @@ nacional completa. La publicación de datos reales está pendiente de validació
 Aceptación: búsqueda autenticada sin acentos; fuente/fecha visible; variantes con
 mismo nombre preservadas; reimportación sin duplicados; lote inválido no altera
 publicación; captura manual ante fallo; claves ausentes del frontend.
+
+Ampliación: recorrer los enlaces PDF directos del índice del IMSS, deduplicar URLs,
+limitar cantidad y conservar la fuente específica de cada documento por entrada.
+Si falla un documento, no crear un lote parcial. Validar cada PDF antes de publicar.

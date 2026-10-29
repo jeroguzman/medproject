@@ -29,6 +29,9 @@ class MedicamentoCatalogo(models.Model):
     clave = models.CharField(max_length=100, blank=True)
     nombre = models.CharField(max_length=500)
     presentacion = models.TextField(blank=True)
+    fuente_documento = models.URLField(max_length=2048, blank=True)
+    documento = models.CharField(max_length=500, blank=True)
+    extraido_en = models.DateTimeField(null=True)
     busqueda = models.TextField()
     huella = models.CharField(max_length=64)
 

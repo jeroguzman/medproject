@@ -27,7 +27,17 @@ class BuscarMedicamentos(APIView):
             entradas = lote.entradas.filter(busqueda__contains=normalizar(q)).order_by(
                 "nombre", "clave", "pk"
             )[:20]
-            resultados = list(entradas.values("id", "clave", "nombre", "presentacion"))
+            resultados = list(
+                entradas.values(
+                    "id",
+                    "clave",
+                    "nombre",
+                    "presentacion",
+                    "fuente_documento",
+                    "documento",
+                    "extraido_en",
+                )
+            )
         response = Response(
             {
                 "catalogo": None

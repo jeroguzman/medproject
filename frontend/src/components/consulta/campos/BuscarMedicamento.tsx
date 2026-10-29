@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { pedir } from "@/api/cliente";
 import { usaMock } from "@/config";
 
-type Entrada = { id: number; clave: string; nombre: string; presentacion: string };
+type Entrada = { id: number; clave: string; nombre: string; presentacion: string; fuente_documento?: string; documento?: string; extraido_en?: string };
 type Respuesta = {
   catalogo: null | { id: string; fuente: string; documento: string; extraido_en: string };
   resultados: Entrada[];
@@ -40,7 +40,9 @@ export function BuscarMedicamento({ termino, onSeleccionar }: { termino: string;
         {" · "}{catalogo.documento}{" · Extraído: "}{new Date(catalogo.extraido_en).toLocaleDateString("es-MX")}
       </p>
       {elegida ? (
-        <p className="t-caption">{elegida.clave && `Clave IMSS: ${elegida.clave}. `}{elegida.presentacion}</p>
+        <p className="t-caption">{elegida.clave && `Clave IMSS: ${elegida.clave}. `}{elegida.presentacion}
+          {elegida.fuente_documento && <a className="underline block" href={elegida.fuente_documento} target="_blank" rel="noreferrer">{elegida.documento || "Documento del medicamento"}{elegida.extraido_en && ` · Extraído: ${new Date(elegida.extraido_en).toLocaleDateString("es-MX")}`}</a>}
+        </p>
       ) : datos.resultados.length ? (
         <ul aria-label="Resultados del catálogo IMSS" className="grid gap-1">
           {datos.resultados.map((entrada) => (
@@ -50,6 +52,7 @@ export function BuscarMedicamento({ termino, onSeleccionar }: { termino: string;
                 onSeleccionar(entrada.nombre);
               }}>
                 <span className="t-label">{entrada.nombre}</span>
+                {entrada.documento && <span className="t-caption block">{entrada.documento}</span>}
                 <span className="t-caption block">{entrada.clave && `Clave IMSS: ${entrada.clave} · `}{entrada.presentacion}</span>
               </button>
             </li>

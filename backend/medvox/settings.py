@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "pacientes",
     "notas",
     "ia_api",
+    "catalogo",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -186,3 +187,6 @@ IA_ECO_ESPERA_S = 3
 IA_AUDIO_MAX_BYTES = 50 * 1024 * 1024
 # El audio se procesa en memoria y nunca se escribe en disco ni en la base (D-02).
 FILE_UPLOAD_MAX_MEMORY_SIZE = IA_AUDIO_MAX_BYTES + 1024 * 1024
+
+# Administrative imports only; never sent to the frontend.
+FIRECRAWL_API_KEY = os.environ.get("FIRECRAWL_API_KEY", "").strip()

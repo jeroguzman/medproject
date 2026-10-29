@@ -52,6 +52,7 @@ values = {
     "API_DOMAIN": domain,
     "AUTH_PROVIDER": args.auth_provider,
     "MOJOAUTH_API_KEY": "",
+    "FIRECRAWL_API_KEY": "",
     "MOJOAUTH_API_SECRET": "",
     "MOJOAUTH_SOCIAL_PROVIDERS": "google,facebook",
     "IA_ORQUESTADOR": "n8n",

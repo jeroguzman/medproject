@@ -9,6 +9,7 @@ import { Segmentado } from "@/components/ui/Segmentado";
 import type { AlertaVista } from "@/lib/alertas";
 import { idCampo, origenTrasEditar, type CampoRef } from "@/lib/contenido";
 import type { Condicion, Diagnostico, Medicamento } from "@/plantilla/valores";
+import { BuscarMedicamento } from "./BuscarMedicamento";
 import { MarcoCampo, MensajeAlerta } from "./MarcoCampo";
 
 /** Un renglón editado: lo de la IA pasa a "editado"; lo demás queda "manual". */
@@ -193,6 +194,7 @@ export function ListaMedicamentos({ refCampo, valor, onCambio, avisos, onResolve
                     value={m.medicamento}
                     onChange={(e) => cambiar(i, { medicamento: e.target.value })}
                   />
+                  <BuscarMedicamento termino={m.medicamento} onSeleccionar={(nombre) => cambiar(i, { medicamento: nombre })} />
                 </div>
                 <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                   {COLUMNAS_RX.map((c) => (
